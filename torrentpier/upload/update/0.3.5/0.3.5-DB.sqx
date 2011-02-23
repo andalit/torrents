@@ -1,0 +1,1394 @@
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_attach_quota`
+#
+
+CREATE TABLE bb_attach_quota (
+  user_id mediumint(8) unsigned NOT NULL default '0',
+  group_id mediumint(8) unsigned NOT NULL default '0',
+  quota_type smallint(2) NOT NULL default '0',
+  quota_limit_id mediumint(8) unsigned NOT NULL default '0',
+  KEY quota_type (quota_type)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_attachments`
+#
+
+CREATE TABLE bb_attachments (
+  attach_id mediumint(8) unsigned NOT NULL default '0',
+  post_id mediumint(8) unsigned NOT NULL default '0',
+  privmsgs_id mediumint(8) unsigned NOT NULL default '0',
+  user_id_1 mediumint(8) NOT NULL default '0',
+  user_id_2 mediumint(8) NOT NULL default '0',
+  KEY attach_id_post_id (attach_id,post_id),
+  KEY attach_id_privmsgs_id (attach_id,privmsgs_id),
+  KEY post_id (post_id),
+  KEY privmsgs_id (privmsgs_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_attachments_config`
+#
+
+CREATE TABLE bb_attachments_config (
+  config_name varchar(255) NOT NULL default '',
+  config_value varchar(255) NOT NULL default '',
+  PRIMARY KEY  (config_name)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_attachments_desc`
+#
+
+CREATE TABLE bb_attachments_desc (
+  attach_id mediumint(8) unsigned NOT NULL auto_increment,
+  physical_filename varchar(255) NOT NULL default '',
+  real_filename varchar(255) NOT NULL default '',
+  download_count mediumint(8) unsigned NOT NULL default '0',
+  `comment` varchar(255) default NULL,
+  extension varchar(100) default NULL,
+  mimetype varchar(100) default NULL,
+  filesize int(20) NOT NULL default '0',
+  filetime int(11) NOT NULL default '0',
+  thumbnail tinyint(1) NOT NULL default '0',
+  tracker_status tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (attach_id),
+  KEY filetime (filetime),
+  KEY physical_filename (physical_filename(10)),
+  KEY filesize (filesize)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_auth_access`
+#
+
+CREATE TABLE bb_auth_access (
+  group_id mediumint(8) NOT NULL default '0',
+  forum_id smallint(5) unsigned NOT NULL default '0',
+  auth_view tinyint(1) NOT NULL default '0',
+  auth_read tinyint(1) NOT NULL default '0',
+  auth_post tinyint(1) NOT NULL default '0',
+  auth_reply tinyint(1) NOT NULL default '0',
+  auth_edit tinyint(1) NOT NULL default '0',
+  auth_delete tinyint(1) NOT NULL default '0',
+  auth_sticky tinyint(1) NOT NULL default '0',
+  auth_announce tinyint(1) NOT NULL default '0',
+  auth_vote tinyint(1) NOT NULL default '0',
+  auth_pollcreate tinyint(1) NOT NULL default '0',
+  auth_attachments tinyint(1) NOT NULL default '0',
+  auth_mod tinyint(1) NOT NULL default '0',
+  auth_download tinyint(1) NOT NULL default '0',
+  KEY group_id (group_id),
+  KEY forum_id (forum_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_banlist`
+#
+
+CREATE TABLE bb_banlist (
+  ban_id mediumint(8) unsigned NOT NULL auto_increment,
+  ban_userid mediumint(8) NOT NULL default '0',
+  ban_ip varchar(8) NOT NULL default '',
+  ban_email varchar(255) default NULL,
+  PRIMARY KEY  (ban_id),
+  KEY ban_ip_user_id (ban_ip,ban_userid)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_config`
+#
+
+CREATE TABLE bb_bt_config (
+  config_name varchar(255) NOT NULL default '',
+  config_value varchar(255) NOT NULL default '',
+  PRIMARY KEY  (config_name)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_search_results`
+#
+
+CREATE TABLE bb_bt_search_results (
+  session_id varchar(32) NOT NULL default '',
+  search_id int(10) unsigned NOT NULL default '0',
+  added int(11) NOT NULL default '0',
+  search_array text NOT NULL,
+  search_settings text NOT NULL,
+  PRIMARY KEY  (session_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_tor_dl_stat`
+#
+
+CREATE TABLE bb_bt_tor_dl_stat (
+  torrent_id mediumint(8) unsigned NOT NULL default '0',
+  user_id mediumint(9) NOT NULL default '0',
+  attach_id mediumint(8) unsigned NOT NULL default '0',
+  t_up_total bigint(20) unsigned NOT NULL default '0',
+  t_down_total bigint(20) unsigned NOT NULL default '0',
+  PRIMARY KEY  (torrent_id,user_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_torrents`
+#
+
+CREATE TABLE bb_bt_torrents (
+  torrent_id mediumint(8) unsigned NOT NULL auto_increment,
+  info_hash binary(20) NOT NULL default '',
+  post_id mediumint(8) unsigned NOT NULL default '0',
+  poster_id mediumint(9) NOT NULL default '0',
+  topic_id mediumint(8) unsigned NOT NULL default '0',
+  attach_id mediumint(8) unsigned NOT NULL default '0',
+  size bigint(20) unsigned NOT NULL default '0',
+  piece_length mediumint(8) unsigned NOT NULL default '0',
+  reg_time int(11) NOT NULL default '0',
+  complete_count mediumint(8) unsigned NOT NULL default '0',
+  seeder_last_seen int(11) NOT NULL default '0',
+  last_seeder_uid mediumint(9) NOT NULL default '0',
+  PRIMARY KEY  (torrent_id),
+  UNIQUE KEY info_hash (info_hash),
+  UNIQUE KEY post_id (post_id),
+  UNIQUE KEY topic_id (topic_id),
+  UNIQUE KEY attach_id (attach_id),
+  KEY reg_time (reg_time)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_tracker`
+#
+
+CREATE TABLE bb_bt_tracker (
+  torrent_id mediumint(8) unsigned NOT NULL default '0',
+  peer_id char(20) binary NOT NULL default '',
+  user_id mediumint(9) NOT NULL default '0',
+  ip char(8) binary NOT NULL default '0',
+  port smallint(5) unsigned NOT NULL default '0',
+  uploaded bigint(20) unsigned NOT NULL default '0',
+  downloaded bigint(20) unsigned NOT NULL default '0',
+  complete_percent bigint(20) unsigned NOT NULL default '0',
+  seeder tinyint(1) NOT NULL default '0',
+  last_stored_up bigint(20) unsigned NOT NULL default '0',
+  last_stored_down bigint(20) unsigned NOT NULL default '0',
+  stat_last_updated int(11) NOT NULL default '0',
+  speed_up mediumint(8) unsigned NOT NULL default '0',
+  speed_down mediumint(8) unsigned NOT NULL default '0',
+  update_time int(11) NOT NULL default '0',
+  expire_time int(11) NOT NULL default '0',
+  KEY torrent_id (torrent_id),
+  KEY user_id (user_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_users`
+#
+
+CREATE TABLE bb_bt_users (
+  user_id mediumint(9) NOT NULL default '0',
+  auth_key binary(10) NOT NULL default '',
+  u_up_total bigint(20) unsigned NOT NULL default '0',
+  u_down_total bigint(20) unsigned NOT NULL default '0',
+  PRIMARY KEY  (user_id),
+  UNIQUE KEY auth_key (auth_key)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_bt_users_dl_status`
+#
+
+CREATE TABLE bb_bt_users_dl_status (
+  topic_id mediumint(8) unsigned NOT NULL default '0',
+  user_id mediumint(9) NOT NULL default '0',
+  user_status tinyint(1) NOT NULL default '0',
+  compl_count tinyint(1) unsigned NOT NULL default '0',
+  update_time int(11) NOT NULL default '0',
+  PRIMARY KEY  (topic_id,user_id),
+  KEY user_id (user_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_categories`
+#
+
+CREATE TABLE bb_categories (
+  cat_id mediumint(8) unsigned NOT NULL auto_increment,
+  cat_title varchar(100) default NULL,
+  cat_order mediumint(8) unsigned NOT NULL default '0',
+  PRIMARY KEY  (cat_id),
+  KEY cat_order (cat_order)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_config`
+#
+
+CREATE TABLE bb_config (
+  config_name varchar(255) NOT NULL default '',
+  config_value varchar(255) NOT NULL default '',
+  PRIMARY KEY  (config_name)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_confirm`
+#
+
+CREATE TABLE bb_confirm (
+  confirm_id char(32) NOT NULL default '',
+  session_id char(32) NOT NULL default '',
+  code char(6) NOT NULL default '',
+  PRIMARY KEY  (session_id,confirm_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_disallow`
+#
+
+CREATE TABLE bb_disallow (
+  disallow_id mediumint(8) unsigned NOT NULL auto_increment,
+  disallow_username varchar(25) NOT NULL default '',
+  PRIMARY KEY  (disallow_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_extension_groups`
+#
+
+CREATE TABLE bb_extension_groups (
+  group_id mediumint(8) NOT NULL auto_increment,
+  group_name varchar(20) NOT NULL default '',
+  cat_id tinyint(2) NOT NULL default '0',
+  allow_group tinyint(1) NOT NULL default '0',
+  download_mode tinyint(1) unsigned NOT NULL default '1',
+  upload_icon varchar(100) default '',
+  max_filesize int(20) NOT NULL default '0',
+  forum_permissions varchar(255) NOT NULL default '',
+  PRIMARY KEY  (group_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_extensions`
+#
+
+CREATE TABLE bb_extensions (
+  ext_id mediumint(8) unsigned NOT NULL auto_increment,
+  group_id mediumint(8) unsigned NOT NULL default '0',
+  extension varchar(100) NOT NULL default '',
+  `comment` varchar(100) default NULL,
+  PRIMARY KEY  (ext_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_flags`
+#
+
+CREATE TABLE bb_flags (
+  flag_id int(10) NOT NULL auto_increment,
+  flag_name varchar(25) default '',
+  flag_image varchar(25) default '',
+  PRIMARY KEY  (flag_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_forbidden_extensions`
+#
+
+CREATE TABLE bb_forbidden_extensions (
+  ext_id mediumint(8) unsigned NOT NULL auto_increment,
+  extension varchar(100) NOT NULL default '',
+  PRIMARY KEY  (ext_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_forum_prune`
+#
+
+CREATE TABLE bb_forum_prune (
+  prune_id mediumint(8) unsigned NOT NULL auto_increment,
+  forum_id smallint(5) unsigned NOT NULL default '0',
+  prune_days smallint(5) unsigned NOT NULL default '0',
+  prune_freq smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (prune_id),
+  KEY forum_id (forum_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_forums`
+#
+
+CREATE TABLE bb_forums (
+  forum_id smallint(5) unsigned NOT NULL default '0',
+  cat_id mediumint(8) unsigned NOT NULL default '0',
+  forum_name varchar(150) default NULL,
+  forum_desc text,
+  forum_status tinyint(4) NOT NULL default '0',
+  forum_order mediumint(8) unsigned NOT NULL default '1',
+  forum_posts mediumint(8) unsigned NOT NULL default '0',
+  forum_topics mediumint(8) unsigned NOT NULL default '0',
+  forum_last_post_id mediumint(8) unsigned NOT NULL default '0',
+  prune_next int(11) default NULL,
+  prune_enable tinyint(1) NOT NULL default '0',
+  auth_view tinyint(2) NOT NULL default '0',
+  auth_read tinyint(2) NOT NULL default '0',
+  auth_post tinyint(2) NOT NULL default '0',
+  auth_reply tinyint(2) NOT NULL default '0',
+  auth_edit tinyint(2) NOT NULL default '0',
+  auth_delete tinyint(2) NOT NULL default '0',
+  auth_sticky tinyint(2) NOT NULL default '0',
+  auth_announce tinyint(2) NOT NULL default '0',
+  auth_vote tinyint(2) NOT NULL default '0',
+  auth_pollcreate tinyint(2) NOT NULL default '0',
+  auth_attachments tinyint(2) NOT NULL default '0',
+  auth_download tinyint(2) NOT NULL default '0',
+  allow_reg_tracker tinyint(1) NOT NULL default '0',
+  allow_dl_topic tinyint(1) NOT NULL default '0',
+  dl_type_default tinyint(1) NOT NULL default '0',
+  self_moderated tinyint(1) NOT NULL default '0',
+  last_dl_topics_synch int(11) NOT NULL default '0',
+  show_dl_buttons tinyint(1) NOT NULL default '0',
+  forum_parent mediumint(9) NOT NULL default '0',
+  show_on_index tinyint(1) NOT NULL default '1',
+  forum_display_sort tinyint(1) NOT NULL default '0',
+  forum_display_order tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (forum_id),
+  KEY forums_order (forum_order),
+  KEY cat_id (cat_id),
+  KEY forum_last_post_id (forum_last_post_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_groups`
+#
+
+CREATE TABLE bb_groups (
+  group_id mediumint(8) NOT NULL auto_increment,
+  group_type tinyint(4) NOT NULL default '1',
+  group_name varchar(40) NOT NULL default '',
+  group_description varchar(255) NOT NULL default '',
+  group_moderator mediumint(8) NOT NULL default '0',
+  group_single_user tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (group_id),
+  KEY group_single_user (group_single_user)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_posts`
+#
+
+CREATE TABLE bb_posts (
+  post_id mediumint(8) unsigned NOT NULL auto_increment,
+  topic_id mediumint(8) unsigned NOT NULL default '0',
+  forum_id smallint(5) unsigned NOT NULL default '0',
+  poster_id mediumint(8) NOT NULL default '0',
+  post_time int(11) NOT NULL default '0',
+  poster_ip varchar(8) NOT NULL default '',
+  post_username varchar(25) default NULL,
+  enable_bbcode tinyint(1) NOT NULL default '1',
+  enable_html tinyint(1) NOT NULL default '0',
+  enable_smilies tinyint(1) NOT NULL default '1',
+  enable_sig tinyint(1) NOT NULL default '1',
+  post_edit_time int(11) default NULL,
+  post_edit_count smallint(5) unsigned NOT NULL default '0',
+  post_attachment tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (post_id),
+  KEY forum_id (forum_id),
+  KEY topic_id (topic_id),
+  KEY poster_id (poster_id),
+  KEY post_time (post_time)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_posts_text`
+#
+
+CREATE TABLE bb_posts_text (
+  post_id mediumint(8) unsigned NOT NULL default '0',
+  bbcode_uid varchar(10) NOT NULL default '',
+  post_subject varchar(120) default NULL,
+  post_text text,
+  PRIMARY KEY  (post_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_privmsgs`
+#
+
+CREATE TABLE bb_privmsgs (
+  privmsgs_id mediumint(8) unsigned NOT NULL auto_increment,
+  privmsgs_type tinyint(4) NOT NULL default '0',
+  privmsgs_subject varchar(255) NOT NULL default '0',
+  privmsgs_from_userid mediumint(8) NOT NULL default '0',
+  privmsgs_to_userid mediumint(8) NOT NULL default '0',
+  privmsgs_date int(11) NOT NULL default '0',
+  privmsgs_ip varchar(8) NOT NULL default '',
+  privmsgs_enable_bbcode tinyint(1) NOT NULL default '1',
+  privmsgs_enable_html tinyint(1) NOT NULL default '0',
+  privmsgs_enable_smilies tinyint(1) NOT NULL default '1',
+  privmsgs_attach_sig tinyint(1) NOT NULL default '1',
+  privmsgs_attachment tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (privmsgs_id),
+  KEY privmsgs_from_userid (privmsgs_from_userid),
+  KEY privmsgs_to_userid (privmsgs_to_userid)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_privmsgs_text`
+#
+
+CREATE TABLE bb_privmsgs_text (
+  privmsgs_text_id mediumint(8) unsigned NOT NULL default '0',
+  privmsgs_bbcode_uid varchar(10) NOT NULL default '0',
+  privmsgs_text text,
+  PRIMARY KEY  (privmsgs_text_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_quota_limits`
+#
+
+CREATE TABLE bb_quota_limits (
+  quota_limit_id mediumint(8) unsigned NOT NULL auto_increment,
+  quota_desc varchar(20) NOT NULL default '',
+  quota_limit bigint(20) unsigned NOT NULL default '0',
+  PRIMARY KEY  (quota_limit_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_ranks`
+#
+
+CREATE TABLE bb_ranks (
+  rank_id smallint(5) unsigned NOT NULL auto_increment,
+  rank_title varchar(50) NOT NULL default '',
+  rank_min mediumint(8) NOT NULL default '0',
+  rank_special tinyint(1) default '0',
+  rank_image varchar(255) default NULL,
+  PRIMARY KEY  (rank_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_search_results`
+#
+
+CREATE TABLE bb_search_results (
+  search_id int(11) unsigned NOT NULL default '0',
+  session_id varchar(32) NOT NULL default '',
+  search_array text NOT NULL,
+  PRIMARY KEY  (search_id),
+  KEY session_id (session_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_search_wordlist`
+#
+
+CREATE TABLE bb_search_wordlist (
+  word_text varchar(50) binary NOT NULL default '',
+  word_id mediumint(8) unsigned NOT NULL auto_increment,
+  word_common tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (word_text),
+  KEY word_id (word_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_search_wordmatch`
+#
+
+CREATE TABLE bb_search_wordmatch (
+  post_id mediumint(8) unsigned NOT NULL default '0',
+  word_id mediumint(8) unsigned NOT NULL default '0',
+  title_match tinyint(1) NOT NULL default '0',
+  KEY post_id (post_id),
+  KEY word_id (word_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_sessions`
+#
+
+CREATE TABLE bb_sessions (
+  session_id char(32) NOT NULL default '',
+  session_user_id mediumint(8) NOT NULL default '0',
+  session_start int(11) NOT NULL default '0',
+  session_time int(11) NOT NULL default '0',
+  session_ip char(8) NOT NULL default '0',
+  session_page int(11) NOT NULL default '0',
+  session_logged_in tinyint(1) NOT NULL default '0',
+  session_admin tinyint(2) NOT NULL default '0',
+  PRIMARY KEY  (session_id),
+  KEY session_user_id (session_user_id),
+  KEY session_id_ip_user_id (session_id,session_ip,session_user_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_smilies`
+#
+
+CREATE TABLE bb_smilies (
+  smilies_id smallint(5) unsigned NOT NULL auto_increment,
+  code varchar(50) default NULL,
+  smile_url varchar(100) default NULL,
+  emoticon varchar(75) default NULL,
+  PRIMARY KEY  (smilies_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_themes`
+#
+
+CREATE TABLE bb_themes (
+  themes_id mediumint(8) unsigned NOT NULL auto_increment,
+  template_name varchar(30) NOT NULL default '',
+  style_name varchar(30) NOT NULL default '',
+  head_stylesheet varchar(100) default NULL,
+  body_background varchar(100) default NULL,
+  body_bgcolor varchar(6) default NULL,
+  body_text varchar(6) default NULL,
+  body_link varchar(6) default NULL,
+  body_vlink varchar(6) default NULL,
+  body_alink varchar(6) default NULL,
+  body_hlink varchar(6) default NULL,
+  tr_color1 varchar(6) default NULL,
+  tr_color2 varchar(6) default NULL,
+  tr_color3 varchar(6) default NULL,
+  tr_class1 varchar(25) default NULL,
+  tr_class2 varchar(25) default NULL,
+  tr_class3 varchar(25) default NULL,
+  th_color1 varchar(6) default NULL,
+  th_color2 varchar(6) default NULL,
+  th_color3 varchar(6) default NULL,
+  th_class1 varchar(25) default NULL,
+  th_class2 varchar(25) default NULL,
+  th_class3 varchar(25) default NULL,
+  td_color1 varchar(6) default NULL,
+  td_color2 varchar(6) default NULL,
+  td_color3 varchar(6) default NULL,
+  td_class1 varchar(25) default NULL,
+  td_class2 varchar(25) default NULL,
+  td_class3 varchar(25) default NULL,
+  fontface1 varchar(50) default NULL,
+  fontface2 varchar(50) default NULL,
+  fontface3 varchar(50) default NULL,
+  fontsize1 tinyint(4) default NULL,
+  fontsize2 tinyint(4) default NULL,
+  fontsize3 tinyint(4) default NULL,
+  fontcolor1 varchar(6) default NULL,
+  fontcolor2 varchar(6) default NULL,
+  fontcolor3 varchar(6) default NULL,
+  span_class1 varchar(25) default NULL,
+  span_class2 varchar(25) default NULL,
+  span_class3 varchar(25) default NULL,
+  img_size_poll smallint(5) unsigned default NULL,
+  img_size_privmsg smallint(5) unsigned default NULL,
+  PRIMARY KEY  (themes_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_themes_name`
+#
+
+CREATE TABLE bb_themes_name (
+  themes_id smallint(5) unsigned NOT NULL default '0',
+  tr_color1_name char(50) default NULL,
+  tr_color2_name char(50) default NULL,
+  tr_color3_name char(50) default NULL,
+  tr_class1_name char(50) default NULL,
+  tr_class2_name char(50) default NULL,
+  tr_class3_name char(50) default NULL,
+  th_color1_name char(50) default NULL,
+  th_color2_name char(50) default NULL,
+  th_color3_name char(50) default NULL,
+  th_class1_name char(50) default NULL,
+  th_class2_name char(50) default NULL,
+  th_class3_name char(50) default NULL,
+  td_color1_name char(50) default NULL,
+  td_color2_name char(50) default NULL,
+  td_color3_name char(50) default NULL,
+  td_class1_name char(50) default NULL,
+  td_class2_name char(50) default NULL,
+  td_class3_name char(50) default NULL,
+  fontface1_name char(50) default NULL,
+  fontface2_name char(50) default NULL,
+  fontface3_name char(50) default NULL,
+  fontsize1_name char(50) default NULL,
+  fontsize2_name char(50) default NULL,
+  fontsize3_name char(50) default NULL,
+  fontcolor1_name char(50) default NULL,
+  fontcolor2_name char(50) default NULL,
+  fontcolor3_name char(50) default NULL,
+  span_class1_name char(50) default NULL,
+  span_class2_name char(50) default NULL,
+  span_class3_name char(50) default NULL,
+  PRIMARY KEY  (themes_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_topics`
+#
+
+CREATE TABLE bb_topics (
+  topic_id mediumint(8) unsigned NOT NULL auto_increment,
+  forum_id smallint(8) unsigned NOT NULL default '0',
+  topic_title char(120) NOT NULL default '',
+  topic_poster mediumint(8) NOT NULL default '0',
+  topic_time int(11) NOT NULL default '0',
+  topic_views mediumint(8) unsigned NOT NULL default '0',
+  topic_replies mediumint(8) unsigned NOT NULL default '0',
+  topic_status tinyint(3) NOT NULL default '0',
+  topic_vote tinyint(1) NOT NULL default '0',
+  topic_type tinyint(3) NOT NULL default '0',
+  topic_first_post_id mediumint(8) unsigned NOT NULL default '0',
+  topic_last_post_id mediumint(8) unsigned NOT NULL default '0',
+  topic_moved_id mediumint(8) unsigned NOT NULL default '0',
+  topic_attachment tinyint(1) NOT NULL default '0',
+  topic_dl_type tinyint(1) NOT NULL default '0',
+  topic_dl_status tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (topic_id),
+  KEY forum_id (forum_id),
+  KEY topic_moved_id (topic_moved_id),
+  KEY topic_status (topic_status),
+  KEY topic_type (topic_type),
+  FULLTEXT KEY topic_title (topic_title)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_topics_watch`
+#
+
+CREATE TABLE bb_topics_watch (
+  topic_id mediumint(8) unsigned NOT NULL default '0',
+  user_id mediumint(8) NOT NULL default '0',
+  notify_status tinyint(1) NOT NULL default '0',
+  KEY topic_id (topic_id),
+  KEY user_id (user_id),
+  KEY notify_status (notify_status)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_user_group`
+#
+
+CREATE TABLE bb_user_group (
+  group_id mediumint(8) NOT NULL default '0',
+  user_id mediumint(8) NOT NULL default '0',
+  user_pending tinyint(1) default NULL,
+  KEY group_id (group_id),
+  KEY user_id (user_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_users`
+#
+
+CREATE TABLE bb_users (
+  user_id mediumint(8) NOT NULL default '0',
+  user_active tinyint(1) default '1',
+  username varchar(25) NOT NULL default '',
+  user_password varchar(32) NOT NULL default '',
+  user_session_time int(11) NOT NULL default '0',
+  user_session_page smallint(5) NOT NULL default '0',
+  user_lastvisit int(11) NOT NULL default '0',
+  user_regdate int(11) NOT NULL default '0',
+  user_level tinyint(4) default '0',
+  user_posts mediumint(8) unsigned NOT NULL default '0',
+  user_timezone decimal(5,2) NOT NULL default '0.00',
+  user_style tinyint(4) default NULL,
+  user_lang varchar(255) default NULL,
+  user_dateformat varchar(14) NOT NULL default 'd M Y H:i',
+  user_new_privmsg smallint(5) unsigned NOT NULL default '0',
+  user_unread_privmsg smallint(5) unsigned NOT NULL default '0',
+  user_last_privmsg int(11) NOT NULL default '0',
+  user_emailtime int(11) default NULL,
+  user_viewemail tinyint(1) default NULL,
+  user_attachsig tinyint(1) default NULL,
+  user_allowhtml tinyint(1) default '1',
+  user_allowbbcode tinyint(1) default '1',
+  user_allowsmile tinyint(1) default '1',
+  user_allowavatar tinyint(1) NOT NULL default '1',
+  user_allow_pm tinyint(1) NOT NULL default '1',
+  user_allow_viewonline tinyint(1) NOT NULL default '1',
+  user_notify tinyint(1) NOT NULL default '1',
+  user_notify_pm tinyint(1) NOT NULL default '0',
+  user_popup_pm tinyint(1) NOT NULL default '0',
+  user_rank int(11) default '0',
+  user_avatar varchar(100) default NULL,
+  user_avatar_type tinyint(4) NOT NULL default '0',
+  user_email varchar(255) default NULL,
+  user_icq varchar(15) default NULL,
+  user_website varchar(100) default NULL,
+  user_from varchar(100) default NULL,
+  user_sig text,
+  user_sig_bbcode_uid varchar(10) default NULL,
+  user_aim varchar(255) default NULL,
+  user_yim varchar(255) default NULL,
+  user_msnm varchar(255) default NULL,
+  user_occ varchar(100) default NULL,
+  user_interests varchar(255) default NULL,
+  user_actkey varchar(32) default NULL,
+  user_newpasswd varchar(32) default NULL,
+  user_allow_passkey tinyint(1) NOT NULL default '1',
+  bt_tor_browse_set text NOT NULL,
+  user_from_flag varchar(25) default NULL,
+  PRIMARY KEY  (user_id),
+  KEY user_session_time (user_session_time)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_vote_desc`
+#
+
+CREATE TABLE bb_vote_desc (
+  vote_id mediumint(8) unsigned NOT NULL auto_increment,
+  topic_id mediumint(8) unsigned NOT NULL default '0',
+  vote_text text NOT NULL,
+  vote_start int(11) NOT NULL default '0',
+  vote_length int(11) NOT NULL default '0',
+  PRIMARY KEY  (vote_id),
+  KEY topic_id (topic_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_vote_results`
+#
+
+CREATE TABLE bb_vote_results (
+  vote_id mediumint(8) unsigned NOT NULL default '0',
+  vote_option_id tinyint(4) unsigned NOT NULL default '0',
+  vote_option_text varchar(255) NOT NULL default '',
+  vote_result int(11) NOT NULL default '0',
+  KEY vote_option_id (vote_option_id),
+  KEY vote_id (vote_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_vote_voters`
+#
+
+CREATE TABLE bb_vote_voters (
+  vote_id mediumint(8) unsigned NOT NULL default '0',
+  vote_user_id mediumint(8) NOT NULL default '0',
+  vote_user_ip char(8) NOT NULL default '',
+  KEY vote_id (vote_id),
+  KEY vote_user_id (vote_user_id),
+  KEY vote_user_ip (vote_user_ip)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+# Table structure for table `phpbb_words`
+#
+
+CREATE TABLE bb_words (
+  word_id mediumint(8) unsigned NOT NULL auto_increment,
+  word char(100) NOT NULL default '',
+  replacement char(100) NOT NULL default '',
+  PRIMARY KEY  (word_id)
+) TYPE=MyISAM;
+
+# --------------------------------------------------------
+#
+
+ALTER TABLE bb_bt_tracker TYPE = HEAP;
+
+
+# Dumping data for table `phpbb_attachments`
+INSERT INTO bb_attachments VALUES (1, 4, 0, 4, 0);
+
+# Dumping data for table `phpbb_attachments_config`
+INSERT INTO bb_attachments_config VALUES ('upload_dir', 'files');
+INSERT INTO bb_attachments_config VALUES ('upload_img', 'images/icon_clip.gif');
+INSERT INTO bb_attachments_config VALUES ('topic_icon', 'images/icon_clip.gif');
+INSERT INTO bb_attachments_config VALUES ('display_order', '0');
+INSERT INTO bb_attachments_config VALUES ('max_filesize', '262144');
+INSERT INTO bb_attachments_config VALUES ('attachment_quota', '52428800');
+INSERT INTO bb_attachments_config VALUES ('max_filesize_pm', '262144');
+INSERT INTO bb_attachments_config VALUES ('max_attachments', '1');
+INSERT INTO bb_attachments_config VALUES ('max_attachments_pm', '1');
+INSERT INTO bb_attachments_config VALUES ('disable_mod', '0');
+INSERT INTO bb_attachments_config VALUES ('allow_pm_attach', '1');
+INSERT INTO bb_attachments_config VALUES ('attachment_topic_review', '0');
+INSERT INTO bb_attachments_config VALUES ('allow_ftp_upload', '0');
+INSERT INTO bb_attachments_config VALUES ('show_apcp', '0');
+INSERT INTO bb_attachments_config VALUES ('attach_version', '2.3.14');
+INSERT INTO bb_attachments_config VALUES ('default_upload_quota', '0');
+INSERT INTO bb_attachments_config VALUES ('default_pm_quota', '0');
+INSERT INTO bb_attachments_config VALUES ('ftp_server', '');
+INSERT INTO bb_attachments_config VALUES ('ftp_path', '');
+INSERT INTO bb_attachments_config VALUES ('download_path', '');
+INSERT INTO bb_attachments_config VALUES ('ftp_user', '');
+INSERT INTO bb_attachments_config VALUES ('ftp_pass', '');
+INSERT INTO bb_attachments_config VALUES ('ftp_pasv_mode', '1');
+INSERT INTO bb_attachments_config VALUES ('img_display_inlined', '1');
+INSERT INTO bb_attachments_config VALUES ('img_max_width', '200');
+INSERT INTO bb_attachments_config VALUES ('img_max_height', '200');
+INSERT INTO bb_attachments_config VALUES ('img_link_width', '0');
+INSERT INTO bb_attachments_config VALUES ('img_link_height', '0');
+INSERT INTO bb_attachments_config VALUES ('img_create_thumbnail', '1');
+INSERT INTO bb_attachments_config VALUES ('img_min_thumb_filesize', '12000');
+INSERT INTO bb_attachments_config VALUES ('img_imagick', '/usr/bin/convert');
+INSERT INTO bb_attachments_config VALUES ('use_gd2', '1');
+INSERT INTO bb_attachments_config VALUES ('wma_autoplay', '0');
+INSERT INTO bb_attachments_config VALUES ('flash_autoplay', '0');
+
+# Dumping data for table `phpbb_attachments_desc`
+INSERT INTO bb_attachments_desc VALUES (1, 'test_167.torrent', 'test.torrent', 1, 'File Comment', 'torrent', 'application/x-bittorrent', 251, 1117378177, 0, 1);
+
+# Dumping data for table `phpbb_bt_config`
+INSERT INTO bb_bt_config VALUES ('last_clean_time', '0');
+INSERT INTO bb_bt_config VALUES ('autoclean', '1');
+INSERT INTO bb_bt_config VALUES ('off', '0');
+INSERT INTO bb_bt_config VALUES ('off_show_reason', '1');
+INSERT INTO bb_bt_config VALUES ('off_reason', 'Tracker is disabled');
+INSERT INTO bb_bt_config VALUES ('bt_debug', '0');
+INSERT INTO bb_bt_config VALUES ('silent_mode', '0');
+INSERT INTO bb_bt_config VALUES ('do_gzip', '0');
+INSERT INTO bb_bt_config VALUES ('force_gzip', '0');
+INSERT INTO bb_bt_config VALUES ('client_compat_gzip', '1');
+INSERT INTO bb_bt_config VALUES ('ignor_given_ip', '1');
+INSERT INTO bb_bt_config VALUES ('allow_host_ip', '0');
+INSERT INTO bb_bt_config VALUES ('ignor_numwant', '1');
+INSERT INTO bb_bt_config VALUES ('numwant', '50');
+INSERT INTO bb_bt_config VALUES ('numwant_max', '100');
+INSERT INTO bb_bt_config VALUES ('autoclean_interval', '120');
+INSERT INTO bb_bt_config VALUES ('min_ann_intv', '1200');
+INSERT INTO bb_bt_config VALUES ('expire_factor', '3');
+INSERT INTO bb_bt_config VALUES ('compact_mode', '0');
+INSERT INTO bb_bt_config VALUES ('use_auth_key', '1');
+INSERT INTO bb_bt_config VALUES ('auth_key_name', 'uk');
+INSERT INTO bb_bt_config VALUES ('update_users_dl_status', '1');
+INSERT INTO bb_bt_config VALUES ('update_users_compl_status', '1');
+INSERT INTO bb_bt_config VALUES ('allow_guest_dl', '0');
+INSERT INTO bb_bt_config VALUES ('upd_user_up_down_stat', '1');
+INSERT INTO bb_bt_config VALUES ('seed_last_seen_upd_interval', '300');
+INSERT INTO bb_bt_config VALUES ('user_statistic_upd_interval', '25');
+INSERT INTO bb_bt_config VALUES ('browser_redirect_url', 'http://yourdomain.com/');
+INSERT INTO bb_bt_config VALUES ('limit_active_tor', '0');
+INSERT INTO bb_bt_config VALUES ('limit_seed_count', '20');
+INSERT INTO bb_bt_config VALUES ('limit_leech_count', '4');
+INSERT INTO bb_bt_config VALUES ('leech_expire_factor', '60');
+INSERT INTO bb_bt_config VALUES ('limit_concurrent_ips', '0');
+INSERT INTO bb_bt_config VALUES ('limit_seed_ips', '0');
+INSERT INTO bb_bt_config VALUES ('limit_leech_ips', '2');
+
+# Dumping data for table `phpbb_bt_torrents`
+INSERT INTO bb_bt_torrents VALUES (1, 0xf51a6d93f8d475fd7f816f463f20c5734f15a87f, 4, 4, 3, 1, 16748964, 4194304, 1117378225, 0, 0, 0);
+
+# Dumping data for table `phpbb_bt_users`
+INSERT INTO bb_bt_users VALUES (-1, '', 0, 0);
+
+# Dumping data for table `phpbb_bt_users_dl_status`
+INSERT INTO bb_bt_users_dl_status VALUES (3, 5, 1, 0, 1117378308);
+
+# Dumping data for table `phpbb_categories`
+INSERT INTO bb_categories VALUES (1, 'Test category 1', 10);
+
+# Dumping data for table `phpbb_config`
+INSERT INTO bb_config VALUES ('config_id', '1');
+INSERT INTO bb_config VALUES ('board_disable', '0');
+INSERT INTO bb_config VALUES ('sitename', 'yourdomain.com');
+INSERT INTO bb_config VALUES ('site_desc', 'A _little_ text to describe your forum');
+INSERT INTO bb_config VALUES ('cookie_name', 'phpbb2mysql');
+INSERT INTO bb_config VALUES ('cookie_path', '/');
+INSERT INTO bb_config VALUES ('cookie_domain', '');
+INSERT INTO bb_config VALUES ('cookie_secure', '0');
+INSERT INTO bb_config VALUES ('session_length', '3600');
+INSERT INTO bb_config VALUES ('allow_html', '0');
+INSERT INTO bb_config VALUES ('allow_html_tags', 'b,i,u,pre');
+INSERT INTO bb_config VALUES ('allow_bbcode', '1');
+INSERT INTO bb_config VALUES ('allow_smilies', '1');
+INSERT INTO bb_config VALUES ('allow_sig', '1');
+INSERT INTO bb_config VALUES ('allow_namechange', '0');
+INSERT INTO bb_config VALUES ('allow_theme_create', '0');
+INSERT INTO bb_config VALUES ('allow_avatar_local', '0');
+INSERT INTO bb_config VALUES ('allow_avatar_remote', '0');
+INSERT INTO bb_config VALUES ('allow_avatar_upload', '1');
+INSERT INTO bb_config VALUES ('enable_confirm', '1');
+INSERT INTO bb_config VALUES ('override_user_style', '0');
+INSERT INTO bb_config VALUES ('posts_per_page', '15');
+INSERT INTO bb_config VALUES ('topics_per_page', '50');
+INSERT INTO bb_config VALUES ('hot_threshold', '300');
+INSERT INTO bb_config VALUES ('max_poll_options', '6');
+INSERT INTO bb_config VALUES ('max_sig_chars', '255');
+INSERT INTO bb_config VALUES ('max_inbox_privmsgs', '200');
+INSERT INTO bb_config VALUES ('max_sentbox_privmsgs', '25');
+INSERT INTO bb_config VALUES ('max_savebox_privmsgs', '50');
+INSERT INTO bb_config VALUES ('board_email_sig', 'Thanks, The Management');
+INSERT INTO bb_config VALUES ('board_email', '1@1.com');
+INSERT INTO bb_config VALUES ('smtp_delivery', '0');
+INSERT INTO bb_config VALUES ('smtp_host', '');
+INSERT INTO bb_config VALUES ('smtp_username', '');
+INSERT INTO bb_config VALUES ('smtp_password', '');
+INSERT INTO bb_config VALUES ('sendmail_fix', '0');
+INSERT INTO bb_config VALUES ('require_activation', '0');
+INSERT INTO bb_config VALUES ('flood_interval', '15');
+INSERT INTO bb_config VALUES ('board_email_form', '0');
+INSERT INTO bb_config VALUES ('avatar_filesize', '6144');
+INSERT INTO bb_config VALUES ('avatar_max_width', '80');
+INSERT INTO bb_config VALUES ('avatar_max_height', '80');
+INSERT INTO bb_config VALUES ('avatar_path', 'images/avatars');
+INSERT INTO bb_config VALUES ('avatar_gallery_path', 'images/avatars/gallery');
+INSERT INTO bb_config VALUES ('smilies_path', 'images/smiles');
+INSERT INTO bb_config VALUES ('default_style', '1');
+INSERT INTO bb_config VALUES ('default_dateformat', 'Y-m-d H:i');
+INSERT INTO bb_config VALUES ('board_timezone', '0');
+INSERT INTO bb_config VALUES ('prune_enable', '1');
+INSERT INTO bb_config VALUES ('privmsg_disable', '0');
+INSERT INTO bb_config VALUES ('gzip_compress', '0');
+INSERT INTO bb_config VALUES ('coppa_fax', '');
+INSERT INTO bb_config VALUES ('coppa_mail', '');
+INSERT INTO bb_config VALUES ('record_online_users', '1');
+INSERT INTO bb_config VALUES ('record_online_date', '0');
+INSERT INTO bb_config VALUES ('server_name', 'yourdomain.com');
+INSERT INTO bb_config VALUES ('server_port', '80');
+INSERT INTO bb_config VALUES ('script_path', '/forum/');
+INSERT INTO bb_config VALUES ('version', '.0.17');
+INSERT INTO bb_config VALUES ('bt_show_peers', '1');
+INSERT INTO bb_config VALUES ('bt_show_peers_mode', '1');
+INSERT INTO bb_config VALUES ('bt_allow_spmode_change', '1');
+INSERT INTO bb_config VALUES ('bt_add_auth_key', '1');
+INSERT INTO bb_config VALUES ('bt_show_dl_list', '1');
+INSERT INTO bb_config VALUES ('bt_dl_list_only_1st_page', '1');
+INSERT INTO bb_config VALUES ('bt_dl_list_only_count', '1');
+INSERT INTO bb_config VALUES ('bt_dl_list_expire', '30');
+INSERT INTO bb_config VALUES ('bt_announce_url', 'http://yourdomain.com/bt/announce.php');
+INSERT INTO bb_config VALUES ('bt_gen_passkey_on_reg', '1');
+INSERT INTO bb_config VALUES ('bt_replace_ann_url', '1');
+INSERT INTO bb_config VALUES ('bt_show_ip_only_moder', '1');
+INSERT INTO bb_config VALUES ('bt_show_port_only_moder', '1');
+INSERT INTO bb_config VALUES ('bt_check_announce_url', '0');
+INSERT INTO bb_config VALUES ('bt_disable_dht', '0');
+INSERT INTO bb_config VALUES ('bt_show_dl_list_buttons', '1');
+INSERT INTO bb_config VALUES ('bt_show_dl_but_will', '1');
+INSERT INTO bb_config VALUES ('bt_show_dl_but_down', '0');
+INSERT INTO bb_config VALUES ('bt_show_dl_but_compl', '0');
+INSERT INTO bb_config VALUES ('bt_show_dl_but_cancel', '1');
+INSERT INTO bb_config VALUES ('bt_show_dl_stat_on_index', '1');
+INSERT INTO bb_config VALUES ('bt_newtopic_auto_reg', '1');
+INSERT INTO bb_config VALUES ('bt_tor_browse_only_reg', '0');
+INSERT INTO bb_config VALUES ('bt_search_tbl_last_clean', '0');
+INSERT INTO bb_config VALUES ('bt_search_bool_mode', '0');
+INSERT INTO bb_config VALUES ('bt_force_passkey', '1');
+INSERT INTO bb_config VALUES ('bt_del_addit_ann_urls', '1');
+INSERT INTO bb_config VALUES ('bt_set_dltype_on_tor_reg', '1');
+INSERT INTO bb_config VALUES ('bt_unset_dltype_on_tor_unreg', '0');
+INSERT INTO bb_config VALUES ('bt_add_comment', '');
+INSERT INTO bb_config VALUES ('bt_add_publisher', 'YourSiteName');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuild_end', '0');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuild_pos', '-1');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_maxmemory', '500');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_minposts', '3');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_php3only', '0');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_php3pps', '1');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_php4pps', '8');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_timelimit', '240');
+INSERT INTO bb_config VALUES ('dbmtnc_rebuildcfg_timeoverwrite', '0');
+INSERT INTO bb_config VALUES ('dbmtnc_disallow_postcounter', '0');
+INSERT INTO bb_config VALUES ('dbmtnc_disallow_rebuild', '0');
+INSERT INTO bb_config VALUES ('board_startdate', '1117103663');
+INSERT INTO bb_config VALUES ('default_lang', 'english');
+INSERT INTO bb_config VALUES ('xs_auto_compile', '1');
+INSERT INTO bb_config VALUES ('xs_auto_recompile', '1');
+INSERT INTO bb_config VALUES ('xs_use_cache', '1');
+INSERT INTO bb_config VALUES ('xs_php', 'php');
+INSERT INTO bb_config VALUES ('xs_def_template', 'subSilver');
+INSERT INTO bb_config VALUES ('xs_check_switches', '0');
+INSERT INTO bb_config VALUES ('xs_warn_includes', '0');
+INSERT INTO bb_config VALUES ('xs_add_comments', '0');
+INSERT INTO bb_config VALUES ('xs_ftp_host', '');
+INSERT INTO bb_config VALUES ('xs_ftp_login', '');
+INSERT INTO bb_config VALUES ('xs_ftp_path', '');
+INSERT INTO bb_config VALUES ('xs_downloads_count', '0');
+INSERT INTO bb_config VALUES ('xs_downloads_default', '0');
+INSERT INTO bb_config VALUES ('xs_shownav', '17');
+INSERT INTO bb_config VALUES ('xs_template_time', '0');
+INSERT INTO bb_config VALUES ('xs_version', '7');
+
+# Dumping data for table `phpbb_extension_groups`
+INSERT INTO bb_extension_groups VALUES (1, 'Images', 1, 1, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (2, 'Archives', 0, 1, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (3, 'Plain Text', 0, 0, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (4, 'Documents', 0, 0, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (5, 'Real Media', 0, 0, 2, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (6, 'Streams', 2, 0, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (7, 'Flash Files', 3, 0, 1, '', 262144, '');
+INSERT INTO bb_extension_groups VALUES (8, 'Torrent', 0, 1, 1, '', 122880, '');
+
+# Dumping data for table `phpbb_extensions`
+INSERT INTO bb_extensions VALUES (1, 1, 'gif', '');
+INSERT INTO bb_extensions VALUES (2, 1, 'png', '');
+INSERT INTO bb_extensions VALUES (3, 1, 'jpeg', '');
+INSERT INTO bb_extensions VALUES (4, 1, 'jpg', '');
+INSERT INTO bb_extensions VALUES (5, 1, 'tif', '');
+INSERT INTO bb_extensions VALUES (6, 1, 'tga', '');
+INSERT INTO bb_extensions VALUES (7, 2, 'gtar', '');
+INSERT INTO bb_extensions VALUES (8, 2, 'gz', '');
+INSERT INTO bb_extensions VALUES (9, 2, 'tar', '');
+INSERT INTO bb_extensions VALUES (10, 2, 'zip', '');
+INSERT INTO bb_extensions VALUES (11, 2, 'rar', '');
+INSERT INTO bb_extensions VALUES (12, 2, 'ace', '');
+INSERT INTO bb_extensions VALUES (13, 3, 'txt', '');
+INSERT INTO bb_extensions VALUES (14, 3, 'c', '');
+INSERT INTO bb_extensions VALUES (15, 3, 'h', '');
+INSERT INTO bb_extensions VALUES (16, 3, 'cpp', '');
+INSERT INTO bb_extensions VALUES (17, 3, 'hpp', '');
+INSERT INTO bb_extensions VALUES (18, 3, 'diz', '');
+INSERT INTO bb_extensions VALUES (19, 4, 'xls', '');
+INSERT INTO bb_extensions VALUES (20, 4, 'doc', '');
+INSERT INTO bb_extensions VALUES (21, 4, 'dot', '');
+INSERT INTO bb_extensions VALUES (22, 4, 'pdf', '');
+INSERT INTO bb_extensions VALUES (23, 4, 'ai', '');
+INSERT INTO bb_extensions VALUES (24, 4, 'ps', '');
+INSERT INTO bb_extensions VALUES (25, 4, 'ppt', '');
+INSERT INTO bb_extensions VALUES (26, 5, 'rm', '');
+INSERT INTO bb_extensions VALUES (27, 6, 'wma', '');
+INSERT INTO bb_extensions VALUES (28, 7, 'swf', '');
+INSERT INTO bb_extensions VALUES (29, 8, 'torrent', '');
+
+# Dumping data for table `phpbb_flags`
+INSERT INTO bb_flags VALUES (1, 'usa', 'usa.gif');
+INSERT INTO bb_flags VALUES (2, 'afghanistan', 'afghanistan.gif');
+INSERT INTO bb_flags VALUES (3, 'albania', 'albania.gif');
+INSERT INTO bb_flags VALUES (4, 'algeria', 'algeria.gif');
+INSERT INTO bb_flags VALUES (5, 'andorra', 'andorra.gif');
+INSERT INTO bb_flags VALUES (6, 'angola', 'angola.gif');
+INSERT INTO bb_flags VALUES (7, 'antigua and barbuda', 'antiguabarbuda.gif');
+INSERT INTO bb_flags VALUES (8, 'argentina', 'argentina.gif');
+INSERT INTO bb_flags VALUES (9, 'armenia', 'armenia.gif');
+INSERT INTO bb_flags VALUES (10, 'australia', 'australia.gif');
+INSERT INTO bb_flags VALUES (11, 'austria', 'austria.gif');
+INSERT INTO bb_flags VALUES (12, 'azerbaijan', 'azerbaijan.gif');
+INSERT INTO bb_flags VALUES (13, 'bahamas', 'bahamas.gif');
+INSERT INTO bb_flags VALUES (14, 'bahrain', 'bahrain.gif');
+INSERT INTO bb_flags VALUES (15, 'bangladesh', 'bangladesh.gif');
+INSERT INTO bb_flags VALUES (16, 'barbados', 'barbados.gif');
+INSERT INTO bb_flags VALUES (17, 'belarus', 'belarus.gif');
+INSERT INTO bb_flags VALUES (18, 'belgium', 'belgium.gif');
+INSERT INTO bb_flags VALUES (19, 'belize', 'belize.gif');
+INSERT INTO bb_flags VALUES (20, 'benin', 'benin.gif');
+INSERT INTO bb_flags VALUES (21, 'bhutan', 'bhutan.gif');
+INSERT INTO bb_flags VALUES (22, 'bolivia', 'bolivia.gif');
+INSERT INTO bb_flags VALUES (23, 'bosnia herzegovina', 'bosnia_herzegovina.gif');
+INSERT INTO bb_flags VALUES (24, 'botswana', 'botswana.gif');
+INSERT INTO bb_flags VALUES (25, 'brazil', 'brazil.gif');
+INSERT INTO bb_flags VALUES (26, 'brunei', 'brunei.gif');
+INSERT INTO bb_flags VALUES (27, 'bulgaria', 'bulgaria.gif');
+INSERT INTO bb_flags VALUES (28, 'burkinafaso', 'burkinafaso.gif');
+INSERT INTO bb_flags VALUES (29, 'burma', 'burma.gif');
+INSERT INTO bb_flags VALUES (30, 'burundi', 'burundi.gif');
+INSERT INTO bb_flags VALUES (31, 'cambodia', 'cambodia.gif');
+INSERT INTO bb_flags VALUES (32, 'cameroon', 'cameroon.gif');
+INSERT INTO bb_flags VALUES (33, 'canada', 'canada.gif');
+INSERT INTO bb_flags VALUES (34, 'central african rep', 'centralafricanrep.gif');
+INSERT INTO bb_flags VALUES (35, 'chad', 'chad.gif');
+INSERT INTO bb_flags VALUES (36, 'chile', 'chile.gif');
+INSERT INTO bb_flags VALUES (37, 'china', 'china.gif');
+INSERT INTO bb_flags VALUES (38, 'columbia', 'columbia.gif');
+INSERT INTO bb_flags VALUES (39, 'comoros', 'comoros.gif');
+INSERT INTO bb_flags VALUES (40, 'congo', 'congo.gif');
+INSERT INTO bb_flags VALUES (41, 'costarica', 'costarica.gif');
+INSERT INTO bb_flags VALUES (42, 'croatia', 'croatia.gif');
+INSERT INTO bb_flags VALUES (43, 'cuba', 'cuba.gif');
+INSERT INTO bb_flags VALUES (44, 'cyprus', 'cyprus.gif');
+INSERT INTO bb_flags VALUES (45, 'czech republic', 'czechrepublic.gif');
+INSERT INTO bb_flags VALUES (46, 'demrepcongo', 'demrepcongo.gif');
+INSERT INTO bb_flags VALUES (47, 'denmark', 'denmark.gif');
+INSERT INTO bb_flags VALUES (48, 'djibouti', 'djibouti.gif');
+INSERT INTO bb_flags VALUES (49, 'dominica', 'dominica.gif');
+INSERT INTO bb_flags VALUES (50, 'dominican rep', 'dominicanrep.gif');
+INSERT INTO bb_flags VALUES (51, 'ecuador', 'ecuador.gif');
+INSERT INTO bb_flags VALUES (52, 'egypt', 'egypt.gif');
+INSERT INTO bb_flags VALUES (53, 'elsalvador', 'elsalvador.gif');
+INSERT INTO bb_flags VALUES (54, 'eq guinea', 'eq_guinea.gif');
+INSERT INTO bb_flags VALUES (55, 'eritrea', 'eritrea.gif');
+INSERT INTO bb_flags VALUES (56, 'estonia', 'estonia.gif');
+INSERT INTO bb_flags VALUES (57, 'ethiopia', 'ethiopia.gif');
+INSERT INTO bb_flags VALUES (58, 'fiji', 'fiji.gif');
+INSERT INTO bb_flags VALUES (59, 'finland', 'finland.gif');
+INSERT INTO bb_flags VALUES (60, 'france', 'france.gif');
+INSERT INTO bb_flags VALUES (61, 'gabon', 'gabon.gif');
+INSERT INTO bb_flags VALUES (62, 'gambia', 'gambia.gif');
+INSERT INTO bb_flags VALUES (63, 'georgia', 'georgia.gif');
+INSERT INTO bb_flags VALUES (64, 'germany', 'germany.gif');
+INSERT INTO bb_flags VALUES (65, 'ghana', 'ghana.gif');
+INSERT INTO bb_flags VALUES (66, 'greece', 'greece.gif');
+INSERT INTO bb_flags VALUES (67, 'grenada', 'grenada.gif');
+INSERT INTO bb_flags VALUES (68, 'grenadines', 'grenadines.gif');
+INSERT INTO bb_flags VALUES (69, 'guatemala', 'guatemala.gif');
+INSERT INTO bb_flags VALUES (70, 'guinea', 'guinea.gif');
+INSERT INTO bb_flags VALUES (71, 'guineabissau', 'guineabissau.gif');
+INSERT INTO bb_flags VALUES (72, 'guyana', 'guyana.gif');
+INSERT INTO bb_flags VALUES (73, 'haiti', 'haiti.gif');
+INSERT INTO bb_flags VALUES (74, 'honduras', 'honduras.gif');
+INSERT INTO bb_flags VALUES (75, 'hong kong', 'hong_kong.gif');
+INSERT INTO bb_flags VALUES (76, 'hungary', 'hungary.gif');
+INSERT INTO bb_flags VALUES (77, 'iceland', 'iceland.gif');
+INSERT INTO bb_flags VALUES (78, 'india', 'india.gif');
+INSERT INTO bb_flags VALUES (79, 'indonesia', 'indonesia.gif');
+INSERT INTO bb_flags VALUES (80, 'iran', 'iran.gif');
+INSERT INTO bb_flags VALUES (81, 'iraq', 'iraq.gif');
+INSERT INTO bb_flags VALUES (82, 'ireland', 'ireland.gif');
+INSERT INTO bb_flags VALUES (83, 'israel', 'israel.gif');
+INSERT INTO bb_flags VALUES (84, 'italy', 'italy.gif');
+INSERT INTO bb_flags VALUES (85, 'ivory coast', 'ivorycoast.gif');
+INSERT INTO bb_flags VALUES (86, 'jamaica', 'jamaica.gif');
+INSERT INTO bb_flags VALUES (87, 'japan', 'japan.gif');
+INSERT INTO bb_flags VALUES (88, 'jordan', 'jordan.gif');
+INSERT INTO bb_flags VALUES (89, 'kazakhstan', 'kazakhstan.gif');
+INSERT INTO bb_flags VALUES (90, 'kenya', 'kenya.gif');
+INSERT INTO bb_flags VALUES (91, 'kiribati', 'kiribati.gif');
+INSERT INTO bb_flags VALUES (92, 'kuwait', 'kuwait.gif');
+INSERT INTO bb_flags VALUES (93, 'kyrgyzstan', 'kyrgyzstan.gif');
+INSERT INTO bb_flags VALUES (94, 'laos', 'laos.gif');
+INSERT INTO bb_flags VALUES (95, 'latvia', 'latvia.gif');
+INSERT INTO bb_flags VALUES (96, 'lebanon', 'lebanon.gif');
+INSERT INTO bb_flags VALUES (97, 'liberia', 'liberia.gif');
+INSERT INTO bb_flags VALUES (98, 'libya', 'libya.gif');
+INSERT INTO bb_flags VALUES (99, 'liechtenstein', 'liechtenstein.gif');
+INSERT INTO bb_flags VALUES (100, 'lithuania', 'lithuania.gif');
+INSERT INTO bb_flags VALUES (101, 'luxembourg', 'luxembourg.gif');
+INSERT INTO bb_flags VALUES (102, 'macadonia', 'macadonia.gif');
+INSERT INTO bb_flags VALUES (103, 'macau', 'macau.gif');
+INSERT INTO bb_flags VALUES (104, 'madagascar', 'madagascar.gif');
+INSERT INTO bb_flags VALUES (105, 'malawi', 'malawi.gif');
+INSERT INTO bb_flags VALUES (106, 'malaysia', 'malaysia.gif');
+INSERT INTO bb_flags VALUES (107, 'maldives', 'maldives.gif');
+INSERT INTO bb_flags VALUES (108, 'mali', 'mali.gif');
+INSERT INTO bb_flags VALUES (109, 'malta', 'malta.gif');
+INSERT INTO bb_flags VALUES (110, 'mauritania', 'mauritania.gif');
+INSERT INTO bb_flags VALUES (111, 'mauritius', 'mauritius.gif');
+INSERT INTO bb_flags VALUES (112, 'mexico', 'mexico.gif');
+INSERT INTO bb_flags VALUES (113, 'micronesia', 'micronesia.gif');
+INSERT INTO bb_flags VALUES (114, 'moldova', 'moldova.gif');
+INSERT INTO bb_flags VALUES (115, 'monaco', 'monaco.gif');
+INSERT INTO bb_flags VALUES (116, 'mongolia', 'mongolia.gif');
+INSERT INTO bb_flags VALUES (117, 'morocco', 'morocco.gif');
+INSERT INTO bb_flags VALUES (118, 'mozambique', 'mozambique.gif');
+INSERT INTO bb_flags VALUES (119, 'namibia', 'namibia.gif');
+INSERT INTO bb_flags VALUES (120, 'nauru', 'nauru.gif');
+INSERT INTO bb_flags VALUES (121, 'nepal', 'nepal.gif');
+INSERT INTO bb_flags VALUES (122, 'neth antilles', 'neth_antilles.gif');
+INSERT INTO bb_flags VALUES (123, 'netherlands', 'netherlands.gif');
+INSERT INTO bb_flags VALUES (124, 'new zealand', 'newzealand.gif');
+INSERT INTO bb_flags VALUES (125, 'nicaragua', 'nicaragua.gif');
+INSERT INTO bb_flags VALUES (126, 'niger', 'niger.gif');
+INSERT INTO bb_flags VALUES (127, 'nigeria', 'nigeria.gif');
+INSERT INTO bb_flags VALUES (128, 'north korea', 'north_korea.gif');
+INSERT INTO bb_flags VALUES (129, 'norway', 'norway.gif');
+INSERT INTO bb_flags VALUES (130, 'oman', 'oman.gif');
+INSERT INTO bb_flags VALUES (131, 'pakistan', 'pakistan.gif');
+INSERT INTO bb_flags VALUES (132, 'panama', 'panama.gif');
+INSERT INTO bb_flags VALUES (133, 'papua newguinea', 'papuanewguinea.gif');
+INSERT INTO bb_flags VALUES (134, 'paraguay', 'paraguay.gif');
+INSERT INTO bb_flags VALUES (135, 'peru', 'peru.gif');
+INSERT INTO bb_flags VALUES (136, 'philippines', 'philippines.gif');
+INSERT INTO bb_flags VALUES (137, 'poland', 'poland.gif');
+INSERT INTO bb_flags VALUES (138, 'portugal', 'portugal.gif');
+INSERT INTO bb_flags VALUES (139, 'puertorico', 'puertorico.gif');
+INSERT INTO bb_flags VALUES (140, 'qatar', 'qatar.gif');
+INSERT INTO bb_flags VALUES (141, 'rawanda', 'rawanda.gif');
+INSERT INTO bb_flags VALUES (142, 'romania', 'romania.gif');
+INSERT INTO bb_flags VALUES (143, 'russia', 'russia.gif');
+INSERT INTO bb_flags VALUES (144, 'sao tome', 'sao_tome.gif');
+INSERT INTO bb_flags VALUES (145, 'saudiarabia', 'saudiarabia.gif');
+INSERT INTO bb_flags VALUES (146, 'senegal', 'senegal.gif');
+INSERT INTO bb_flags VALUES (147, 'serbia', 'serbia.gif');
+INSERT INTO bb_flags VALUES (148, 'seychelles', 'seychelles.gif');
+INSERT INTO bb_flags VALUES (149, 'sierraleone', 'sierraleone.gif');
+INSERT INTO bb_flags VALUES (150, 'singapore', 'singapore.gif');
+INSERT INTO bb_flags VALUES (151, 'slovakia', 'slovakia.gif');
+INSERT INTO bb_flags VALUES (152, 'slovenia', 'slovenia.gif');
+INSERT INTO bb_flags VALUES (153, 'solomon islands', 'solomon_islands.gif');
+INSERT INTO bb_flags VALUES (154, 'somalia', 'somalia.gif');
+INSERT INTO bb_flags VALUES (155, 'south_korea', 'south_korea.gif');
+INSERT INTO bb_flags VALUES (156, 'south africa', 'southafrica.gif');
+INSERT INTO bb_flags VALUES (157, 'spain', 'spain.gif');
+INSERT INTO bb_flags VALUES (158, 'srilanka', 'srilanka.gif');
+INSERT INTO bb_flags VALUES (159, 'stkitts nevis', 'stkitts_nevis.gif');
+INSERT INTO bb_flags VALUES (160, 'stlucia', 'stlucia.gif');
+INSERT INTO bb_flags VALUES (161, 'sudan', 'sudan.gif');
+INSERT INTO bb_flags VALUES (162, 'suriname', 'suriname.gif');
+INSERT INTO bb_flags VALUES (163, 'sweden', 'sweden.gif');
+INSERT INTO bb_flags VALUES (164, 'switzerland', 'switzerland.gif');
+INSERT INTO bb_flags VALUES (165, 'syria', 'syria.gif');
+INSERT INTO bb_flags VALUES (166, 'taiwan', 'taiwan.gif');
+INSERT INTO bb_flags VALUES (167, 'tajikistan', 'tajikistan.gif');
+INSERT INTO bb_flags VALUES (168, 'tanzania', 'tanzania.gif');
+INSERT INTO bb_flags VALUES (169, 'thailand', 'thailand.gif');
+INSERT INTO bb_flags VALUES (170, 'togo', 'togo.gif');
+INSERT INTO bb_flags VALUES (171, 'tonga', 'tonga.gif');
+INSERT INTO bb_flags VALUES (172, 'trinidad and tobago', 'trinidadandtobago.gif');
+INSERT INTO bb_flags VALUES (173, 'tunisia', 'tunisia.gif');
+INSERT INTO bb_flags VALUES (174, 'turkey', 'turkey.gif');
+INSERT INTO bb_flags VALUES (175, 'turkmenistan', 'turkmenistan.gif');
+INSERT INTO bb_flags VALUES (176, 'tuvala', 'tuvala.gif');
+INSERT INTO bb_flags VALUES (177, 'uae', 'uae.gif');
+INSERT INTO bb_flags VALUES (178, 'uganda', 'uganda.gif');
+INSERT INTO bb_flags VALUES (179, 'uk', 'uk.gif');
+INSERT INTO bb_flags VALUES (180, 'ukraine', 'ukraine.gif');
+INSERT INTO bb_flags VALUES (181, 'uruguay', 'uruguay.gif');
+INSERT INTO bb_flags VALUES (182, 'ussr', 'ussr.gif');
+INSERT INTO bb_flags VALUES (183, 'uzbekistan', 'uzbekistan.gif');
+INSERT INTO bb_flags VALUES (184, 'vanuatu', 'vanuatu.gif');
+INSERT INTO bb_flags VALUES (185, 'venezuela', 'venezuela.gif');
+INSERT INTO bb_flags VALUES (186, 'vietnam', 'vietnam.gif');
+INSERT INTO bb_flags VALUES (187, 'western samoa', 'western_samoa.gif');
+INSERT INTO bb_flags VALUES (188, 'yemen', 'yemen.gif');
+INSERT INTO bb_flags VALUES (189, 'yugoslavia', 'yugoslavia.gif');
+INSERT INTO bb_flags VALUES (190, 'zaire', 'zaire.gif');
+INSERT INTO bb_flags VALUES (191, 'zambia', 'zambia.gif');
+INSERT INTO bb_flags VALUES (192, 'zimbabwe', 'zimbabwe.gif');
+
+# Dumping data for table `phpbb_forbidden_extensions`
+INSERT INTO bb_forbidden_extensions VALUES (1, 'php');
+INSERT INTO bb_forbidden_extensions VALUES (2, 'php3');
+INSERT INTO bb_forbidden_extensions VALUES (3, 'php4');
+INSERT INTO bb_forbidden_extensions VALUES (4, 'phtml');
+INSERT INTO bb_forbidden_extensions VALUES (5, 'pl');
+INSERT INTO bb_forbidden_extensions VALUES (6, 'asp');
+INSERT INTO bb_forbidden_extensions VALUES (7, 'cgi');
+
+# Dumping data for table `phpbb_forums`
+INSERT INTO bb_forums VALUES (1, 1, 'Test Forum 1', 'This is just a test forum.', 0, 10, 1, 1, 1, NULL, 0, 0, 0, 0, 0, 1, 1, 3, 3, 1, 1, 3, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0);
+INSERT INTO bb_forums VALUES (2, 1, 'subforum 1', 'subforum 1 description', 0, 20, 2, 1, 3, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 0, 1, 0, 1, 1117359869, 1, 1, 1, 0, 0);
+INSERT INTO bb_forums VALUES (3, 1, 'Download Forum 1', '', 0, 30, 1, 1, 4, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0);
+
+# Dumping data for table `phpbb_posts`
+INSERT INTO bb_posts VALUES (1, 1, 1, 2, 972086460, '7F000001', NULL, 1, 0, 1, 1, NULL, 0, 0);
+INSERT INTO bb_posts VALUES (2, 2, 2, 2, 1117115113, '7f000001', '', 1, 0, 1, 0, NULL, 0, 0);
+INSERT INTO bb_posts VALUES (3, 2, 2, -746, 1117115440, '7f000001', '', 0, 1, 0, 1, NULL, 0, 0);
+INSERT INTO bb_posts VALUES (4, 3, 3, 4, 1117362875, '7f000001', '', 1, 0, 1, 0, NULL, 0, 1);
+
+# Dumping data for table `phpbb_posts_text`
+INSERT INTO bb_posts_text VALUES (1, '', NULL, 'This is an example post in your phpBB 2 installation. You may delete this post, this topic and even this forum if you like since everything seems to be working!');
+INSERT INTO bb_posts_text VALUES (2, '48df346ad5', 'Bot test 1', 'test');
+INSERT INTO bb_posts_text VALUES (3, '', '', 'Topic has been moved from forum <b><a class="postLink" href="viewforum.php?f=1">Test Forum 1</a></b> to forum <b><a class="postLink" href="viewforum.php?f=2">subforum 1</a></b></b>.\n\nAdmin.');
+INSERT INTO bb_posts_text VALUES (4, '833b835389', 'Download Topic 1', 'test');
+
+# Dumping data for table `phpbb_quota_limits`
+INSERT INTO bb_quota_limits VALUES (1, 'Low', 262144);
+INSERT INTO bb_quota_limits VALUES (2, 'Medium', 10485760);
+INSERT INTO bb_quota_limits VALUES (3, 'High', 15728640);
+
+# Dumping data for table `phpbb_ranks`
+INSERT INTO bb_ranks VALUES (1, 'Site Admin', -1, 1, NULL);
+
+# Dumping data for table `phpbb_smilies`
+INSERT INTO bb_smilies VALUES (1, ':D', 'icon_biggrin.gif', 'Very Happy');
+INSERT INTO bb_smilies VALUES (2, ':-D', 'icon_biggrin.gif', 'Very Happy');
+INSERT INTO bb_smilies VALUES (3, ':grin:', 'icon_biggrin.gif', 'Very Happy');
+INSERT INTO bb_smilies VALUES (4, ':)', 'icon_smile.gif', 'Smile');
+INSERT INTO bb_smilies VALUES (5, ':-)', 'icon_smile.gif', 'Smile');
+INSERT INTO bb_smilies VALUES (6, ':smile:', 'icon_smile.gif', 'Smile');
+INSERT INTO bb_smilies VALUES (7, ':(', 'icon_sad.gif', 'Sad');
+INSERT INTO bb_smilies VALUES (8, ':-(', 'icon_sad.gif', 'Sad');
+INSERT INTO bb_smilies VALUES (9, ':sad:', 'icon_sad.gif', 'Sad');
+INSERT INTO bb_smilies VALUES (10, ':o', 'icon_surprised.gif', 'Surprised');
+INSERT INTO bb_smilies VALUES (11, ':-o', 'icon_surprised.gif', 'Surprised');
+INSERT INTO bb_smilies VALUES (12, ':eek:', 'icon_surprised.gif', 'Surprised');
+INSERT INTO bb_smilies VALUES (13, ':shock:', 'icon_eek.gif', 'Shocked');
+INSERT INTO bb_smilies VALUES (14, ':?', 'icon_confused.gif', 'Confused');
+INSERT INTO bb_smilies VALUES (15, ':-?', 'icon_confused.gif', 'Confused');
+INSERT INTO bb_smilies VALUES (16, ':???:', 'icon_confused.gif', 'Confused');
+INSERT INTO bb_smilies VALUES (17, '8)', 'icon_cool.gif', 'Cool');
+INSERT INTO bb_smilies VALUES (18, '8-)', 'icon_cool.gif', 'Cool');
+INSERT INTO bb_smilies VALUES (19, ':cool:', 'icon_cool.gif', 'Cool');
+INSERT INTO bb_smilies VALUES (20, ':lol:', 'icon_lol.gif', 'Laughing');
+INSERT INTO bb_smilies VALUES (21, ':x', 'icon_mad.gif', 'Mad');
+INSERT INTO bb_smilies VALUES (22, ':-x', 'icon_mad.gif', 'Mad');
+INSERT INTO bb_smilies VALUES (23, ':mad:', 'icon_mad.gif', 'Mad');
+INSERT INTO bb_smilies VALUES (24, ':P', 'icon_razz.gif', 'Razz');
+INSERT INTO bb_smilies VALUES (25, ':-P', 'icon_razz.gif', 'Razz');
+INSERT INTO bb_smilies VALUES (26, ':razz:', 'icon_razz.gif', 'Razz');
+INSERT INTO bb_smilies VALUES (27, ':oops:', 'icon_redface.gif', 'Embarassed');
+INSERT INTO bb_smilies VALUES (28, ':cry:', 'icon_cry.gif', 'Crying or Very sad');
+INSERT INTO bb_smilies VALUES (29, ':evil:', 'icon_evil.gif', 'Evil or Very Mad');
+INSERT INTO bb_smilies VALUES (30, ':twisted:', 'icon_twisted.gif', 'Twisted Evil');
+INSERT INTO bb_smilies VALUES (31, ':roll:', 'icon_rolleyes.gif', 'Rolling Eyes');
+INSERT INTO bb_smilies VALUES (32, ':wink:', 'icon_wink.gif', 'Wink');
+INSERT INTO bb_smilies VALUES (33, ';)', 'icon_wink.gif', 'Wink');
+INSERT INTO bb_smilies VALUES (34, ';-)', 'icon_wink.gif', 'Wink');
+INSERT INTO bb_smilies VALUES (35, ':!:', 'icon_exclaim.gif', 'Exclamation');
+INSERT INTO bb_smilies VALUES (36, ':?:', 'icon_question.gif', 'Question');
+INSERT INTO bb_smilies VALUES (37, ':idea:', 'icon_idea.gif', 'Idea');
+INSERT INTO bb_smilies VALUES (38, ':arrow:', 'icon_arrow.gif', 'Arrow');
+INSERT INTO bb_smilies VALUES (39, ':|', 'icon_neutral.gif', 'Neutral');
+INSERT INTO bb_smilies VALUES (40, ':-|', 'icon_neutral.gif', 'Neutral');
+INSERT INTO bb_smilies VALUES (41, ':neutral:', 'icon_neutral.gif', 'Neutral');
+INSERT INTO bb_smilies VALUES (42, ':mrgreen:', 'icon_mrgreen.gif', 'Mr. Green');
+
+# Dumping data for table `phpbb_themes`
+INSERT INTO bb_themes VALUES (1, 'subSilver', 'subSilver', 'subSilver.css', '', 'E5E5E5', '000000', '006699', '5493B4', '', 'DD6900', 'EFEFEF', 'DEE3E7', 'D1D7DC', '', '', '', '98AAB1', '006699', 'FFFFFF', 'cellpic1.gif', 'cellpic3.gif', 'cellpic2.jpg', 'FAFAFA', 'FFFFFF', '', 'row1', 'row2', '', 'Verdana, Arial, Helvetica, sans-serif', 'Trebuchet MS', 'Courier, ''Courier New'', sans-serif', 10, 11, 12, '444444', '006600', 'FFA34F', '', '', '', NULL, NULL);
+
+# Dumping data for table `phpbb_themes_name`
+INSERT INTO bb_themes_name VALUES (1, 'The lightest row colour', 'The medium row color', 'The darkest row colour', '', '', '', 'Border round the whole page', 'Outer table border', 'Inner table border', 'Silver gradient picture', 'Blue gradient picture', 'Fade-out gradient on index', 'Background for quote boxes', 'All white areas', '', 'Background for topic posts', '2nd background for topic posts', '', 'Main fonts', 'Additional topic title font', 'Form fonts', 'Smallest font size', 'Medium font size', 'Normal font size (post body etc)', 'Quote & copyright text', 'Code text colour', 'Main table header text colour', '', '', '');
+
+# Dumping data for table `phpbb_topics`
+INSERT INTO bb_topics VALUES (1, 1, 'Welcome to phpBB 2', 2, 972086460, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0);
+INSERT INTO bb_topics VALUES (2, 2, 'Bot test 1', 2, 1117115113, 11, 1, 0, 0, 0, 2, 3, 0, 0, 0, 0);
+INSERT INTO bb_topics VALUES (3, 3, 'Download Topic 1', 4, 1117362875, 18, 0, 0, 0, 0, 4, 4, 0, 1, 1, 1);
+
+# Dumping data for table `phpbb_users`
+INSERT INTO bb_users VALUES (-1, 0, 'Anonymous', '', 0, 0, 0, 1117103663, 0, 0, 0.00, NULL, '', '', 0, 0, 0, NULL, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, NULL, '', 0, '', '', '', '', '', NULL, '', '', '', '', '', '', '', 1, '', NULL);
+INSERT INTO bb_users VALUES (2, 1, 'Admin', '21232f297a57a5a743894a0e4a801fc3', 1117435921, -9, 1117430334, 1117103663, 1, 2, 0.00, 1, 'english', 'Y-m-d H:i', 0, 0, 0, NULL, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, '', 0, '1@1.com', '', '', '', '', '', '', '', '', '', '', '', '', 1, '', 'blank.gif');
+INSERT INTO bb_users VALUES (-746, 0, 'bot', '', 1117115716, 2, 1117115634, 1117114766, 0, 1, 0.00, 1, 'english', 'Y-m-d H:i', 0, 0, 0, NULL, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 'bot.gif', 1, 'bot@bot.bot', '', '', '', '', '', '', '', '', '', '', '', NULL, 1, '', 'blank.gif');
+INSERT INTO bb_users VALUES (4, 1, 'user1', 'c4ca4238a0b923820dcc509a6f75849b', 1117378293, -1, 1117362875, 1117362304, 0, 1, 0.00, 1, 'english', 'Y-m-d H:i', 0, 0, 0, NULL, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, '', 0, '1@11.com', '', '', '', '', '', '', '', '', '', '', '', NULL, 1, '', 'blank.gif');
+INSERT INTO bb_users VALUES (5, 1, 'user2', 'c4ca4238a0b923820dcc509a6f75849b', 1117378592, 3, 1117378303, 1117362383, 0, 0, 0.00, 1, 'english', 'Y-m-d H:i', 0, 0, 0, NULL, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, '', 0, '2@2.com', '', '', '', '', '', '', '', '', '', '', '', NULL, 1, '', 'blank.gif');
+
+# Dumping data for table `phpbb_user_group`
+INSERT INTO bb_user_group VALUES (1, -1, 0);
+INSERT INTO bb_user_group VALUES (2, 2, 0);
+INSERT INTO bb_user_group VALUES (3, -746, 0);
+INSERT INTO bb_user_group VALUES (4, 4, 0);
+INSERT INTO bb_user_group VALUES (5, 5, 0);
+
+# Dumping data for table `phpbb_groups`
+INSERT INTO bb_groups VALUES (1, 1, 'Anonymous', '', 0, 1);
+INSERT INTO bb_groups VALUES (2, 1, 'Admin', '', 0, 1);
+INSERT INTO bb_groups VALUES (3, 1, '', '', 0, 1);
+INSERT INTO bb_groups VALUES (4, 1, '', '', 0, 1);
+INSERT INTO bb_groups VALUES (5, 1, '', '', 0, 1);

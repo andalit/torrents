@@ -1,0 +1,2 @@
+# pw group add xbtt
+# pw user add xbtt -g xbtt -s /sbin/nologin -d /usr/local/xbtt

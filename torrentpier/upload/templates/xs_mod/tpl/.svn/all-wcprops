@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl
+END
+xs_header.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/xs_header.tpl
+END
+cache.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/cache.tpl
+END
+message.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/message.tpl
+END
+config.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/config.tpl
+END
+frameset.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/frameset.tpl
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/index.tpl
+END
+xs_footer.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/210/trunk/upload/templates/xs_mod/tpl/xs_footer.tpl
+END

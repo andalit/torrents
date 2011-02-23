@@ -1,0 +1,28 @@
+## Core ###################################################################
+
+phpBB                  - 2.0.x :: phpBB Group, http://www.phpbb.com
+
+## Installed MODs #########################################################
+
+File Attachment        - 2.3.14 :: Acyd Burn,   http://www.opentools.de
+eXtreme Styles         - 2.3.1  :: CyberAlien,  http://www.phpbbstyles.com
+Forum Permissions List - 1.0.1  :: Graham,      http://grahameames.co.uk
+Advanced User Search   - 1.0.2  :: R45,         http://phpbb.rasadam.com
+Country Flags          - 2.2.2  :: Nuttzy99,    http://www.blizzhackers.com
+
+Sort memberlist per letter (based on MOD by Freakin' Booty, http://www.freakingbooty.tk)
+
+## MODs by Meithar (short comments description) ###########################
+
+//bot - Bot mod
+//bt  - TorrentPier
+//dpc - Double Post Control (based on MOD by Kinetix-)
+//flt - Show Last forum topic (on index & forumview)
+//mpd - Mass Posts Delete
+//mr  - Mark all forums read fix
+//qr  - New Reply Window and QuickReply
+//sf  - Sub-forums
+//snp - Show New Posts Before Submit
+//sv  - Svistok
+//ts  - Separate stickies/announcements topics
+//upt - Update Post Time

@@ -1,0 +1,4 @@
+perl -MCPAN -e 'install Bundle::DBI'
+perl -MCPAN -e 'install Bundle::DBD::mysql'
+chmod +wr queue
+chmod +xwr mysql.pl

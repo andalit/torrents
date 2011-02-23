@@ -1,0 +1,3 @@
+## */01    *       *       *       *       /usr/local/bin/indexer delta --rotate >/dev/null 2>&1
+*/01    *       *       *       *       /usr/local/bin/indexer topics --rotate >/dev/null 2>&1
+5       5       *       *       *       /usr/local/bin/indexer --all --rotate >/dev/null 2>&1

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/363/trunk/upload/update
+END
+how_to_update.txt
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/82/trunk/upload/update/how_to_update.txt
+END
+rename_tables.sql
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/82/trunk/upload/update/rename_tables.sql
+END
+update_from_0.3.5_to_1.0.0.sql
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/82/trunk/upload/update/update_from_0.3.5_to_1.0.0.sql
+END
+update_from_1.0.0_to_latest.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/358/trunk/upload/update/update_from_1.0.0_to_latest.php
+END
+robots.txt
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/363/trunk/upload/update/robots.txt
+END
+update_from_0.3.5_to_1.0.0.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/358/trunk/upload/update/update_from_0.3.5_to_1.0.0.php
+END

@@ -1,0 +1,161 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/534/trunk/upload/templates/admin
+END
+admin_mass_email.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_mass_email.tpl
+END
+admin_forumauth.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_forumauth.tpl
+END
+admin_rebuild_search.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/534/trunk/upload/templates/admin/admin_rebuild_search.tpl
+END
+admin_forums.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/524/trunk/upload/templates/admin/admin_forums.tpl
+END
+admin_attachments.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_attachments.tpl
+END
+admin_ranks.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_ranks.tpl
+END
+admin_disallow.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_disallow.tpl
+END
+admin_groups.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_groups.tpl
+END
+admin_log.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_log.tpl
+END
+admin_attach_cp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/530/trunk/upload/templates/admin/admin_attach_cp.tpl
+END
+admin_board.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/529/trunk/upload/templates/admin/admin_board.tpl
+END
+admin_topic_templates.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_topic_templates.tpl
+END
+admin_bt_forum_cfg.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/530/trunk/upload/templates/admin/admin_bt_forum_cfg.tpl
+END
+admin_flags.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_flags.tpl
+END
+admin_ug_auth.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_ug_auth.tpl
+END
+admin_words.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_words.tpl
+END
+admin_user_ban.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_user_ban.tpl
+END
+admin_bt_tracker_cfg.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_bt_tracker_cfg.tpl
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/533/trunk/upload/templates/admin/index.tpl
+END
+admin_extensions.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_extensions.tpl
+END
+admin_cron.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/196/trunk/upload/templates/admin/admin_cron.tpl
+END
+admin_users.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_users.tpl
+END
+admin_forum_prune.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/367/trunk/upload/templates/admin/admin_forum_prune.tpl
+END
+admin_user_search.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_user_search.tpl
+END
+admin_smilies.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_smilies.tpl
+END
+admin_forumauth_list.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_forumauth_list.tpl
+END

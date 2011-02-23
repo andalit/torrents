@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/191/trunk/upload/update/sql
+END
+update_from_1.0.1.3_to_1.0.1.4.sql
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/191/trunk/upload/update/sql/update_from_1.0.1.3_to_1.0.1.4.sql
+END
+update_from_1.0.0_to_1.0.1.0.sql
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/171/trunk/upload/update/sql/update_from_1.0.0_to_1.0.1.0.sql
+END
+update_from_1.0.1.0_to_1.0.1.1.sql
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/139/trunk/upload/update/sql/update_from_1.0.1.0_to_1.0.1.1.sql
+END

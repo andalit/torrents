@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/373/trunk/upload/log/cron
+END
+cron.log
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/82/trunk/upload/log/cron/cron.log
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/373/trunk/upload/log/cron/.htaccess
+END
+cron_check.log
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/82/trunk/upload/log/cron/cron_check.log
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt
+END
+const_memory_range.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/const_memory_range.h
+END
+virtual_binary.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/virtual_binary.h
+END
+sql_result.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/sql_result.h
+END
+database.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/database.h
+END
+sql_query.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/sql_query.h
+END
+find_ptr.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/467/trunk/xbtt/misc/xbt/find_ptr.h
+END

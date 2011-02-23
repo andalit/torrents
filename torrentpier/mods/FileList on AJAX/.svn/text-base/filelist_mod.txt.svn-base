@@ -1,0 +1,89 @@
+##############################################################
+## MOD Title: Filelist Mod
+## MOD Author: RoadTrain < N/A >  http://torrentpier.info/viewtopic.php?f=8&t=1245
+## MOD Version: 0.2
+## Описание: Добавляет возможность просматривать список файлов торрента
+## Installation Level: Easy
+## Installation Time: 2 Minutes
+## Files To Edit: templates/default/viewtopic_attach.tpl
+##				  language/lang_russian/lang_main.php
+## Included Files:  includes/base32.php
+##                  includes/links_build.php
+##                  viewtorrent.php
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2
+##############################################################
+## For security purposes, please check: http://www.phpbb.com/mods/
+## for the latest version of this MOD. Although MODs are checked
+## before being allowed in the MODs Database there is no guarantee
+## that there are no security problems within the MOD. No support
+## will be given for MODs not found within the MODs Database which
+## can be found at http://www.phpbb.com/mods/
+##############################################################
+## Author Notes:
+## http://torrentpier.info/viewtopic.php?f=8&t=1245
+##############################################################
+## MOD History:
+##    2009-01-10 - Version 0.2
+##    	- partially rewritten
+##    2008-10-16 - Version 0.1
+##    	- initial release
+##
+##############################################################
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD
+##############################################################
+
+# 
+#-----[ COPY ]---------------------------------
+#
+\root\viewtorrent.php to /viewtorrent.php
+\root\includes\base32.php to /includes/base32.php
+\root\includes\links_build.php to /includes/links_build.php
+
+# 
+#-----[ OPEN ]---------------------------------
+# 
+templates/default/viewtopic_attach.tpl  
+
+# 
+#-----[ FIND ]---------------------------------
+#
+			<p class="small">{postrow.attach.tor_reged.FILESIZE}</p>
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+			<p class="small"><label><input type="button" style="border: solid 1px;background-color:#FAFAFA;" value="{L_FILELIST}" onclick="$('#tor_info').load('viewtorrent.php?a={postrow.attach.tor_reged.ATTACH_ID}'); $('#tor_info').toggle('normal'); return false;"></label></p>
+# 
+#-----[ FIND ]---------------------------------
+#
+
+<!-- END tor_reged -->
+
+<!-- END attach -->
+
+# 
+#-----[ BEFORE, ADD ]---------------------------------
+#
+<br>
+<div id="tor_info" style="display: none; padding: 0; margin: 7px 20px;">Loading...</div>
+# 
+#-----[ OPEN ]---------------------------------
+# 
+language/lang_russian/lang_main.php
+
+
+# 
+#-----[ FIND ]---------------------------------
+#
+$lang['Download'] = 'Download';
+
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+$lang['FILELIST'] = 'Список файлов';
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]---------------------------------
+#
+# EoM

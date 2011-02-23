@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/534/trunk/upload/includes/ucp
+END
+usercp_viewprofile.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/533/trunk/upload/includes/ucp/usercp_viewprofile.php
+END
+torrent_userprofile.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/531/trunk/upload/includes/ucp/torrent_userprofile.php
+END
+usercp_sendpasswd.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/531/trunk/upload/includes/ucp/usercp_sendpasswd.php
+END
+usercp_confirm.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/82/trunk/upload/includes/ucp/usercp_confirm.php
+END
+usercp_avatar.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/531/trunk/upload/includes/ucp/usercp_avatar.php
+END
+usercp_activate.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/509/trunk/upload/includes/ucp/usercp_activate.php
+END
+usercp_register.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/534/trunk/upload/includes/ucp/usercp_register.php
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/373/trunk/upload/includes/ucp/.htaccess
+END
+usercp_email.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/531/trunk/upload/includes/ucp/usercp_email.php
+END
+usercp_attachcp.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/531/trunk/upload/includes/ucp/usercp_attachcp.php
+END

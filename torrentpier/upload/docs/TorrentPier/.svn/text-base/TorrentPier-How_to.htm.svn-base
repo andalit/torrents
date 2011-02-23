@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html dir="ltr">
+<head>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>TorrentPier - How to..</title>
+<link rel="stylesheet" href="../../templates/subSilver/subSilver.css" type="text/css">
+<body style="padding:10px; margin:0px; font:12px Verdana,Arial,Helvetica,sans-serif; background-color:#FFFFFF;">
+
+		<h2>Installation and Configuration.</h2>
+		<ol>
+			<li>
+				Before installation check and if necessary change the path to the
+				forum <b>BB_ROOT</b> in file <b>bt/init.php</b> to
+				the one you are using. By default it works with the following forum and
+				tracker path:
+				<pre>
+ bt/[tracker dir.]
+ forum/[phpBB dir.]</pre>
+
+ Also make sure that <b>forum/cache</b> directory has <b>777</b> permissions
+			<br /><br />
+			<li>
+				<a href="http://www.phpbb.com/support/documents.php?mode=install">Installation</a> (only MySQL database supported)
+			<br /><br />
+			<li>
+				After the installation is complete, you should specify <b>announce url</b> of your
+				tracker (announce.php) and choose which forums will be allowed to register <i>.torrent</i>
+				files, creation of <i>Download</i> topics and etc.
+			<br /><br />
+				<img src="pics/TP-01-Forum_Config.gif">
+			<br /><br />
+			<li>
+				Configuration of Attachment Mod for <i>.torrent</i>	files:
+			<br /><br />
+				Extension Groups Control -&gt; Manage Extension Groups - adding <i>Torrent</i> group
+			<br /><br />
+				<img src="pics/AM-01-Extension_Groups_Control_-_Add_Torrent_Group.gif" width="945" height="470">
+			<br /><br />
+				Configure Group Permissions:
+			<br /><br />
+				<img src="pics/AM-02-Extension_Group_Permissions_-_Torrent.gif">
+			<br /><br />
+				specify the forums that will support file attachments of <i>.torrent</i> type
+			<br /><br />
+				<img src="pics/AM-02a-Extension_Group_Permissions_-_Torrent.gif">
+			<br /><br />
+				Enable the <i>torrent</i> extension and add it to the Torrent	group
+			<br /><br />
+				<img src="pics/AM-03-Extension_Control_-_Manage_Extensions_-_Add_Torrent_ext.gif">
+		</li> </ol>
+
+<div>
+<br />
+<h2>How to make torrent file and seed on TorrentPier</h2>
+<br />
+
+<span class="postbody"><span style="font-size: 18px; line-height: normal"><span style="font-family: Arial">Creating a .torrent file</span></span>
+<br />
+
+<br />
+There are many torrent makers out there (<a href="http://krypt.dyndns.org:81/torrent/maketorrent/index.phtml" target="_blank" class="postlink">MakeTorrent</a>, <a href="http://torrentspy.sourceforge.net" target="_blank" class="postlink">TorrentSpy</a>, clients' built-in..), they all are quite similar and there's no difference using one or another, just in case of some problems (i.e. the tracker won't accept your torrent file) try using another torrent maker.
+<br />
+Here's how to do it with the <span style="font-weight: bold">Torrent Builder</span> that comes with the <a href="http://www.lanspirit.com" target="_blank" class="postlink"><span style="font-weight: bold">BitSpirit</span></a> client.
+<br />
+Just start the Torrent Builder, add any files or folders you want to share and click the Make button.
+<br />
+
+<br />
+<img src="pics/make_torrent/pic01.gif" border="0" />
+<br />
+
+<br />
+After the torrent file is saved, it's time to release it to tracker.
+<br />
+
+<br />
+<span style="font-size: 18px; line-height: normal"><span style="font-family: Arial">Publishing on tracker</span></span>
+<br />
+
+<br />
+Next go to forum and create a new topic (but only in the corresponding category), write the name and description (just the same as if you were posting the usual topic) and add the torrent file to the post. To do this click on <span style="font-style: italic">Broswe</span> at the bottom of the posting form and select your torrent file (you don't need to press <span style="font-style: italic">Add Attachment</span> as it will be done automatically once you press the <span style="font-style: italic">Submit</span> button).
+<br />
+
+<br />
+<img src="pics/make_torrent/pic02.gif" border="0" />
+<br />
+
+<br />
+Press the <span style="font-style: italic">Submit</span> button. Successful posting will show the following message:
+<br />
+
+<br />
+<img src="pics/make_torrent/pic03.gif" border="0" />
+<br />
+
+<br />
+It says that the torrent was successfully registered on tracker.
+<br />
+Now download the torrent you've just posted and run it using your BitTorrent client <span style="color: darkred">choosing the folder with the files you're sharing as the download path</span>
+<br />
+
+<br />
+Note: downloading the torrent you've uploaded is important as the tracker's done some necessary changes to it. If you run the torrent file you have created, it just won't work!
+<br />
+
+<br />
+If something went wrong and the torrent wasn't registered automatically (or if this feature is disabled on tracker) the message would look like this:
+<br />
+
+<br />
+<img src="pics/make_torrent/pic04.gif" border="0" />
+<br />
+
+<br />
+In this case you have to register it manually, by going to your topic (click to <span style="color: #006699">return to the topic</span>) and pressing the <span style="color: #006699">Register on tracker</span> link:
+<br />
+
+<br />
+<img src="pics/make_torrent/pic05.gif" border="0" />
+<br />
+
+<br />
+Then download the torrent file and run it using your BitTorrent client.
+<br />
+
+<br />
+<span style="color: red"><span style="font-weight: bold">Please note that the torrent you downloaded from forum contains your personal tracker passkey which is used to identify you. Do not expose the torrent or its contents to anybody, otherwise it could lead to misuse of your username on the tracker!</span></span></span></div><div><span class="postbody"></span><span class="gensmall"></span></div>
+
+
+</body>
+</html>

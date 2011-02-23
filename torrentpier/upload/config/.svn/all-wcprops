@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/373/trunk/upload/config
+END
+cron_cfg.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/82/trunk/upload/config/cron_cfg.php
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/373/trunk/upload/config/.htaccess
+END

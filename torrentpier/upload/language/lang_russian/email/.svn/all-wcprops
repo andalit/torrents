@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/373/trunk/upload/language/lang_russian/email
+END
+admin_welcome_inactive.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/admin_welcome_inactive.tpl
+END
+blank.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/82/trunk/upload/language/lang_russian/email/blank.tpl
+END
+admin_welcome_activated.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/admin_welcome_activated.tpl
+END
+user_welcome.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/user_welcome.tpl
+END
+group_approved.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/group_approved.tpl
+END
+user_activate.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/user_activate.tpl
+END
+coppa_welcome_inactive.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/coppa_welcome_inactive.tpl
+END
+group_request.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/group_request.tpl
+END
+topic_notify.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/topic_notify.tpl
+END
+admin_activate.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/admin_activate.tpl
+END
+admin_send_email.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/admin_send_email.tpl
+END
+user_welcome_inactive.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/user_welcome_inactive.tpl
+END
+group_added.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/group_added.tpl
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/373/trunk/upload/language/lang_russian/email/.htaccess
+END
+user_activate_passwd.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/user_activate_passwd.tpl
+END
+privmsg_notify.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/privmsg_notify.tpl
+END
+profile_send_email.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/363/trunk/upload/language/lang_russian/email/profile_send_email.tpl
+END

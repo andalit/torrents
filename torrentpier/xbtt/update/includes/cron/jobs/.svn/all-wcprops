@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/319/trunk/xbtt/update/includes/cron/jobs
+END
+tr_cleanup_and_dlstat.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/319/trunk/xbtt/update/includes/cron/jobs/tr_cleanup_and_dlstat.php
+END
+clean_dlstat.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/319/trunk/xbtt/update/includes/cron/jobs/clean_dlstat.php
+END
+tr_make_snapshot.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/319/trunk/xbtt/update/includes/cron/jobs/tr_make_snapshot.php
+END

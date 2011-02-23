@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/552/trunk/upload/misc
+END
+mods.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/82/trunk/upload/misc/mods.txt
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/82/trunk/upload/misc/.htaccess
+END
+groups.sql
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/363/trunk/upload/misc/groups.sql
+END

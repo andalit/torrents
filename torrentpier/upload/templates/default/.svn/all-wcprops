@@ -1,0 +1,335 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/546/trunk/upload/templates/default
+END
+medal.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/499/trunk/upload/templates/default/medal.tpl
+END
+report_list_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/82/trunk/upload/templates/default/report_list_body.tpl
+END
+rss_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/82/trunk/upload/templates/default/rss_body.tpl
+END
+viewtopic_torrent.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/367/trunk/upload/templates/default/viewtopic_torrent.tpl
+END
+report_module_reasons_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/210/trunk/upload/templates/default/report_module_reasons_body.tpl
+END
+page_footer.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/404/trunk/upload/templates/default/page_footer.tpl
+END
+gallery.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/367/trunk/upload/templates/default/gallery.tpl
+END
+report_module_edit_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/210/trunk/upload/templates/default/report_module_edit_body.tpl
+END
+modcp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/82/trunk/upload/templates/default/modcp.tpl
+END
+viewtopic_attach_guest.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/367/trunk/upload/templates/default/viewtopic_attach_guest.tpl
+END
+privmsgs_read.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/407/trunk/upload/templates/default/privmsgs_read.tpl
+END
+search.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/82/trunk/upload/templates/default/search.tpl
+END
+usercp_register.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/534/trunk/upload/templates/default/usercp_register.tpl
+END
+agreement.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/82/trunk/upload/templates/default/agreement.tpl
+END
+faq.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/82/trunk/upload/templates/default/faq.tpl
+END
+posting_smilies.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/82/trunk/upload/templates/default/posting_smilies.tpl
+END
+login.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/311/trunk/upload/templates/default/login.tpl
+END
+viewtopic.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/407/trunk/upload/templates/default/viewtopic.tpl
+END
+report_open_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/82/trunk/upload/templates/default/report_open_body.tpl
+END
+privmsgs.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/82/trunk/upload/templates/default/privmsgs.tpl
+END
+confirm_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/82/trunk/upload/templates/default/confirm_body.tpl
+END
+report_form_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/82/trunk/upload/templates/default/report_form_body.tpl
+END
+tpl_config.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/521/trunk/upload/templates/default/tpl_config.php
+END
+usercp_viewprofile.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/533/trunk/upload/templates/default/usercp_viewprofile.tpl
+END
+torhelp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/82/trunk/upload/templates/default/torhelp.tpl
+END
+modcp_split.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/82/trunk/upload/templates/default/modcp_split.tpl
+END
+report_config_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/534/trunk/upload/templates/default/report_config_body.tpl
+END
+attach_rules.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/82/trunk/upload/templates/default/attach_rules.tpl
+END
+report_view_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/82/trunk/upload/templates/default/report_view_body.tpl
+END
+posting.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/245/trunk/upload/templates/default/posting.tpl
+END
+viewforum.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/246/trunk/upload/templates/default/viewforum.tpl
+END
+page_header.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/526/trunk/upload/templates/default/page_header.tpl
+END
+search_results.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/82/trunk/upload/templates/default/search_results.tpl
+END
+common.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/82/trunk/upload/templates/default/common.tpl
+END
+posting_editor.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/515/trunk/upload/templates/default/posting_editor.tpl
+END
+tracker.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/546/trunk/upload/templates/default/tracker.tpl
+END
+kb.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/515/trunk/upload/templates/default/kb.tpl
+END
+usercp_sendpasswd.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/82/trunk/upload/templates/default/usercp_sendpasswd.tpl
+END
+viewtopic_attach.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/521/trunk/upload/templates/default/viewtopic_attach.tpl
+END
+report_change_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/82/trunk/upload/templates/default/report_change_body.tpl
+END
+viewtopic_poll.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/82/trunk/upload/templates/default/viewtopic_poll.tpl
+END
+memberlist.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/137/trunk/upload/templates/default/memberlist.tpl
+END
+report_reason_edit_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/210/trunk/upload/templates/default/report_reason_edit_body.tpl
+END
+posting_attach.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/82/trunk/upload/templates/default/posting_attach.tpl
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/533/trunk/upload/templates/default/index.tpl
+END
+usercp_email.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/82/trunk/upload/templates/default/usercp_email.tpl
+END
+usercp_attachcp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/204/trunk/upload/templates/default/usercp_attachcp.tpl
+END
+posting_poll.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/82/trunk/upload/templates/default/posting_poll.tpl
+END
+donate.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/367/trunk/upload/templates/default/donate.tpl
+END
+usercp_avatar_gallery.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/usercp_avatar_gallery.tpl
+END
+bbcode.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/298/trunk/upload/templates/default/bbcode.tpl
+END
+report_index_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/82/trunk/upload/templates/default/report_index_body.tpl
+END
+groupcp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/479/trunk/upload/templates/default/groupcp.tpl
+END
+viewonline.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/82/trunk/upload/templates/default/viewonline.tpl
+END
+report_modules_body.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/210/trunk/upload/templates/default/report_modules_body.tpl
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/426/trunk/Server_Scripts/php-fpm+nginx
+END
+fastcgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/426/trunk/Server_Scripts/php-fpm+nginx/fastcgi_params
+END
+nginx.conf
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/386/trunk/Server_Scripts/php-fpm+nginx/nginx.conf
+END
+bash.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/373/trunk/Server_Scripts/php-fpm+nginx/bash.txt
+END

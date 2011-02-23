@@ -1,0 +1,89 @@
+#!/bin/sh
+#
+# XBTT Start/Stop the XBT Tracker
+#
+# chkconfig: 2345 99 01
+#
+# description: The XBT Tracker
+
+# Source function library.
+. /etc/init.d/functions
+
+set -e
+
+# *** CHANGE THE BELOW DEFAULT VALUES TO REFLECT YOUR SYSTEM ***
+
+# Defaults
+TRACKERDIR=/usr/local/xbtt/
+DAEMON=/usr/local/xbtt/xbt_tracker
+CONFFILE=/usr/local/xbtt/xbt_tracker.conf
+PIDFILE=/usr/local/xbtt/xbt_tracker.pid
+USER=xbtt
+
+# Sanity checks -- note you'll get no output from the first two if they
+# error!
+test -f $DAEMON || exit 0
+test -r $CONFFILE || exit 0
+
+if ! id $USER >/dev/null 2>&1; then
+        echo "$0: $USER user does not exist! You probably should run this as a regular user or your $USER user."
+        exit 1
+fi
+
+# Insist the config file is chmod 600 and owned by the correct user
+if [ "`stat -c '%U %a' $CONFFILE 2>/dev/null`" != "$USER 600" ]; then
+        chown -h $USER $CONFFILE
+        chmod -f 0600 $CONFFILE
+fi
+# Insist the daemon has sane ownerships and permissions
+chown -h $USER $DAEMON
+chmod -f 0700 $DAEMON
+
+case "$1" in
+        start)
+                if [ ! -f $PIDFILE ]; then
+					echo "Starting xbtt"
+					# run the tracker as the tracker user
+					cd $TRACKERDIR
+					su - $USER -c $DAEMON
+                else
+					echo "Already run XBTT ($PIDFILE)"
+                fi
+
+;;
+        stop)
+                echo "Stopping xbtt... "
+                # change to the tracker's subdirectory and kill it
+                cd $TRACKERDIR
+                kill `cat $PIDFILE`
+                # wait a bit and then take out a gun and make sure it's dead
+                sleep 5
+                if [ -f $PIDFILE ]; then
+                    kill -9 `cat $PIDFILE`
+                fi
+;;
+        force-reload|restart)
+                echo "Restarting xbtt... "
+                # change to the tracker's subdirectory and kill it
+                cd $TRACKERDIR
+                kill `cat $PIDFILE`
+                # wait a bit and then take out a gun and make sure it's dead
+                sleep 5
+                if [ -f $PIDFILE ]; then
+                     kill -9 `cat $PIDFILE`
+                fi
+                # wait a bit and restart as our tracker user
+                sleep 1
+                cd $TRACKERDIR
+                su - $USER -c $DAEMON
+;;
+        *)
+                echo "Usage: /etc/init.d/xbtt {start|stop|restart|force-reload}"
+                echo "  start - starts XBT Tracker service"
+                echo "  stop  - stops XBT Tracker service"
+                echo "  restart, force-reload - starts a new XBT Tracker service"
+                exit 1
+;;
+esac
+
+exit 0

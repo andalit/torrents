@@ -1,0 +1,191 @@
+##############################################################
+## MOD Title: Null Ratio Mod
+## MOD Author: RoadTrain < N/A >  http://www.torrentpier.info/
+## MOD Version: 0.2
+## Описание: мод позволяет юзерам один раз сбрасывать ратио
+## Installation Level: Easy
+## Installation Time: 5 Minutes
+## Files To Edit: profile.php
+##                config.php
+##                index.php
+##				  language/lang_russian/lang_main.php
+##				  templates/default/index.tpl
+## Included Files:  includes/usercp_nullratio.php
+##					templates/default/usercp_nullratio.tpl
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2
+##############################################################
+## For security purposes, please check: http://www.phpbb.com/mods/
+## for the latest version of this MOD. Although MODs are checked
+## before being allowed in the MODs Database there is no guarantee
+## that there are no security problems within the MOD. No support
+## will be given for MODs not found within the MODs Database which
+## can be found at http://www.phpbb.com/mods/
+##############################################################
+## Author Notes:
+## nah & poh
+##############################################################
+## MOD History:
+##    2008-10-16 - Version 0.2.0
+##    	- some updates
+##    2008-06-16 - Version 0.1.0
+##    	- initial release
+##
+##############################################################
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD
+##############################################################
+
+# 
+#-----[ COPY ]---------------------------------
+#
+\root\*.* to forum root
+# 
+#-----[ SQL QUERY ]---------------------------------
+# 
+ALTER TABLE bb_bt_users ADD (
+`ratio_nulled` tinyint(1) NOT NULL default '0'
+)
+
+# 
+#-----[ OPEN ]---------------------------------
+# 
+profile.php
+
+# 
+#-----[ FIND ]---------------------------------
+#
+	else if ( $mode == 'confirm' )
+	{
+		// Visual Confirmation
+		if ( $userdata['session_logged_in'] )
+		{
+			exit;
+		}
+
+		require($phpbb_root_path . 'includes/usercp_confirm.'.$phpEx);
+		exit;
+	}
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+	//Null Ratio mod
+	if ( $mode == 'nullratio')
+	{
+		if ( !$userdata['session_logged_in'])
+		{
+			login_redirect();
+		}
+
+		require($phpbb_root_path . 'includes/usercp_nullratio.'.$phpEx);
+		exit;
+	}
+	//end
+
+# 
+#-----[ OPEN ]---------------------------------
+# 
+config.php 
+
+# 
+#-----[ FIND ]---------------------------------
+#
+$bb_cfg['allow_html']				   = 0 ;
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+//ratio null mod
+$bb_cfg['rationull_enabled']		   = true ;
+$bb_cfg['ratio_to_null']			   = 0.3 ;
+//end
+# 
+#-----[ OPEN ]---------------------------------
+# 
+index.php
+# 
+#-----[ FIND ]---------------------------------
+#
+$template->assign_vars(array(
+	'SHOW_FORUMS'           => $forums_count,
+	'PAGE_TITLE'            => $lang['Index'],
+	
+# 
+#-----[ BEFORE, ADD ]---------------------------------
+#
+//nullratio
+if ($bb_cfg['rationull_enabled']) {
+	$btu = get_bt_userdata($userdata['user_id']);
+	
+	$up_total = $btu['u_up_total'] + $btu['u_up_release'] + $btu['u_up_bonus'];
+	$down_total =$btu['u_down_total'];
+	$ratio = ($down_total) ? round((($up_total) / $down_total), 2) : '0';
+	$ratio_nulled = $btu['ratio_nulled'];
+	
+	$template->assign_vars(array( 
+		'SHOW_RATIO_WARN'   => (($down_total > MIN_DL_FOR_RATIO) && ($ratio < $bb_cfg['ratio_to_null']) && !$ratio_nulled)
+	));
+}
+//end
+
+# 
+#-----[ OPEN ]---------------------------------
+# 
+language/lang_russian/lang_main.php
+
+
+# 
+#-----[ FIND ]---------------------------------
+#
+$lang['ONLY_NEW_TOPICS'] = 'только новые темы';
+
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+// nullratio mod
+$lang['NULLRATIO0'] = 'Обнуление рейтинга';
+$lang['NULLRATIO1'] = 'Вы скачали меньше ';
+$lang['NULLRATIO2'] = 'Внимание! При обнулении рейтинга объём скачанного и отданного вами станет равен нулю. Восстановление обратно будет невозможно! ';
+$lang['NULLRATIO3'] = 'Сбросить рейтинг!';
+$lang['NULLRATIO4'] = 'Вы уже обнуляли рейтинг!';
+$lang['NULLRATIO5'] = 'Ваш рейтинг нормален. Обнуление разрешено только при рейтинге меньше ' . $bb_cfg['ratio_to_null'];
+$lang['NULLRATIO6'] = 'Рейтинг сброшен! Впредь держите его в норме!';
+$lang['NULLRATIO7'] = 'Низкий рейтинг!';
+$lang['NULLRATIO8'] = 'Внимание! Ваш рейтинг ниже <b>'.$bb_cfg['ratio_to_null'].'</b> . Возможно, по незнанию вы допустили такую ситуацию, и вам теперь сложно будет выправить рейтинг. Для такого случая на сайте предусмотрен одноразовый сброс рейтинга. Для этого проследуйте <a href="profile.php?mode=nullratio">сюда</a>.';
+$lang['NULLRATIO9'] = 'Данный модуль отключён';
+//end
+# 
+#-----[ OPEN ]---------------------------------
+# 
+templates/default/index.tpl
+
+# 
+#-----[ FIND ]---------------------------------
+# 
+<!-- IF TORHELP_TOPICS -->
+	<!-- INCLUDE torhelp.tpl -->
+	<div class="spacer_6"></div>
+<!-- ENDIF / TORHELP_TOPICS -->
+
+
+# 
+#-----[ BEFORE, ADD ]---------------------------------
+#
+<!-- IF SHOW_RATIO_WARN -->
+<table width="100%" cellspacing="0" border="0" align="center" cellpadding="2" class="forumline"> 
+      <tr> 
+         <td align="center" nowrap="nowrap" class="catHead"><span class="cattitle"><b>{L_NULLRATIO7}</b></span></td> 
+      </tr> 
+      <tr>
+         <td> 
+         {L_NULLRATIO8}
+         </td> 
+  </tr> 
+</table>
+<br/>
+<!-- ENDIF -->
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]---------------------------------
+#
+# EoM

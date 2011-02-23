@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack
+END
+lang_report_general.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack/lang_report_general.php
+END
+lang_report_topic.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack/lang_report_topic.php
+END
+lang_report_user.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack/lang_report_user.php
+END
+lang_report_post.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack/lang_report_post.php
+END
+lang_report_privmsg.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/509/trunk/upload/language/lang_russian/report_hack/lang_report_privmsg.php
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/373/trunk/upload/language/lang_russian/report_hack/.htaccess
+END

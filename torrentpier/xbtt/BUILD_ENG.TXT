@@ -1,0 +1,11 @@
+To build the project will need Visual C ++ 2008 with SP1
+Download click here: http://www.microsoft.com/downloads/details.aspx?displaylang=ru&FamilyID=f3fbb04e-92c2-4701-b4ba-92e26e408569
+
+  Libraries will need (in the folder "/xbtt/[LIB]/"):
+    [*] ZLib v1.2.3 (for MS 2008) - there is a ready solution (collect in the configuration DLL Release)
+        By joining stuck in the version (x32-x64) folder "/xbtt/[LIB]/ vc2008_zlib123/"
+
+    [*] Boost v1.40.0+ (includes) (http://www.boost.org/users/download/)
+    [*] MySQL (includes, header) files & & Libraries (libs) (Library in the folder "/xbtt/[LIB]/mysql-5.1.39_(libs)/")
+
+With best regards, Denis (Pandora) [ICQ: 411-672].

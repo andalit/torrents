@@ -1,0 +1,14 @@
+
+		<td class="pad_0">
+			<div style="float: left;<!-- IF TEXT_BUTTONS --> padding: 2px 6px 4px;<!-- ELSE --> padding: 2px 6px;<!-- ENDIF -->" class="post_btn_2">
+				<!-- IF p.PROFILE --><a class="txtb" href="{PROFILE_URL}{p.POSTER_ID}">{PROFILE_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.PM --><a class="txtb" href="{PM_URL}{p.POSTER_ID}">{PM_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.EMAIL --><a class="txtb" href="{EMAIL_URL}{p.POSTER_ID}">{EMAIL_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.WWW --><a class="txtb" href="{p.WWW}" target="_blank">{WWW_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.ICQ --><a class="txtb" href="{ICQ_URL}{p.ICQ}" target="_blank">{ICQ_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.AIM --><a class="txtb" href="{AIM_URL}{p.AIM}" target="_blank">{AIM_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.MSN --><a class="txtb" href="{MSN_URL}{p.POSTER_ID}" target="_blank">{MSN_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				<!-- IF p.YIM --><a class="txtb" href="{YIM_URL}{p.YIM}" target="_blank">{YIM_IMG}</a>{POST_BTN_SPACER}<!-- ENDIF -->
+				&nbsp;
+			</div>
+		</td>

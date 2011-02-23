@@ -1,0 +1,25 @@
+.....
+
+http {
+......
+
+    server {
+	....
+        location ^~ /bt/ {
+            access_log  off;
+            if ( $query_string ~ "^uk=([^&?]{10})[&?]+(.*)$" ) {
+		        set $uk $1;
+		        set $qs $2&ip=$remote_addr;
+            }
+            if ( $query_string ~ "^uk=([^&?]{10})[&?]+((.*&|)ip=.*)$" ) {
+	            set $uk $1;
+	            set $qs $2;
+            }
+            if ( $qs ) {
+		        rewrite ^.*/([a-z]+)(\.php|)$ /$uk/$1?$qs break;
+            }
+            rewrite ^.*/([a-z]+)(\.php|)$ /$1 break;
+            proxy_pass http://127.0.0.1:2710/;
+        }
+	.....
+..

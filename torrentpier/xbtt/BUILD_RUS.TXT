@@ -1,0 +1,11 @@
+Для сборки проекта понадобится Visual C++ 2008 with SP1
+Качать тут: http://www.microsoft.com/downloads/details.aspx?displaylang=ru&FamilyID=f3fbb04e-92c2-4701-b4ba-92e26e408569
+
+ Библиотеки которые понадобятся ( в папке "/xbtt/[LIB]/" ):
+   [*] ZLib v1.2.3 ( для MS 2008 ) - тут уже готовое решение (собираем в конфигурации DLL Release)
+       прилипли в аттач версии для (x32-x64) в папке "/xbtt/[LIB]/vc2008_zlib123/"
+
+   [*] Boost v1.40.0+ (includes) ( http://www.boost.org/users/download/ )
+   [*] MySQL (includes,header) files && Libraries (libs)  ( библиотеки в папке "/xbtt/[LIB]/mysql-5.1.39_(libs)/" )
+
+С лучшими пожеланиями, Денис (Pandora) [ICQ: 411-672].

@@ -1,0 +1,218 @@
+<style type="text/css">
+<!--
+	.lineTD, .codeTD {
+		vertical-align: top;
+		background-color: #FFFFCC;
+		font-weight: normal;
+		font-size: 12px;
+		font-family: "Courier New", Courier, monospace;
+	}
+
+	.lineTD {
+		text-align: right;
+		color: #666666;
+	}
+
+	.codeTD {
+		background-color: #FFFFFF;
+	}
+
+	.lineNum {
+		border-bottom: 1px solid #FFFFFF;
+	}
+
+	.lineErr {
+		background-color: red;
+		color: white;
+		border-bottom-color: #FFFFFF;
+	}
+
+	.codeLine {
+		border-bottom: 1px solid #FFFFFF;
+	}
+
+	.codeErr {
+		cursor: pointer;
+		background-color: #E4EFEE;
+		border-bottom-color: #FFFFFF;
+	}
+
+	.errTABLE {
+	border: 2px groove #FF4500;
+	margin: 10px;
+	background: #FFF5EE;
+}
+
+	.errRepTD {
+		font-size:12px;
+		font-family: "Courier New", Courier, monospace;
+	}
+
+	.errType {
+		font-weight: bold;
+		padding-left: 30px;
+	}
+
+	.errInfo {
+		font-size:13px;
+		font-family: "Courier New", Courier, monospace;
+		padding-right: 30px;
+	}
+
+	.errTip {
+		font-size:10px;
+	}
+
+	.errFile {
+		color:#696969;
+	}
+
+	.errFileCritical {
+		color: #FF4500;
+		font-weight:bold;
+		letter-spacing:1px;
+	}
+
+	.traceBody {
+		font-size:13px;
+		font-family: "Courier New", Courier, monospace;
+	}
+-->
+</style><table cellspacing="0" cellpadding="0" border="0"><tr><td class="lineTD"><div class="lineNum">&nbsp;<a name="118"></a>118&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="119"></a>119&nbsp;</div>
+<div class="lineNum lineErr">&nbsp;<a name="120"></a>120&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="121"></a>121&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="122"></a>122&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="123"></a>123&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="124"></a>124&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="125"></a>125&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="126"></a>126&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="127"></a>127&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="128"></a>128&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="129"></a>129&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="130"></a>130&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="131"></a>131&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="132"></a>132&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="133"></a>133&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="134"></a>134&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="135"></a>135&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="136"></a>136&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="137"></a>137&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="138"></a>138&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="139"></a>139&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="140"></a>140&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="141"></a>141&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="142"></a>142&nbsp;</div>
+<div class="lineNum">&nbsp;<a name="143"></a>143&nbsp;</div>
+</td><td width="100%" class="codeTD" nowrap="nowrap"><div class="codeLine">&nbsp;</span><span style="color: #0000BB">$cnt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10000</span><span style="color: #007700">;</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine codeErr">&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'timer'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMarker</span><span style="color: #007700">(</span><span style="color: #DD0000">'__begin__'</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">$string&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;</div>
+<div class="codeLine">&nbsp;for&nbsp;(</span><span style="color: #0000BB">$i</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$cnt</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)</div>
+<div class="codeLine">&nbsp;{</div>
+<div class="codeLine">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$string&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'texttexttexttexttexttexttexttexttexttexttexttext'</span><span style="color: #007700">;</div>
+<div class="codeLine">&nbsp;}</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'timer'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMarker</span><span style="color: #007700">(</span><span style="color: #DD0000">'string'</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">$array&nbsp;</span><span style="color: #007700">=&nbsp;array();</div>
+<div class="codeLine">&nbsp;for&nbsp;(</span><span style="color: #0000BB">$i</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$cnt</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)</div>
+<div class="codeLine">&nbsp;{</div>
+<div class="codeLine">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$array</span><span style="color: #007700">[]&nbsp;=&nbsp;</span><span style="color: #DD0000">'texttexttexttexttexttexttexttexttexttexttexttext'</span><span style="color: #007700">;</div>
+<div class="codeLine">&nbsp;}</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'timer'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMarker</span><span style="color: #007700">(</span><span style="color: #DD0000">'array'</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">join</span><span style="color: #007700">(</span><span style="color: #DD0000">''</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$array</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'timer'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMarker</span><span style="color: #007700">(</span><span style="color: #DD0000">'join'</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;</div>
+<div class="codeLine">&nbsp;require(</span><span style="color: #0000BB">DEV_DIR&nbsp;</span><span style="color: #007700">.</span><span style="color: #DD0000">'dbg_header.php'</span><span style="color: #007700">);</div>
+<div class="codeLine">&nbsp;echo&nbsp;</span><span style="color: #0000BB">showSource</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">120</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;(</span><span style="color: #0000BB">__LINE__&nbsp;</span><span style="color: #007700">-&nbsp;</span><span style="color: #0000BB">121</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">);</div>
+</td></tr></table>
+				<br /><br />
+				<style type="text/css"><!-- td { font-size : 11px; font-family: Verdana; } --></style>
+				<table border="1" cellspacing="0" cellpadding="4" align="center">
+
+
+			<tr>
+				<td>&nbsp;</td>
+				<td align="center"><b>time idx</b></td>
+				<td align="center"><b>ex time</b></td>
+				<td align="center"><b>%</b></td>
+
+				<td align="center"><b>mem</b></td>
+				<td align="center"><b>mem +-</b></td>
+			</tr>
+
+				<tr>
+					<td><b>Start</b></td>
+					<td>0.000034</td>
+					<td><b>0.000000</b></td>
+					<td align="right">0.00%</td>
+
+						<td align=right>497,66 KB</td>
+						<td align=right>+497,66 KB</td>
+						</tr>
+
+				<tr>
+					<td><b>__begin__</b></td>
+					<td>0.011458</td>
+					<td><b>0.011424</b></td>
+					<td align="right">26.60%</td>
+
+						<td align=right>1,44 MB</td>
+						<td align=right>+979,07 KB</td>
+						</tr>
+
+				<tr>
+					<td><b>string</b></td>
+					<td>0.016834</td>
+					<td><b>0.005376</b></td>
+					<td align="right">12.52%</td>
+
+						<td align=right>1,9 MB</td>
+						<td align=right>+468,84 KB</td>
+						</tr>
+
+				<tr>
+					<td><b>array</b></td>
+					<td>0.028558</td>
+					<td><b>0.011724</b></td>
+					<td align="right">27.30%</td>
+
+						<td align=right>3,47 MB</td>
+						<td align=right>+1,57 MB</td>
+						</tr>
+
+				<tr>
+					<td><b>join</b></td>
+					<td>0.039753</td>
+					<td><b>0.011195</b></td>
+					<td align="right">26.06%</td>
+
+						<td align=right>3,48 MB</td>
+						<td align=right>+17,72 KB</td>
+						</tr>
+
+				<tr>
+					<td><b>Stop</b></td>
+					<td>0.042985</td>
+					<td><b>0.003232</b></td>
+					<td align="right">7.52%</td>
+
+						<td align=right>3,49 MB</td>
+						<td align=right>+7,62 KB</td>
+						</tr>
+
+			<tr style='background: silver;'>
+				<td><b>total</b></td>
+				<td>-</td>
+				<td>0.042951</td>
+				<td>100.00%</td>
+
+					<td>3,49 MB</td>
+					<td>-</td>
+					</tr>
+</table><br /><br />

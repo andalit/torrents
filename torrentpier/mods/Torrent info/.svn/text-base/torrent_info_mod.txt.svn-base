@@ -1,0 +1,71 @@
+##############################################################
+## MOD Title: Torrent Info mod
+## MOD Author: RoadTrain < N/A >  http://torrentpier.info/viewtopic.php?f=8&t=1148
+## MOD Version: 0.2
+## Описание: Специальный просмотрщик структуры торрентов
+## Installation Level: Easy
+## Installation Time: 1 Minutes
+## Files To Edit: templates/default/viewtopic_attach.tpl
+## Included Files: torrent_info.php
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2
+##############################################################
+## For security purposes, please check: http://torrentpier.info/viewtopic.php?f=8&t=1148
+## for the latest version of this MOD. Although MODs are checked
+## before being allowed in the MODs Database there is no guarantee
+## that there are no security problems within the MOD. No support
+## will be given for MODs not found within the MODs Database which
+## can be found at http://torrentpier.info/
+##############################################################
+## Author Notes:
+## пох
+##############################################################
+## MOD History:
+##    2009-01-12 - Version 0.1.0
+##    	- new version using AJAX
+##    2008-09-23 - Version 0.1.0
+##    	- initial release
+##
+##############################################################
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD
+##############################################################
+
+# 
+#-----[ COPY ]---------------------------------
+# 
+root/*.* to forum root
+			
+#-----[ OPEN ]---------------------------------
+# 
+templates/default/viewtopic_attach.tpl
+
+# 
+#-----[ FIND ]---------------------------------
+#
+			<p class="small">{postrow.attach.tor_reged.FILESIZE}</p>
+
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+			<!-- IF not postrow.attach.tor_reged.TOR_FROZEN -->
+			<hr />
+			<p class="small"><label>
+			<input type="button" style="border: solid 1px;background-color:#FAFAFA;" value="Torrent info" onclick="$('#torrent_info').load('torrent_info.php?a={postrow.attach.tor_reged.ATTACH_ID}'); $('#torrent_info').toggle('normal'); return false;">
+			</label></p>
+			<!-- ENDIF -->
+
+# 
+#-----[ FIND ]---------------------------------
+#
+<div class="spacer_12"></div>
+
+
+# 
+#-----[ AFTER, ADD ]---------------------------------
+#
+<div id="torrent_info" style="display:none">Loading...</div>
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]---------------------------------
+#
+# EoM

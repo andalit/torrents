@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/363/trunk/other/test
+END
+$_SERVER.php
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/82/trunk/other/test/$_SERVER.php
+END
+sql_build_array.php
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/82/trunk/other/test/sql_build_array.php
+END
+array_merge.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/82/trunk/other/test/array_merge.php
+END
+time.php
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/363/trunk/other/test/time.php
+END
+umlaut.txt
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/363/trunk/other/test/umlaut.txt
+END
+esc.txt
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/82/trunk/other/test/esc.txt
+END
+ru.php
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/363/trunk/other/test/ru.php
+END
+apache_get_modules.php
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/363/trunk/other/test/apache_get_modules.php
+END

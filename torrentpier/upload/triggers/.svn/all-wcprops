@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/373/trunk/upload/triggers
+END
+$on
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/82/trunk/upload/triggers/$on
+END
+cron_allowed
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/363/trunk/upload/triggers/cron_allowed
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/373/trunk/upload/triggers/.htaccess
+END

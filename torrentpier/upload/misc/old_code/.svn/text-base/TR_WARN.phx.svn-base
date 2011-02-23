@@ -1,0 +1,108 @@
+<?php
+
+##
+## forum\config.php
+##
+define('TR_WARN_ON', false);
+
+// ID топиков, на которые будут перенаправляться юзеры при заходе на форум
+$bb_cfg['topic'] = array(
+	'ann_intrv' => 21882,
+);
+
+define('PREFIX_TR_WARN',   'tr_warn_');
+
+define('EXPIRE_TR_WARN',  24*3600);  // sec
+
+
+##
+## bt\announce.php
+##
+function drop_fast_announce ($lp_info)
+{
+	global $peer_hash, $ann_intrv, $event, $cache, $bb_cfg;
+
+	if ($lp_info['update_time'] < (TIMENOW - $ann_intrv + 60))
+	{
+		// if announce interval ok
+		return;
+	}
+
+	if (TR_WARN_ON && $cache->used && !$lp_info['releaser'])
+	{
+		$topic_id = $bb_cfg['topic']['ann_intrv'];
+		$cache_name = PREFIX_TR_WARN . $lp_info['user_id'];
+
+		if (!isset($lp_info['hits']))
+		{
+			$lp_info['hits'] = (!isset($event) || $event === 'completed') ? 1 : 2;
+		}
+		else
+		{
+			$lp_info['hits']++;
+		}
+
+		if ($lp_info['hits'] <= 2)
+		{
+			$cache->set(PREFIX_PEER_HASH . $peer_hash, $lp_info, EXPIRE_PEER_HASH);
+		}
+		if ($lp_info['hits'] == 2)
+		{
+			$curr_warnings = $cache->get($cache_name);
+
+			if (!$curr_warnings || !array_keys($curr_warnings, $topic_id))
+			{
+				$curr_warnings[] = $topic_id;
+				$cache->set($cache_name, $curr_warnings, EXPIRE_TR_WARN);
+			}
+		}
+	}
+
+	if (DBG_LOG) dbg_log(' ', 'drop_fast_announce-CACHE');
+
+	$ann_intrv = $lp_info['update_time'] + $ann_intrv - TIMENOW;
+	dummy_exit($ann_intrv);
+}
+
+##
+## forum\includes\sessions.php
+##
+## in function session_begin()
+[...]
+if ($userdata['session_logged_in'] && TR_WARN_ON)
+{
+	tracker_warnings($userdata);
+}
+[...]
+
+##
+function tracker_warnings ($userdata)
+{
+	global $cache;
+
+	if (isset($_POST['message'])) return;
+	if (!$userdata['ignore_srv_load']) return;
+
+	$cache_name = PREFIX_TR_WARN . $userdata['user_id'];
+
+	if ($warning_topics = $cache->get($cache_name))
+	{
+		if ($topic_id = array_pop($warning_topics))
+		{
+			if ($warning_topics)
+			{
+				$cache->set($cache_name, $warning_topics, EXPIRE_TR_WARN);
+			}
+			else
+			{
+				$cache->rm($cache_name);
+			}
+##### LOG #####
+if (DBG_LOG) dbg_log(' ', 'warn_fast_announce-REDIRECT-'. $topic_id);
+### LOG END ###
+			$redirect_url = "viewtopic.". PHP_EXT .'?'. POST_TOPIC_URL ."=$topic_id";
+			redirect(append_sid($redirect_url, true));
+		}
+	}
+	return;
+}

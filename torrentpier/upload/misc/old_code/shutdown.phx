@@ -1,0 +1,55 @@
+/**
+* Class to handle shutdown (based on vB)
+*/
+class shutdown
+{
+	var $shutdown_functions = array();
+
+	/**
+	* Singleton emulation
+	*/
+	function &init ()
+	{
+		static $instance;
+
+		if (!$instance)
+		{
+			$instance = new shutdown();
+			// we register this but it might not be used
+			if (ver_compare(PHP_VERSION, '<', '5.0.5'))
+			{
+				register_shutdown_function(array(&$instance, '__destruct'));
+			}
+		}
+
+		return $instance;
+	}
+
+	/**
+	* Add function to be executed at shutdown
+	*
+	* @param	string	Name of function to be executed on shutdown
+	*/
+	function add ($function)
+	{
+		$obj =& shutdown::init();
+		if (function_exists($function) AND !in_array($function, $obj->shutdown_functions))
+		{
+			$obj->shutdown_functions[] = $function;
+		}
+	}
+
+	// only called when an object is destroyed, so $this is appropriate
+	function __destruct()
+	{
+		if (!empty($this->shutdown_functions))
+		{
+			foreach ($this->shutdown_functions AS $key => $funcname)
+			{
+				$funcname();
+				unset($this->shutdown_functions[$key]);
+			}
+		}
+	}
+}
+

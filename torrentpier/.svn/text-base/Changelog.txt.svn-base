@@ -1,0 +1,30 @@
+08 Aug 2009 - Added SphinX Search Engine futures.
+18 May 2009 - Allow downloading gold torrent if ratio < min. 
+			- Work on gallery (multi-upload) - [RoadTrain]
+20 Apr 2009 - Work on DHT disabling. - [Pandora, RoadTrain]
+12 Apr 2009 - Redirect to previous page after login. - [RoadTrain]
+11 Apr 2009 - New cool stat on index page - [RoadTrain]
+05 Apr 2009 - Cache classes: eAccelerator & XCache - [Pandora]
+22 Mar 2009 - Merged UACP with UserCP
+			- Added released row to viewprofile. - [RoadTrain]
+15 Mar 2009 - Added feature gold/silver torrents.
+08 Mar 2009 - Added hack for prevent multi-accounts (by one ip). This hack is disabled by default. - [RoadTrain]
+20 Feb 2009 - Added support of ! character in bbcode's url parser
+			- Added dummy method gc() to cache.class
+			- Some fixes to converter. - [RoadTrain]
+30 Jan 2009 - Added tablesorter to tracker.php
+			- Added abuse email option to config.php
+			- Added script for recover corrupt info_hashes - [RoadTrain]
+24 Jan 2009 - A new flags/countries system. In the future it will be used for GeoIP. - [RoadTrain]
+14 Jan 2009 - Added new cache type 'filecache'. Cache data stored in php files inside cache/filecache folder. - [RoadTrain]
+10 Jan 2009 - Full translated attachments mod (change lang_admin.php, lang_admin_attach.php, lang_faq_attach.php) - [EREM@]
+10 Jan 2009 - Translate "User Search" module - [EREM@]
+10 Jan 2009 - Plain text strings from index.tpl moved in lang_admin.php. Variables define in admin/index.php - [EREM@]
+09 Jan 2009 - Update CSS to torrents,ru's version. - [RoadTrain]
+09 Jan 2009 - Plain text stings from admin_log.tpl moved in language file. Variables define in admin/admin_log.php - [EREM@]
+08 Jan 2009 - "Actions Log" admin module moved to category "User Admin" from category "Actions Log" - [EREM@]
+08 Jan 2009 - Added user sub-menu from torrents.ru [RoadTrain]
+03 Jan 2009 - Update Javascript libraries. Added categories selector into tracker.php [RoadTrain]
+02 Jan 2009 - Flags system partially rewritten. Added titles for flags. [RoadTrain]
+30 Dec 2008 - Added Advanced Report Hack, thanks to Demetri. [RoadTrain]
+29 Dec 2008 - Added scrape (you can disable it, set $tr_cfg['scrape'] to false) [RoadTrain]

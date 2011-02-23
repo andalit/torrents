@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/367/trunk/upload/templates/default/topic_templates
+END
+video.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/video.tpl
+END
+sport.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/sport.tpl
+END
+video_lesson.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/video_lesson.tpl
+END
+progs.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/progs.tpl
+END
+progs_mac.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/progs_mac.tpl
+END
+games_xbox.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/367/trunk/upload/templates/default/topic_templates/games_xbox.tpl
+END
+games.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/games.tpl
+END
+books.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/books.tpl
+END
+games_psp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/games_psp.tpl
+END
+video_home.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/video_home.tpl
+END
+games_ps.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/games_ps.tpl
+END
+audiobooks.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/audiobooks.tpl
+END
+video_simple.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/video_simple.tpl
+END
+music.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/82/trunk/upload/templates/default/topic_templates/music.tpl
+END
