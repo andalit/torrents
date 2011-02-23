@@ -102,4 +102,3 @@ $faq[] = array("Whom do I contact about abusive and/or legal matters related to 
 //
 // This ends the FAQ entries
 //
-

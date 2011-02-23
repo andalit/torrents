@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_group.'. PHP_EXT);
+require(INC_DIR .'functions_group.php');
 
 $s = '';
 
@@ -43,11 +43,11 @@ if (isset($_REQUEST['addforum']) || isset($_REQUEST['addcategory']))
 {
 	$mode = (isset($_REQUEST['addforum'])) ? "addforum" : "addcat";
 
-	if ($mode == 'addforum' && isset($HTTP_POST_VARS['addforum']) && isset($HTTP_POST_VARS['forumname']) && is_array($HTTP_POST_VARS['addforum']))
+	if ($mode == 'addforum' && isset($_POST['addforum']) && isset($_POST['forumname']) && is_array($_POST['addforum']))
 	{
-		$req_cat_id = array_keys($HTTP_POST_VARS['addforum']);
+		$req_cat_id = array_keys($_POST['addforum']);
 		$cat_id = $req_cat_id[0];
-		$forumname = stripslashes($HTTP_POST_VARS['forumname'][$cat_id]);
+		$forumname = stripslashes($_POST['forumname'][$cat_id]);
 	}
 }
 
@@ -70,7 +70,7 @@ if ($mode)
 				$newmode = 'modforum';
 				$buttonvalue = $lang['UPDATE'];
 
-				$forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
+				$forum_id = intval($_GET[POST_FORUM_URL]);
 
 				$row = get_info('forum', $forum_id);
 
@@ -142,7 +142,7 @@ if ($mode)
 
 				'S_FORUM_DISPLAY_SORT_LIST'		=> $forum_display_sort_list,
 				'S_FORUM_DISPLAY_ORDER_LIST'	=> $forum_display_order_list,
-				'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+				'S_FORUM_ACTION' => append_sid("admin_forums.php"),
 				'S_HIDDEN_FIELDS' => $s_hidden_fields,
 				'S_SUBMIT_VALUE' => $buttonvalue,
 				'S_CAT_LIST' => $catlist,
@@ -171,19 +171,19 @@ if ($mode)
 			//
 			// Create a forum in the DB
 			//
-			$cat_id = intval($HTTP_POST_VARS[POST_CAT_URL]);
-			$forum_name = str_replace("\'", "''", trim($HTTP_POST_VARS['forumname']));
-			$forum_desc = str_replace("\'", "''", trim($HTTP_POST_VARS['forumdesc']));
-			$forum_status = intval($HTTP_POST_VARS['forumstatus']);
+			$cat_id = intval($_POST[POST_CAT_URL]);
+			$forum_name = str_replace("\'", "''", trim($_POST['forumname']));
+			$forum_desc = str_replace("\'", "''", trim($_POST['forumdesc']));
+			$forum_status = intval($_POST['forumstatus']);
 
-			$prune_enable = isset($HTTP_POST_VARS['prune_enable']);
-			$prune_days = ($prune_enable) ? intval($HTTP_POST_VARS['prune_days']) : 0;
+			$prune_enable = isset($_POST['prune_enable']);
+			$prune_days = ($prune_enable) ? intval($_POST['prune_days']) : 0;
 
-			$forum_parent = ($HTTP_POST_VARS['forum_parent'] != -1) ? intval($HTTP_POST_VARS['forum_parent']) : 0;
-			$show_on_index = ($forum_parent) ? intval($HTTP_POST_VARS['show_on_index']) : 1;
+			$forum_parent = ($_POST['forum_parent'] != -1) ? intval($_POST['forum_parent']) : 0;
+			$show_on_index = ($forum_parent) ? intval($_POST['show_on_index']) : 1;
 
-			$forum_display_sort = intval($HTTP_POST_VARS['forum_display_sort']);
-			$forum_display_order = intval($HTTP_POST_VARS['forum_display_order']);
+			$forum_display_sort = intval($_POST['forum_display_sort']);
+			$forum_display_order = intval($_POST['forum_display_order']);
 
 			if (!$forum_name)
 			{
@@ -229,7 +229,7 @@ if ($mode)
 			renumber_order('forum', $cat_id);
 			$datastore->update('cat_forums');
 
-			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . "admin_forums.$phpEx?c=$cat_id" . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . "admin_forums.php?c=$cat_id" . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -238,20 +238,20 @@ if ($mode)
 			//
 			// Modify a forum in the DB
 			//
-			$cat_id = intval($HTTP_POST_VARS[POST_CAT_URL]);
-			$forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
-			$forum_name = str_replace("\'", "''", trim($HTTP_POST_VARS['forumname']));
-			$forum_desc = str_replace("\'", "''", trim($HTTP_POST_VARS['forumdesc']));
-			$forum_status = intval($HTTP_POST_VARS['forumstatus']);
+			$cat_id = intval($_POST[POST_CAT_URL]);
+			$forum_id = intval($_POST[POST_FORUM_URL]);
+			$forum_name = str_replace("\'", "''", trim($_POST['forumname']));
+			$forum_desc = str_replace("\'", "''", trim($_POST['forumdesc']));
+			$forum_status = intval($_POST['forumstatus']);
 
-			$prune_enable = isset($HTTP_POST_VARS['prune_enable']);
-			$prune_days = ($prune_enable) ? intval($HTTP_POST_VARS['prune_days']) : 0;
+			$prune_enable = isset($_POST['prune_enable']);
+			$prune_days = ($prune_enable) ? intval($_POST['prune_days']) : 0;
 
-			$forum_parent = ($HTTP_POST_VARS['forum_parent'] != -1) ? intval($HTTP_POST_VARS['forum_parent']) : 0;
-			$show_on_index = ($forum_parent) ? intval($HTTP_POST_VARS['show_on_index']) : 1;
+			$forum_parent = ($_POST['forum_parent'] != -1) ? intval($_POST['forum_parent']) : 0;
+			$show_on_index = ($forum_parent) ? intval($_POST['show_on_index']) : 1;
 
-			$forum_display_order = intval($HTTP_POST_VARS['forum_display_order']);
-			$forum_display_sort = intval($HTTP_POST_VARS['forum_display_sort']);
+			$forum_display_order = intval($_POST['forum_display_order']);
+			$forum_display_sort = intval($_POST['forum_display_sort']);
 
 			$forum_data = get_forum_data($forum_id);
 			$old_cat_id = $forum_data['cat_id'];
@@ -323,7 +323,7 @@ if ($mode)
 
 			$message = $lang['FORUMS_UPDATED'] . "<br /><br />";
 			$message .= ($fix) ? "$fix<br /><br />" : '';
-			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . "admin_forums.$phpEx?c=$cat_id" . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . "admin_forums.php?c=$cat_id" . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -352,7 +352,7 @@ if ($mode)
 
 			$datastore->update('cat_forums');
 
-			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -377,7 +377,7 @@ if ($mode)
 				'L_EDIT_CAT_EXPL' => $lang['EDIT_CATEGORY_EXPLAIN'],
 				'S_HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 				'S_SUBMIT_VALUE'  => $lang['UPDATE'],
-				'S_FORUM_ACTION'  => "admin_forums.$phpEx",
+				'S_FORUM_ACTION'  => "admin_forums.php",
 			));
 
 			break;
@@ -413,7 +413,7 @@ if ($mode)
 
 			$datastore->update('cat_forums');
 
-			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -444,7 +444,7 @@ if ($mode)
 				'CAT_FORUM_NAME'   => $lang['FORUM_NAME'],
 
 				'S_HIDDEN_FIELDS'  => build_hidden_fields($hidden_fields),
-				'S_FORUM_ACTION'   => "admin_forums.$phpEx",
+				'S_FORUM_ACTION'   => "admin_forums.php",
 				'MOVE_TO_OPTIONS'  => $move_to_options,
 				'S_SUBMIT_VALUE'   => $lang['MOVE_AND_DELETE'],
 			));
@@ -509,7 +509,7 @@ if ($mode)
 			update_user_level('all');
 			$datastore->update('cat_forums');
 
-			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['FORUMS_UPDATED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -550,7 +550,7 @@ if ($mode)
 				'CAT_FORUM_NAME'   => $lang['CATEGORY'],
 
 				'S_HIDDEN_FIELDS'  => build_hidden_fields($hidden_fields),
-				'S_FORUM_ACTION'   => "admin_forums.$phpEx",
+				'S_FORUM_ACTION'   => "admin_forums.php",
 				'MOVE_TO_OPTIONS'  => get_list('category', $cat_id, 0),
 				'S_SUBMIT_VALUE'   => $lang['MOVE_AND_DELETE'],
 			));
@@ -589,7 +589,7 @@ if ($mode)
 
 			$message = $lang['FORUMS_UPDATED'] . "<br /><br />";
 			$message .= ($fix) ? "$fix<br /><br />" : '';
-			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"" . append_sid("admin_forums.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 			message_die(GENERAL_MESSAGE, $message);
 
 			break;
@@ -598,8 +598,8 @@ if ($mode)
 			//
 			// Change order of forums
 			//
-			$move = intval($HTTP_GET_VARS['move']);
-			$forum_id = intval($HTTP_GET_VARS[POST_FORUM_URL]);
+			$move = intval($_GET['move']);
+			$forum_id = intval($_GET[POST_FORUM_URL]);
 
 			$forum_info = get_info('forum', $forum_id);
 			renumber_order('forum', $forum_info['cat_id']);
@@ -723,7 +723,7 @@ if (!$mode || $show_main_page)
 	$template->assign_vars(array(
 		'TPL_FORUMS_LIST' => true,
 
-		'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
+		'S_FORUM_ACTION' => append_sid("admin_forums.php"),
 		'L_FORUM_TITLE' => $lang['FORUM_ADMIN_MAIN'],
 		'L_FORUM_EXPLAIN' => $lang['FORUM_ADMIN_EXPLAIN'],
 		'L_EDIT' => 'edit', //$lang['EDIT'],
@@ -785,7 +785,7 @@ if (!$mode || $show_main_page)
 		$bgr_class_over = 'prow3';
 
 		$template->assign_vars(array(
-			'U_ALL_FORUMS' => "admin_forums.$phpEx?c=all",
+			'U_ALL_FORUMS' => "admin_forums.php?c=all",
 		));
 
 		for($i = 0; $i < $total_categories; $i++)
@@ -799,12 +799,12 @@ if (!$mode || $show_main_page)
 				'CAT_ID'   => $cat_id,
 				'CAT_DESC' => htmlCHR($category_rows[$i]['cat_title']),
 
-				'U_CAT_EDIT'      => "admin_forums.$phpEx?mode=editcat&amp;c=$cat_id",
-				'U_CAT_DELETE'    => "admin_forums.$phpEx?mode=deletecat&amp;c=$cat_id",
-				'U_CAT_MOVE_UP'   => "admin_forums.$phpEx?mode=cat_order&amp;move=-15&amp;c=$cat_id",
-				'U_CAT_MOVE_DOWN' => "admin_forums.$phpEx?mode=cat_order&amp;move=15&amp;c=$cat_id",
-				'U_VIEWCAT'       => "admin_forums.$phpEx?c=$cat_id",
-				'U_CREATE_FORUM'  => "admin_forums.$phpEx?mode=addforum&amp;c=$cat_id",
+				'U_CAT_EDIT'      => "admin_forums.php?mode=editcat&amp;c=$cat_id",
+				'U_CAT_DELETE'    => "admin_forums.php?mode=deletecat&amp;c=$cat_id",
+				'U_CAT_MOVE_UP'   => "admin_forums.php?mode=cat_order&amp;move=-15&amp;c=$cat_id",
+				'U_CAT_MOVE_DOWN' => "admin_forums.php?mode=cat_order&amp;move=15&amp;c=$cat_id",
+				'U_VIEWCAT'       => "admin_forums.php?c=$cat_id",
+				'U_CREATE_FORUM'  => "admin_forums.php?mode=addforum&amp;c=$cat_id",
 			));
 
 			for($j = 0; $j < $total_forums; $j++)
@@ -832,13 +832,13 @@ if (!$mode || $show_main_page)
 						'FORUM_PARENT'      => $forum_rows[$j]['forum_parent'],
 						'SF_PAD'            => ($forum_rows[$j]['forum_parent']) ? ' style="padding-left: 20px;" ' : '',
 						'FORUM_NAME_CLASS'  => ($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen',
-						'ADD_SUB_HREF'      => "admin_forums.$phpEx?mode=addforum&amp;forum_parent={$forum_rows[$j]['forum_id']}",
-						'U_VIEWFORUM'       => BB_ROOT ."viewforum.$phpEx?f=$forum_id",
-						'U_FORUM_EDIT'      => "admin_forums.$phpEx?mode=editforum&amp;f=$forum_id",
-						'U_FORUM_DELETE'    => "admin_forums.$phpEx?mode=deleteforum&amp;f=$forum_id",
-						'U_FORUM_MOVE_UP'   => "admin_forums.$phpEx?mode=forum_order&amp;move=-15&amp;f=$forum_id&amp;c=$req_cat_id",
-						'U_FORUM_MOVE_DOWN' => "admin_forums.$phpEx?mode=forum_order&amp;move=15&amp;f=$forum_id&amp;c=$req_cat_id",
-						'U_FORUM_RESYNC'    => "admin_forums.$phpEx?mode=forum_sync&amp;f=$forum_id",
+						'ADD_SUB_HREF'      => "admin_forums.php?mode=addforum&amp;forum_parent={$forum_rows[$j]['forum_id']}",
+						'U_VIEWFORUM'       => BB_ROOT ."viewforum.php?f=$forum_id",
+						'U_FORUM_EDIT'      => "admin_forums.php?mode=editforum&amp;f=$forum_id",
+						'U_FORUM_DELETE'    => "admin_forums.php?mode=deleteforum&amp;f=$forum_id",
+						'U_FORUM_MOVE_UP'   => "admin_forums.php?mode=forum_order&amp;move=-15&amp;f=$forum_id&amp;c=$req_cat_id",
+						'U_FORUM_MOVE_DOWN' => "admin_forums.php?mode=forum_order&amp;move=15&amp;f=$forum_id&amp;c=$req_cat_id",
+						'U_FORUM_RESYNC'    => "admin_forums.php?mode=forum_sync&amp;f=$forum_id",
 					));
 
 				}// if ... forumid == catid
@@ -1134,7 +1134,7 @@ function get_orphan_sf ()
 
 function fix_orphan_sf ($orphan_sf_sql = '', $show_mess = FALSE)
 {
-	global $db, $lang, $phpEx;
+	global $db, $lang;
 
 	$done_mess = '';
 
@@ -1163,8 +1163,8 @@ function fix_orphan_sf ($orphan_sf_sql = '', $show_mess = FALSE)
 		if ($show_mess)
 		{
 			$message  = $done_mess .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"admin_forums.$phpEx\">", '</a>') .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"index.$phpEx?pane=right\">", '</a>');
+			$message .= sprintf($lang['CLICK_RETURN_FORUMADMIN'], "<a href=\"admin_forums.php\">", '</a>') .'<br /><br />';
+			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"index.php?pane=right\">", '</a>');
 			message_die(GENERAL_MESSAGE, $message);
 		}
 	}

@@ -23,10 +23,9 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'torstatus');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(BB_ROOT . 'attach_mod/attachment_mod.'. PHP_EXT);
-require(INC_DIR .'functions_torrent.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(BB_ROOT . 'attach_mod/attachment_mod.php');
+require(INC_DIR .'functions_torrent.php');
 
 // Start session management
 $user->session_start();
@@ -34,7 +33,7 @@ $user->session_start();
 // Check if user logged in
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect=index.$phpEx", true));
+	redirect(append_sid("login.php?redirect=index.php", true));
 }
 
 $sid = (@$_REQUEST['sid']) ? $_REQUEST['sid'] : '';
@@ -71,13 +70,7 @@ if (($mode == 'reg' || $mode == 'unreg' || !empty($_POST['tor_action'])) && !$at
 // Show users torrent-profile
 if ($mode == 'userprofile')
 {
-	redirect(append_sid("profile.$phpEx?mode=viewprofile&u=$req_uid"), true);
-}
-
-// check SID
-if ($sid == '' || $sid !== $userdata['session_id'])
-{
-//message_die(GENERAL_ERROR, 'Invalid_session');
+	redirect(append_sid("profile.php?mode=viewprofile&u=$req_uid"), true);
 }
 
 if (!empty($_POST['tor_status']) && $confirm)
@@ -86,48 +79,5 @@ if (!empty($_POST['tor_status']) && $confirm)
 		change_tor_status($attach_id, $new_tor_status);
 		$sql = "update ". BT_TORRENTS_TABLE ." set checked_user_id=". $userdata['user_id'] .", checked_time=". time() ." WHERE attach_id=". $attach_id;
 		$db->sql_query($sql);
-		redirect("viewtopic.$phpEx?t=$topic_id");	
-		
-
-//end torrent status mod
-
-
-//$userdata = session_pagestart($user_ip, PAGE_INDEX);
-//init_userprefs($userdata);
-
-
-//$attach_id = $_GET['a'];
-/*
-if( $userdata['user_id'] != ANONYMOUS && is_numeric($attach_id) ) {
-
-  $sql = 'SELECT p.forum_id
-	FROM '. ATTACHMENTS_TABLE .' a join '. POSTS_TABLE .' p on a.post_id=p.post_id
-	WHERE a.attach_id='. $attach_id;
-
-  if( $result = $db->sql_query($sql) ) {
-
-    $row = $db->sql_fetchrow($result);
-    $forum_id = $row['forum_id'];
-    $is_auth = array();
-    $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
-    if( $is_auth['auth_mod'] ) {
-
-	$sql = "update ". BT_TORRENTS_TABLE ." set checked_user_id=". $userdata['user_id'] .", checked_time=". time()
-		." WHERE attach_id=". $attach_id;
-
-	if( $db->sql_query($sql) ) {
-		echo 'var vb=document.getElementById("VA'. $attach_id .'");vb.innerHTML="Одобрено";';
-	} else {
-#		echo "alert('SQL Update Error');";
-	}
-
-    } else {
-	echo "alert('Unauthorized');";
-    }
-
-  } else {
-#	echo "alert('SQL Forum_ID Error');";
-  }
-}*/
+		redirect("viewtopic.php?t=$topic_id");
 }
-?>

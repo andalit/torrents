@@ -12,8 +12,8 @@ require('./pagestart.php');
 $max_forum_name_len = 30;
 $max_forum_rows     = 35;
 
-require(INC_DIR .'functions_admin_torrent.'. PHP_EXT);
-require(LANG_DIR .'lang_admin_bt.'. PHP_EXT);
+require(INC_DIR .'functions_admin_torrent.php');
+require(LANG_DIR .'lang_admin_bt.php');
 
 $submit  = isset($_POST['submit']);
 $confirm = isset($_POST['confirm']);
@@ -83,7 +83,7 @@ if ($submit && $confirm)
 
 	$datastore->update('cat_forums');
 
-	$message = $lang['CONFIG_UPD'] .'<br /><br />'. sprintf($lang['RETURN_CONFIG'], '<a href="'. append_sid("admin_bt_forum_cfg.$phpEx") .'">', '</a>') .'<br /><br />'. sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+	$message = $lang['CONFIG_UPD'] .'<br /><br />'. sprintf($lang['RETURN_CONFIG'], '<a href="'. append_sid("admin_bt_forum_cfg.php") .'">', '</a>') .'<br /><br />'. sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 	message_die(GENERAL_MESSAGE, $message);
 }
 
@@ -151,7 +151,7 @@ $template->assign_vars(array(
 	'BT_SHOW_PEERS_MODE_FULL_SEL'  => ($cfg['bt_show_peers_mode'] == SHOW_PEERS_FULL) ? HTML_CHECKED : '',
 
 	'S_HIDDEN_FIELDS' => '',
-	'S_CONFIG_ACTION' => append_sid("admin_bt_forum_cfg.$phpEx"),
+	'S_CONFIG_ACTION' => append_sid("admin_bt_forum_cfg.php"),
 ));
 
 print_page('admin_bt_forum_cfg.tpl', 'admin');

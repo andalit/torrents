@@ -9,9 +9,7 @@ $db->query("
 	SET untrusted_pending = 0 WHERE untrusted_attempts > $max_login_attempts AND untrusted_pending = 1
 ");
 
-
 $db->query("
 	DELETE FROM ". UNTRUSTED_IPS_TABLE ."
 	WHERE untrusted_pending = 1
 ");
-

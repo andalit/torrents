@@ -6,7 +6,7 @@ if (!$topic_tpl) die('$topic_tpl missing');
 $img_align = '=right';
 $title_font_size = 24;
 
-if (@$_REQUEST['preview'] && is_array($HTTP_POST_VARS['msg']))
+if (@$_REQUEST['preview'] && is_array($_POST['msg']))
 {
 	$tpl_items = array(
 		'release_name',
@@ -43,7 +43,7 @@ if (@$_REQUEST['preview'] && is_array($HTTP_POST_VARS['msg']))
 
 	foreach ($tpl_items as $item)
 	{
-		$msg[$item] = @$HTTP_POST_VARS['msg'][$item];
+		$msg[$item] = @$_POST['msg'][$item];
 	}
 	array_deep($msg, 'trim');
 
@@ -62,4 +62,3 @@ if (@$_REQUEST['preview'] && is_array($HTTP_POST_VARS['msg']))
 		}
 	}
 }
-

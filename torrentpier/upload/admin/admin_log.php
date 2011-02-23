@@ -428,9 +428,8 @@ $template->assign_vars(array(
 	'SEL_LOG_TYPE'      => build_select("{$type_key}[]", $log_type_select, $type_selected, 60, $select_max_height),
 	'SEL_USERS'         => build_select("{$user_key}[]", $users, $user_selected, 16, $select_max_height),
 
-	'S_LOG_ACTION'      => append_sid("admin_log.$phpEx"),
+	'S_LOG_ACTION'      => append_sid("admin_log.php"),
 	'TOPIC_CSV'         => $topic_csv,
 ));
 
 print_page('admin_log.tpl', 'admin');
-

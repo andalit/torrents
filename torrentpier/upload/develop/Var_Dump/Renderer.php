@@ -30,7 +30,6 @@ require_once VAR_DUMP_DIR .'Var_Dump/Renderer/Common.php';
 
 class Var_Dump_Renderer
 {
-
     /**
      * Attempt to return a concrete Var_Dump_Renderer instance.
      *
@@ -50,6 +49,4 @@ class Var_Dump_Renderer
         }
         return $obj;
     }
-
 }
-

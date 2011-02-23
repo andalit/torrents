@@ -10,12 +10,12 @@ header('Pragma: no-cache');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (!mysql_connect($dbhost, $dbuser, $dbpasswd))
+if (!mysql_connect(DBHOST, DBUSER, DBPASSWD))
 {
 	echo mysql_error();
 	die("<br>Не могу подключиться к БД");
 }
-mysql_select_db($dbname);
+mysql_select_db(DBNAME);
 
 $mysql_timestamp = mysql_fetch_row(mysql_query("SELECT UNIX_TIMESTAMP()"));
 $mysql_curtime   = mysql_fetch_row(mysql_query("SELECT curtime()"));

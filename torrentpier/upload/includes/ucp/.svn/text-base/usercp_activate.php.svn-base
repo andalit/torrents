@@ -34,7 +34,7 @@ if (empty($_GET['u']) || empty($_GET['act_key']))
 
 $sql = "SELECT user_active, user_id, username, user_email, user_newpasswd, user_lang, user_actkey
 	FROM " . USERS_TABLE . "
-	WHERE user_id = " . intval($HTTP_GET_VARS[POST_USERS_URL]);
+	WHERE user_id = " . intval($_GET[POST_USERS_URL]);
 if ( !($result = $db->sql_query($sql)) )
 {
 	message_die(GENERAL_ERROR, 'Could not obtain user information', '', __LINE__, __FILE__, $sql);
@@ -46,13 +46,13 @@ if ( $row = $db->sql_fetchrow($result) )
 	{
 		message_die(GENERAL_MESSAGE, $lang['ALREADY_ACTIVATED']);
 	}
-	else if ((trim($row['user_actkey']) == trim($HTTP_GET_VARS['act_key'])) && (trim($row['user_actkey']) != ''))
+	else if ((trim($row['user_actkey']) == trim($_GET['act_key'])) && (trim($row['user_actkey']) != ''))
 	{
 		if (intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && $row['user_newpasswd'] == '')
 		{
 			if (!$userdata['session_logged_in'])
 			{
-				redirect(append_sid('login.' . $phpEx . '?redirect=profile.' . $phpEx . '&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($HTTP_GET_VARS['act_key'])));
+				redirect(append_sid('login.php?redirect=profile.php&mode=activate&' . POST_USERS_URL . '=' . $row['user_id'] . '&act_key=' . trim($_GET['act_key'])));
 			}
 			else if (!IS_ADMIN)
 			{
@@ -72,7 +72,7 @@ if ( $row = $db->sql_fetchrow($result) )
 
 		if ( intval($board_config['require_activation']) == USER_ACTIVATION_ADMIN && $sql_update_pass == '' )
 		{
-			include(INC_DIR . 'emailer.'.$phpEx);
+			include(INC_DIR . 'emailer.php');
 			$emailer = new emailer($board_config['smtp_delivery']);
 
 			$emailer->from($board_config['board_email']);
@@ -108,4 +108,3 @@ else
 {
 	message_die(GENERAL_MESSAGE, $lang['NO_SUCH_USER']);
 }
-

@@ -41,11 +41,11 @@ define('XS_INCLUDED', true);
 
 if(!defined('XS_LANG_INCLUDED'))
 {
-	global $phpbb_root_path, $board_config, $phpEx, $lang;
-	$xs_lang_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_xs.'.$phpEx;
+	global $phpbb_root_path, $board_config, $lang;
+	$xs_lang_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_xs.php';
 	if( !@file_exists($xs_lang_file) )
 	{	// load english version if there is no translation to current language
-		$xs_lang_file = $phpbb_root_path . 'language/lang_english/lang_xs.'.$phpEx;
+		$xs_lang_file = $phpbb_root_path . 'language/lang_english/lang_xs.php';
 	}
 	include($xs_lang_file);
 	define('XS_LANG_INCLUDED', true);
@@ -93,7 +93,7 @@ function xs_admin_override($modded = false)
 		return;
 	}
 	define('XS_ADMIN_OVERRIDE_FINISHED', true);
-	global $module, $phpEx, $xs_shownav_action, $board_config, $lang;
+	global $module, $xs_shownav_action, $board_config, $lang;
 	// remove default phpBB styles management
 	if(isset($module['Styles']))
 	{
@@ -105,17 +105,17 @@ function xs_admin_override($modded = false)
 				unset($module['Styles'][$unset[$i]]);
 			}
 		}
-		$module['Styles']['Menu'] = 'xs_frameset.'.$phpEx.'?action=menu&showwarning=1';
+		$module['Styles']['Menu'] = 'xs_frameset.php'.'?action=menu&showwarning=1';
 	}
 	// add new menu
 	$module_name = 'Extreme_Styles';
-	$module[$module_name]['Styles_Management'] = 'xs_frameset.'.$phpEx.'?action=menu';
+	$module[$module_name]['Styles_Management'] = 'xs_frameset.php'.'?action=menu';
 	for($i=0; $i<count($lang['XS_CONFIG_SHOWNAV']); $i++)
 	{
 		$num = pow(2, $i);
 		if($i != XS_SHOWNAV_DOWNLOAD && ($board_config['xs_shownav'] & $num) > 0 && isset($xs_shownav_action[$i]))
 		{
-			$module[$module_name][$lang['XS_CONFIG_SHOWNAV'][$i]] = 'xs_frameset.'.$phpEx.'?action=' . $xs_shownav_action[$i];
+			$module[$module_name][$lang['XS_CONFIG_SHOWNAV'][$i]] = 'xs_frameset.php'.'?action=' . $xs_shownav_action[$i];
 		}
 	}
 	// add menu for style configuration
@@ -124,7 +124,7 @@ function xs_admin_override($modded = false)
 		if(substr($var, 0, 9) === 'xs_style_')
 		{
 			$str = substr($var, 9);
-			$module['Template_Config'][$str] = 'xs_frameset.'.$phpEx.'?action=style_config&tpl='.urlencode($str);
+			$module['Template_Config'][$str] = 'xs_frameset.php'.'?action=style_config&tpl='.urlencode($str);
 		}
 	}
 }
@@ -180,7 +180,7 @@ if(!defined('NO_XS_HEADER'))
 		));
 	$template->preparse = 'xs_header';
 	$template->postparse = 'xs_footer';
-	$template->assign_block_vars('nav_left',array('ITEM' => '<a href="' . append_sid('xs_index.'.$phpEx) . '">' . $lang['XS_MENU'] . '</a>'));
+	$template->assign_block_vars('nav_left',array('ITEM' => '<a href="' . append_sid('xs_index.php') . '">' . $lang['XS_MENU'] . '</a>'));
 }
 
 // check if cache is writable
@@ -329,4 +329,3 @@ function xs_fix_dir($dir)
 	}
 	return $dir;
 }
-

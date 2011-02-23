@@ -105,13 +105,13 @@ function report_modules_obtain()
 //
 function report_modules($mode = 'all', $module = null)
 {
-	global $phpbb_root_path, $phpEx, $bb_cfg;
+	global $phpbb_root_path, $bb_cfg;
 	static $modules;
 	static $module_names;
 	
 	if (!isset($modules))
 	{
-		include($phpbb_root_path . "includes/report_module.$phpEx");
+		include($phpbb_root_path . "includes/report_module.php");
 		
 		if (!$bb_cfg['report_modules_cache'] || !$rows = report_modules_cache_read())
 		{
@@ -128,12 +128,12 @@ function report_modules($mode = 'all', $module = null)
 		{
 			// Include module file
 			$row['report_module_name'] = basename($row['report_module_name']);
-			include($phpbb_root_path . 'includes/report_hack/' . $row['report_module_name'] . ".$phpEx");
+			include($phpbb_root_path . 'includes/report_hack/' . $row['report_module_name'] . ".php");
 			
 			// Include language file
 			$lang = array();
 			
-			$lang_file = $phpbb_root_path . 'language/lang_' . $bb_cfg['default_lang'] . '/report_hack/lang_' . $row['report_module_name'] . ".$phpEx";
+			$lang_file = $phpbb_root_path . 'language/lang_' . $bb_cfg['default_lang'] . '/report_hack/lang_' . $row['report_module_name'] . ".php";
 			if (file_exists($lang_file))
 			{
 				include($lang_file);
@@ -296,7 +296,7 @@ function reports_module_action($reports, $action_name, $action_params = array())
 //
 function report_notify($mode)
 {
-	global $phpbb_root_path, $phpEx, $db, $userdata, $bb_cfg;
+	global $phpbb_root_path, $db, $userdata, $bb_cfg;
 	
 	$num_args = func_num_args();
 	$notify_users = $reports = array();
@@ -536,7 +536,7 @@ function report_notify($mode)
 		$bb_cfg['smtp_host'] = @$ini_val('SMTP');
 	}
 
-	include($phpbb_root_path . "includes/emailer.$phpEx");
+	include($phpbb_root_path . "includes/emailer.php");
 	$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 	$server_name = trim($bb_cfg['server_name']);
@@ -574,7 +574,7 @@ function report_notify($mode)
 				'REPORT_TITLE' => $report['report_title'],
 				'REPORT_TEXT' => $report['report_desc'],
 				
-				'U_REPORT_VIEW' => $server_full . "report.$phpEx?" . POST_REPORT_URL . "=$report_id");
+				'U_REPORT_VIEW' => $server_full . "report.php?" . POST_REPORT_URL . "=$report_id");
 			
 			switch ($mode)
 			{
@@ -621,7 +621,7 @@ function report_notify($mode)
 //
 function &report_notify_lang($language)
 {
-	global $phpbb_root_path, $phpEx, $bb_cfg;
+	global $phpbb_root_path, $bb_cfg;
 	static $languages = array();
 	$language = $bb_cfg['default_lang'];
 	
@@ -634,7 +634,7 @@ function &report_notify_lang($language)
 		else
 		{
 			$lang = array();
-			include($phpbb_root_path . 'language/lang_' . $language . "/lang_main.$phpEx");
+			include($phpbb_root_path . 'language/lang_' . $language . "/lang_main.php");
 		}
 		
 		$languages[$language] = $lang;
@@ -1421,5 +1421,3 @@ function user_moderated_forums($user_id)
 	
 	return $moderators[$user_id];
 }
-
-?>

@@ -1,6 +1,6 @@
 <?php
 
-global $bb_cfg, $page_cfg, $template, $images, $lang, $phpEx;
+global $bb_cfg, $page_cfg, $template, $images, $lang;
 
 $width = $height = array();
 $template_name = basename(dirname(__FILE__));
@@ -21,9 +21,6 @@ $images['icon_ip']             = $_lang .'icon_ip.gif';
 $images['icon_mod']            = $_main .'icon_mod.gif';
 $images['icon_www']            = $_lang .'icon_www.gif';
 $images['icon_icq']            = $_lang .'icon_icq_add.gif';
-$images['icon_aim']            = $_lang .'icon_aim.gif';
-$images['icon_yim']            = $_lang .'icon_yim.gif';
-$images['icon_msnm']           = $_lang .'icon_msnm.gif';
 
 // post_icons
 $images['icon_minipost']       = $_main .'icon_minipost.gif';
@@ -141,28 +138,22 @@ if (!empty($page_cfg['load_tpl_vars']) AND $vars = array_flip($page_cfg['load_tp
 			'IP_POST_IMG'     => ($bb_cfg['text_buttons']) ? $lang['VIEW_IP_TXTB']          : '<img src="'. $images['icon_ip']      .'" alt="IP" title="'. $lang['VIEW_IP'] .'" />',
 			'MOD_POST_IMG'    => ($bb_cfg['text_buttons']) ? $lang['MODERATE_POST_TXTB']    : '<img src="'. $images['icon_mod']     .'" alt="Moderate" title="'. $lang['MODERATE_POST'] .'" />',
 
-			'QUOTE_URL'       => BB_ROOT ."posting.$phpEx?mode=quote&amp;p=",
-			'EDIT_POST_URL'   => BB_ROOT ."posting.$phpEx?mode=editpost&amp;p=",
-			'DELETE_POST_URL' => BB_ROOT ."posting.$phpEx?mode=delete&amp;p=",
-			'IP_POST_URL'     => BB_ROOT ."modcp.$phpEx?mode=ip&amp;p=",
+			'QUOTE_URL'       => BB_ROOT ."posting.php?mode=quote&amp;p=",
+			'EDIT_POST_URL'   => BB_ROOT ."posting.php?mode=editpost&amp;p=",
+			'DELETE_POST_URL' => BB_ROOT ."posting.php?mode=delete&amp;p=",
+			'IP_POST_URL'     => BB_ROOT ."modcp.php?mode=ip&amp;p=",
 
 			'PROFILE_IMG'     => ($bb_cfg['text_buttons']) ? $lang['READ_PROFILE_TXTB']     : '<img src="'. $images['icon_profile'] .'" alt="Profile" title="'. $lang['READ_PROFILE'] .'" />',
 			'PM_IMG'          => ($bb_cfg['text_buttons']) ? $lang['SEND_PM_TXTB']          : '<img src="'. $images['icon_pm'] .'" alt="PM" title="'. $lang['SEND_PRIVATE_MESSAGE'] .'" />',
 			'EMAIL_IMG'       => ($bb_cfg['text_buttons']) ? $lang['SEND_EMAIL_TXTB']       : '<img src="'. $images['icon_email'] .'" alt="email" title="'. $lang['SEND_EMAIL'] .'" />',
 			'WWW_IMG'         => ($bb_cfg['text_buttons']) ? $lang['VISIT_WEBSITE_TXTB']    : '<img src="'. $images['icon_www'] .'" alt="www" title="'. $lang['VISIT_WEBSITE'] .'" />',
 			'ICQ_IMG'         => ($bb_cfg['text_buttons']) ? $lang['ICQ_TXTB']              : '<img src="'. $images['icon_icq'] .'" alt="ICQ" title="'. $lang['ICQ'] .'" />',
-			'AIM_IMG'         => ($bb_cfg['text_buttons']) ? $lang['AIM_TXTB']              : '<img src="'. $images['icon_aim'] .'" alt="AIM" title="'. $lang['AIM'] .'" />',
-			'MSN_IMG'         => ($bb_cfg['text_buttons']) ? $lang['MSNM_TXTB']             : '<img src="'. $images['icon_msnm'] .'" alt="MSN" title="'. $lang['MSNM'] .'" />',
-			'YIM_IMG'         => ($bb_cfg['text_buttons']) ? $lang['YIM_TXTB']              : '<img src="'. $images['icon_yim'] .'" alt="YIM" title="'. $lang['YIM'] .'" />',
 
-			'AIM_URL'         => 'aim:goim?screenname=',
-			'EMAIL_URL'       => BB_ROOT ."profile.$phpEx?mode=email&amp;u=",
+			'EMAIL_URL'       => BB_ROOT ."profile.php?mode=email&amp;u=",
 			'FORUM_URL'       => BB_ROOT . FORUM_URL,
 			'ICQ_URL'         => 'http://wwp.icq.com/scripts/search.dll?to=',
-			'MSN_URL'         => BB_ROOT . PROFILE_URL,
 			'PM_URL'          => BB_ROOT . PM_URL,
 			'PROFILE_URL'     => BB_ROOT . PROFILE_URL,
-			'YIM_URL'         => 'http://edit.yahoo.com/config/send_webmesg?.src=pg&amp;.target=',
 		));
 	}
 	if (isset($vars['post_icons']))

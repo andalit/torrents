@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 37
-/svn/!svn/ver/467/trunk/xbtt/misc/sql
+/svn/!svn/ver/578/trunk/xbtt/misc/sql
 END
 database.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/!svn/ver/467/trunk/xbtt/misc/sql/database.cpp
+/svn/!svn/ver/578/trunk/xbtt/misc/sql/database.cpp
 END
 sql_query.cpp
 K 25

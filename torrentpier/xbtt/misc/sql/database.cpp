@@ -28,6 +28,7 @@ void Cdatabase::open(const std::string& host, const std::string& user, const std
 	if (!mysql_init(&m_handle) || mysql_options(&m_handle, MYSQL_READ_DEFAULT_GROUP, "") || !mysql_real_connect(&m_handle, host.c_str(), user.c_str(), password.empty() ? NULL : password.c_str(), database.c_str(), 0, NULL, 0))
 		throw exception(mysql_error(&m_handle));
 	char a0 = true;
+	//mysql_options(&m_handle, MYSQL_OPT_COMPRESS, 0);
 	mysql_options(&m_handle, MYSQL_OPT_RECONNECT, &a0);
 }
 

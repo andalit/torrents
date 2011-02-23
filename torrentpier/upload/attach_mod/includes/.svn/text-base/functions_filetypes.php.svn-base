@@ -408,4 +408,3 @@ function swf_getdimension($file)
 
 	return $size;
 }
-

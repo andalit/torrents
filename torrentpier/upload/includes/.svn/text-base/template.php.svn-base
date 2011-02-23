@@ -92,7 +92,7 @@ class Template {
 	// counter for include
 	var $include_count = 0;
 
-	// php extension. will be replaced by $phpEx in Template() function unless you disable it there
+	// php extension. will be replaced by $this->php in Template() function unless you disable it there
 	var $php = 'php';
 
 	// eXtreme Styles variables
@@ -130,7 +130,7 @@ class Template {
 	 */
 	function load_config($root, $edit_db)
 	{
-		global $board_config, $phpbb_root_path, $phpEx;
+		global $board_config, $phpbb_root_path;
 
 		$this->cached_tpl_ext = $board_config['xs_php'];
 		$this->use_cache = $board_config['xs_use_cache'];
@@ -1229,14 +1229,14 @@ class Template {
 
 	function xs_startup()
 	{
-		global $phpEx, $board_config, $phpbb_root_path;
+		global $board_config, $phpbb_root_path;
 		if(empty($this->xs_started))
 		{	// adding predefined variables
 			$this->xs_started = 1;
 			// file extension with session ID (eg: "php?sid=123&" or "php?")
 			// can be used to make custom URLs without modding phpbb
 			// contains "&" or "?" at the end so you can easily append paramenters
-			$php = append_sid($phpEx);
+			$php = append_sid('php');
 			if(strpos($php, '?'))
 			{
 				$php .= '&';

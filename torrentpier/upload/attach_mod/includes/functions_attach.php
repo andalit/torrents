@@ -728,9 +728,7 @@ function _set_var(&$result, $var, $type, $multibyte = false)
 */
 function get_var($var_name, $default, $multibyte = false)
 {
-	global $HTTP_POST_VARS, $HTTP_GET_VARS;
-
-	$request_var = (isset($HTTP_POST_VARS[$var_name])) ? $HTTP_POST_VARS : $HTTP_GET_VARS;
+	$request_var = (isset($_POST[$var_name])) ? $_POST : $_GET;
 
 	if (!isset($request_var[$var_name]) || (is_array($request_var[$var_name]) && !is_array($default)) || (is_array($default) && !is_array($request_var[$var_name])))
 	{
@@ -900,4 +898,3 @@ function attach_mod_sql_build_array($query, $assoc_ary = false)
 
 	return $query;
 }
-

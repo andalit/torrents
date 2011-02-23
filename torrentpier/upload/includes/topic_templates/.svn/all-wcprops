@@ -1,43 +1,43 @@
 K 25
 svn:wc:ra_dav:version-url
 V 55
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates
 END
 progs.php
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates/progs.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/progs.php
 END
 games.php
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/515/trunk/upload/includes/topic_templates/games.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/games.php
 END
 books.php
 K 25
 svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/82/trunk/upload/includes/topic_templates/books.php
+V 65
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/books.php
 END
 audiobooks.php
 K 25
 svn:wc:ra_dav:version-url
-V 69
-/svn/!svn/ver/82/trunk/upload/includes/topic_templates/audiobooks.php
+V 70
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/audiobooks.php
 END
 music.php
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates/music.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/music.php
 END
 tpl_selects.php
 K 25
 svn:wc:ra_dav:version-url
 V 71
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates/tpl_selects.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/tpl_selects.php
 END
 video_guide.php
 K 25
@@ -55,11 +55,11 @@ video.php
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates/video.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/video.php
 END
 sport.php
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/524/trunk/upload/includes/topic_templates/sport.php
+/svn/!svn/ver/585/trunk/upload/includes/topic_templates/sport.php
 END

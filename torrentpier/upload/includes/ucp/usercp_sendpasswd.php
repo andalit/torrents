@@ -32,10 +32,10 @@ if ($bb_cfg['emailer_disabled'])
 	bb_die('Извините, эта функция временно не работает');
 }
 
-if ( isset($HTTP_POST_VARS['submit']) )
+if ( isset($_POST['submit']) )
 {
-	$username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
-	$email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars($HTTP_POST_VARS['email']))) : '';
+	$username = ( !empty($_POST['username']) ) ? phpbb_clean_username($_POST['username']) : '';
+	$email = ( !empty($_POST['email']) ) ? trim(strip_tags(htmlspecialchars($_POST['email']))) : '';
 
 	$sql = "SELECT *
 		FROM " . USERS_TABLE . "
@@ -68,7 +68,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 				message_die(GENERAL_ERROR, 'Could not update new password information', '', __LINE__, __FILE__, $sql);
 			}
 
-			include(INC_DIR . 'emailer.'.$phpEx);
+			include(INC_DIR . 'emailer.php');
 			$emailer = new emailer($board_config['smtp_delivery']);
 
 			$emailer->from($board_config['board_email']);
@@ -89,7 +89,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 			$emailer->send();
 			$emailer->reset();
 
-			$message = $lang['PASSWORD_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+			$message = $lang['PASSWORD_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 
 			message_die(GENERAL_MESSAGE, $message);
 		}
@@ -114,7 +114,7 @@ $template->assign_vars(array(
 	'EMAIL' => $email,
 
 	'S_HIDDEN_FIELDS' => '',
-	'S_PROFILE_ACTION' => append_sid("profile.$phpEx?mode=sendpassword"))
+	'S_PROFILE_ACTION' => append_sid("profile.php?mode=sendpassword"))
 );
 
 print_page('usercp_sendpasswd.tpl');

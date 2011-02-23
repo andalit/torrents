@@ -23,8 +23,7 @@ define('IN_PHPBB', true);
 define('IN_PROFILE', true);
 define('BB_SCRIPT', 'profile');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT . "common.$phpEx");
+require(BB_ROOT . "common.php");
 
 // Start session management
 $user->session_start();
@@ -36,7 +35,7 @@ $sid = request_var('sid', '');
 // Set default email variables
 //
 $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
-$script_name = ( $script_name != '' ) ? $script_name . '/profile.'.$phpEx : 'profile.'.$phpEx;
+$script_name = ( $script_name != '' ) ? $script_name . '/profile.php' : 'profile.php';
 $server_name = trim($board_config['server_name']);
 $server_protocol = ( $board_config['cookie_secure'] ) ? 'https://' : 'http://';
 $server_port = ( $board_config['server_port'] <> 80 ) ? ':' . trim($board_config['server_port']) . '/' : '/';
@@ -59,14 +58,14 @@ function gen_rand_string ($hash)
 //
 // Start of program proper
 //
-if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
+if ( isset($_GET['mode']) || isset($_POST['mode']) )
 {
 	$mode = request_var('mode', '');
 	$mode = htmlspecialchars($mode);
 
 	if ( $mode == 'viewprofile' )
 	{
-		require(INC_DIR . 'ucp/usercp_viewprofile.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_viewprofile.php');
 		exit;
 	}
 	else if ( $mode == 'editprofile' || $mode == 'register' )
@@ -76,7 +75,7 @@ if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 			login_redirect();
 		}
 
-		require(INC_DIR . 'ucp/usercp_register.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_register.php');
 		exit;
 	}
 	else if ( $mode == 'confirm' )
@@ -87,30 +86,29 @@ if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 			exit;
 		}
 
-		require(INC_DIR . 'ucp/usercp_confirm.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_confirm.php');
 		exit;
 	}
 	else if ( $mode == 'sendpassword' )
 	{
-		require(INC_DIR . 'ucp/usercp_sendpasswd.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_sendpasswd.php');
 		exit;
 	}
 	else if ( $mode == 'activate' )
 	{
-		require(INC_DIR . 'ucp/usercp_activate.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_activate.php');
 		exit;
 	}
 	else if ( $mode == 'email' )
 	{
-		require(INC_DIR . 'ucp/usercp_email.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_email.php');
 		exit;
 	}
 	else if ( $mode == 'attachcp' )
 	{
-		require(INC_DIR . 'ucp/usercp_attachcp.'.$phpEx);
+		require(INC_DIR . 'ucp/usercp_attachcp.php');
 		exit;
 	}
 }
 
-redirect(append_sid("index.$phpEx", true));
-
+redirect(append_sid("index.php", true));

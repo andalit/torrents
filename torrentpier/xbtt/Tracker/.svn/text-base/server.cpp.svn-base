@@ -329,6 +329,8 @@ std::string Cserver::insert_peer(const Ctracker_input& v, bool udp, t_user* user
 	std::string xbt_error = "";
 	if (v.m_left && v.m_event != Ctracker_input::e_paused && user && !user->can_leech && !m_config.m_free_leech)
 		/*if (xbt_error.empty())*/ xbt_error = bts_can_not_leech;
+	if (user && user->user_active == 0) //un_active
+		xbt_error = bts_disabled;
 	if (!file.ctime)
 		file.ctime = time();
 	if (v.m_left && v.m_event != Ctracker_input::e_paused &&
@@ -432,6 +434,11 @@ std::string Cserver::insert_peer(const Ctracker_input& v, bool udp, t_user* user
 
 			downloaded_db = (m_config.m_free_leech || file.dl_percent<0) ? 0 : (downloaded * file.dl_percent /100);
 
+			if (user->uid == file.tor_poster_id)
+				rel = uploaded;
+			else if (!v.m_left && file.seeders == 1)
+				bonus = 1;
+
 			// TorrentPier: bb_bt_users_dl_status
 			int new_status = v.m_left ? 0 : 1;
 			if (user->uid == file.tor_poster_id) new_status = -1;
@@ -468,6 +475,7 @@ std::string Cserver::insert_peer(const Ctracker_input& v, bool udp, t_user* user
 		peer_hash = md5(v.m_info_hash+v.m_passkey+port_st+ip_st);
 
 		q.p(file.fid); // torrent_id mediumint(8) unsigned NOT NULL default '0',
+		q.p(v.m_peer_id);
 		q.p(peer_hash);
 		q.p(user->uid); // user_id mediumint(9) NOT NULL default '0',
 		q.p(hex_encode(8, ntohl(v.m_ipa))); // ip char(8) binary NOT NULL default '0',
@@ -496,7 +504,7 @@ std::string Cserver::insert_peer(const Ctracker_input& v, bool udp, t_user* user
 			q.p(uploaded);
 			q.p(user->uid);
 			q.p(rel);
-			q.p(bonus ? uploaded * bonus / 100 : 0);
+			q.p(bonus ? uploaded / bonus : 0);
 			q.p(upspeed);
 			q.p(downspeed);
 			m_users_updates_buffer += q.read();
@@ -951,8 +959,8 @@ void Cserver::read_db_users()
 	try
 	{
 		// TorrentPier begin
-		Csql_query q(m_database, "select ?, auth_key, " + column_name(column_users_can_leech) + ", "
-			+ column_name(column_users_torrents_limit) + " from ?");
+		Csql_query q(m_database, "SELECT bt.?, auth_key, " + column_name(column_users_can_leech) + ", "
+			+ column_name(column_users_torrents_limit) + ", u.user_active FROM ? bt LEFT JOIN bb_users u ON (u.user_id=bt.user_id)");
 		// TorrentPier end
 
 		q.p_name(column_name(column_users_uid));
@@ -972,6 +980,7 @@ void Cserver::read_db_users()
 			user.torrents_limit = row[3].i();
 			user.peers_limit = 2; // # of IP addresses user can leech from
 			user.can_leech = row[2].i();
+			user.user_active = row[4].i();
 			if (row[1].size()) {
 				user.passkey = row[1].s();
 				m_users_torrent_passes[user.passkey] = &user;
@@ -1083,10 +1092,11 @@ void Cserver::write_db_users()
 		try
 		{
 			m_database.query("insert into " + table_name(table_files_users)
-				+ " (topic_id, peer_hash, user_id, ip, ipv6, port, uploaded, downloaded, releaser, complete_percent, seeder, speed_up, speed_down, update_time, xbt_error, ul_gdc, ul_gdc_c, ul_16k_c, ul_eq_dl) values "
+				+ " (topic_id, peer_id, peer_hash, user_id, ip, ipv6, port, uploaded, downloaded, releaser, complete_percent, seeder, speed_up, speed_down, update_time, xbt_error, ul_gdc, ul_gdc_c, ul_16k_c, ul_eq_dl) values "
 				+ m_files_users_updates_buffer
 				+ " on duplicate key update"
 				+ "  topic_id = values(topic_id),"
+				+ "  peer_id = values(peer_id),"
 				+ "  peer_hash = values(peer_hash),"
 				+ "  user_id = values(user_id),"
 				+ "  ip = values(ip), ipv6 = values(ipv6),"
@@ -1101,7 +1111,7 @@ void Cserver::write_db_users()
 				+ "  up_add = up_add + values(uploaded),"
 				+ "  down_add = down_add + values(downloaded),"
 				+ "  xbt_error=values(xbt_error), ul_gdc=values(ul_gdc), ul_gdc_c=values(ul_gdc_c), ul_16k_c=values(ul_16k_c), ul_eq_dl=values(ul_eq_dl),"
-				+ " update_time=values(update_time)");
+				+ "  update_time = values(update_time)");
 		}
 		catch (Cdatabase::exception&)
 		{

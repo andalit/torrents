@@ -132,6 +132,7 @@ public:
 			peers_limit = 0;
 			torrents_limit = 0;
 			wait_time = 0;
+			user_active = 1;
 		}
 
 		bool can_leech;
@@ -143,6 +144,7 @@ public:
 		std::string passkey;
 		int torrents_limit;
 		int wait_time;
+		int user_active;
 	};
 
 	int test_sql();

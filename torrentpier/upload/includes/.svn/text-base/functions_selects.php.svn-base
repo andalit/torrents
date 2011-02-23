@@ -26,7 +26,7 @@
 //
 function language_select($default, $select_name = "language", $dirname="language")
 {
-	global $phpEx, $phpbb_root_path;
+	global $phpbb_root_path;
 
 	$dir = opendir($phpbb_root_path . $dirname);
 
@@ -80,4 +80,3 @@ function tz_select($default, $select_name = 'timezone')
 
 	return $tz_select;
 }
-

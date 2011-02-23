@@ -23,18 +23,17 @@
 define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'groupcp');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR .'functions_group.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR .'functions_group.php');
 
 $s_member_groups = $s_pending_groups = $s_member_groups_opt = $s_pending_groups_opt = '';
 $select_sort_mode = $select_sort_order = '';
 
 // -------------------------
 //
-function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$joined, &$poster_avatar, &$profile_img, &$profile, &$search_img, &$search, &$pm_img, &$pm, &$email_img, &$email, &$www_img, &$www, &$icq_status_img, &$icq_img, &$icq, &$aim_img, &$aim, &$msn_img, &$msn, &$yim_img, &$yim)
+function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$joined, &$poster_avatar, &$profile_img, &$profile, &$search_img, &$search, &$pm_img, &$pm, &$email_img, &$email, &$www_img, &$www, &$icq_status_img, &$icq_img, &$icq)
 {
-	global $lang, $images, $bb_cfg, $phpEx;
+	global $lang, $images, $bb_cfg;
 
 	$from = ( !empty($row['user_from']) ) ? $row['user_from'] : '&nbsp;';
 	$joined = create_date($date_format, $row['user_regdate'], $bb_cfg['board_timezone']);
@@ -59,7 +58,7 @@ function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$
 
 	if ( bf($row['user_opt'], 'user_opt', 'viewemail') || $group_mod )
 	{
-		$email_uri = ( $bb_cfg['board_email_form'] ) ? "profile.$phpEx?mode=email&amp;u={$row['user_id']}" : 'mailto:' . $row['user_email'];
+		$email_uri = ( $bb_cfg['board_email_form'] ) ? "profile.php?mode=email&amp;u={$row['user_id']}" : 'mailto:' . $row['user_email'];
 
 		$email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['SEND_EMAIL'] . '" title="' . $lang['SEND_EMAIL'] . '" border="0" /></a>';
 		$email = '<a href="' . $email_uri . '">' . $lang['SEND_EMAIL'] . '</a>';
@@ -70,11 +69,11 @@ function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$
 		$email = '&nbsp;';
 	}
 
-	$temp_url = "profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id'];
+	$temp_url = "profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id'];
 	$profile_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_profile'] . '" alt="' . $lang['READ_PROFILE'] . '" title="' . $lang['READ_PROFILE'] . '" border="0" /></a>';
 	$profile = '<a href="' . $temp_url . '">' . $lang['READ_PROFILE'] . '</a>';
 
-	$temp_url = "privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=" . $row['user_id'];
+	$temp_url = "privmsg.php?mode=post&amp;" . POST_USERS_URL . "=" . $row['user_id'];
 	$pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['SEND_PRIVATE_MESSAGE'] . '" title="' . $lang['SEND_PRIVATE_MESSAGE'] . '" border="0" /></a>';
 	$pm = '<a href="' . $temp_url . '">' . $lang['SEND_PRIVATE_MESSAGE'] . '</a>';
 
@@ -94,17 +93,7 @@ function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$
 		$icq = '';
 	}
 
-	$aim_img = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname=' . $row['user_aim'] . '&amp;message=Hello+Are+you+there?"><img src="' . $images['icon_aim'] . '" alt="' . $lang['AIM'] . '" title="' . $lang['AIM'] . '" border="0" /></a>' : '';
-	$aim = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname=' . $row['user_aim'] . '&amp;message=Hello+Are+you+there?">' . $lang['AIM'] . '</a>' : '';
-
-	$temp_url = "profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id'];
-	$msn_img = ( $row['user_msnm'] ) ? '<a href="' . $temp_url . '"><img src="' . $images['icon_msnm'] . '" alt="' . $lang['MSNM'] . '" title="' . $lang['MSNM'] . '" border="0" /></a>' : '';
-	$msn = ( $row['user_msnm'] ) ? '<a href="' . $temp_url . '">' . $lang['MSNM'] . '</a>' : '';
-
-	$yim_img = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
-	$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
-
-	$temp_url = "search.$phpEx?search_author=1&amp;uid={$row['user_id']}";
+	$temp_url = "search.php?search_author=1&amp;uid={$row['user_id']}";
 	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['SEARCH_USER_POSTS'], $row['username']) . '" title="' . sprintf($lang['SEARCH_USER_POSTS'], $row['username']) . '" border="0" /></a>';
 	$search = '<a href="' . $temp_url . '">' . sprintf($lang['SEARCH_USER_POSTS'], $row['username']) . '</a>';
 
@@ -213,7 +202,7 @@ if (!$group_id)
 		$template->assign_vars(array(
 			'SELECT_GROUP'       => true,
 			'PAGE_TITLE'         => $lang['GROUP_CONTROL_PANEL'],
-			'S_USERGROUP_ACTION' => "groupcp.$phpEx",
+			'S_USERGROUP_ACTION' => "groupcp.php",
 			'S_HIDDEN_FIELDS'    => $s_hidden_fields,
 		));
 	}
@@ -246,7 +235,7 @@ else if (!empty($_POST['groupstatus']))
 
 	$message = $lang['GROUP_TYPE_UPDATED'] .'<br /><br />';
 	$message .= sprintf($lang['CLICK_RETURN_GROUP'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.$phpEx" .'">', '</a>');
+	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.php" .'">', '</a>');
 
 	bb_die($message);
 }
@@ -281,7 +270,7 @@ else if (@$_POST['joingroup'])
 
 	if ($bb_cfg['groupcp_send_email'])
 	{
-		include(BB_ROOT .'includes/emailer.'. PHP_EXT);
+		include(BB_ROOT .'includes/emailer.php');
 		$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 		$emailer->from($bb_cfg['board_email']);
@@ -304,7 +293,7 @@ else if (@$_POST['joingroup'])
 
 	$message = $lang['GROUP_JOINED'] .'<br /><br />';
 	$message .= sprintf($lang['CLICK_RETURN_GROUP'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.$phpEx" .'">', '</a>');
+	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.php" .'">', '</a>');
 
 	bb_die($message);
 }
@@ -314,7 +303,7 @@ else if (!empty($_POST['unsub']) || !empty($_POST['unsubpending']))
 
 	$message = $lang['UNSUB_SUCCESS'] .'<br /><br />';
 	$message .= sprintf($lang['CLICK_RETURN_GROUP'], '<a href="'. GROUP_URL ."$group_id" .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.$phpEx" .'">', '</a>');
+	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.php" .'">', '</a>');
 
 	bb_die($message);
 }
@@ -332,7 +321,7 @@ else
 
 		if (!empty($_POST['add']))
 		{
-			if (!$row = get_userdata(@$HTTP_POST_VARS['username'], true))
+			if (!$row = get_userdata(@$_POST['username'], true))
 			{
 				bb_die($lang['COULD_NOT_ADD_USER']);
 			}
@@ -341,7 +330,7 @@ else
 
 			if ($bb_cfg['groupcp_send_email'])
 			{
-				require(BB_ROOT .'includes/emailer.'. PHP_EXT);
+				require(BB_ROOT .'includes/emailer.php');
 				$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 				$emailer->from($bb_cfg['board_email']);
@@ -421,7 +410,7 @@ else
 
 					$group_name = $group_info['group_name'];
 
-					require($phpbb_root_path . 'includes/emailer.'.$phpEx);
+					require($phpbb_root_path . 'includes/emailer.php');
 					$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 					$emailer->from($bb_cfg['board_email']);
@@ -461,7 +450,7 @@ else
 
 	// Members
 	$group_members = $db->fetch_rowset("
-		SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq, u.user_aim, u.user_yim, u.user_msnm, ug.user_pending
+		SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq, ug.user_pending
 		FROM ". USER_GROUP_TABLE ." ug, ". USERS_TABLE ." u
 		WHERE ug.group_id = $group_id
 			AND ug.user_pending = 0
@@ -497,7 +486,7 @@ else
 	if ($is_moderator)
 	{
 		$modgroup_pending_list = $db->fetch_rowset("
-			SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq, u.user_aim, u.user_yim, u.user_msnm
+			SELECT u.username, u.user_id, u.user_opt, u.user_posts, u.user_regdate, u.user_from, u.user_website, u.user_email, u.user_icq
 			FROM ". USER_GROUP_TABLE ." ug, ". USERS_TABLE ." u
 			WHERE ug.group_id = $group_id
 				AND ug.user_pending = 1
@@ -573,7 +562,7 @@ else
 	$username = $group_moderator['username'];
 	$user_id = $group_moderator['user_id'];
 
-	generate_user_info($group_moderator, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq, $aim_img, $aim, $msn_img, $msn, $yim_img, $yim);
+	generate_user_info($group_moderator, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq);
 
 	$template->assign_vars(array(
 		'GROUP_INFO' => true,
@@ -600,15 +589,9 @@ else
 		'MOD_ICQ_STATUS_IMG' => $icq_status_img,
 		'MOD_ICQ_IMG' => $icq_img,
 		'MOD_ICQ' => $icq,
-		'MOD_AIM_IMG' => $aim_img,
-		'MOD_AIM' => $aim,
-		'MOD_MSN_IMG' => $msn_img,
-		'MOD_MSN' => $msn,
-		'MOD_YIM_IMG' => $yim_img,
-		'MOD_YIM' => $yim,
 
-		'U_MOD_VIEWPROFILE' => "profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id",
-		'U_SEARCH_USER' => "search.$phpEx?mode=searchuser",
+		'U_MOD_VIEWPROFILE' => "profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id",
+		'U_SEARCH_USER' => "search.php?mode=searchuser",
 
 		'S_GROUP_OPEN_TYPE' => GROUP_OPEN,
 		'S_GROUP_CLOSED_TYPE' => GROUP_CLOSED,
@@ -619,7 +602,7 @@ else
 		'S_HIDDEN_FIELDS' => $s_hidden_fields,
 		'S_MODE_SELECT' => $select_sort_mode,
 		'S_ORDER_SELECT' => $select_sort_order,
-		'S_GROUPCP_ACTION' => "groupcp.$phpEx?" . POST_GROUPS_URL . "=$group_id",
+		'S_GROUPCP_ACTION' => "groupcp.php?" . POST_GROUPS_URL . "=$group_id",
 	));
 
 	// Dump out the remaining users
@@ -628,12 +611,11 @@ else
 		$username = $member['username'];
 		$user_id = $member['user_id'];
 
-		generate_user_info($member, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq, $aim_img, $aim, $msn_img, $msn, $yim_img, $yim);
+		generate_user_info($member, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq);
 
 		if ($group_info['group_type'] != GROUP_HIDDEN || $is_group_member || $is_moderator)
 		{
 			$row_class = !($i % 2) ? 'row1' : 'row2';
-			$is_online = (!empty($member['user_session_time']) && $member['user_session_time'] > TIMENOW - 600);
 			
 			$template->assign_block_vars('member', array(
 				'ROW_CLASS' => $row_class,
@@ -656,16 +638,8 @@ else
 				'ICQ_STATUS_IMG' => $icq_status_img,
 				'ICQ_IMG' => $icq_img,
 				'ICQ' => $icq,
-				'AIM_IMG' => $aim_img,
-				'AIM' => $aim,
-				'MSN_IMG' => $msn_img,
-				'MSN' => $msn,
-				'YIM_IMG' => $yim_img,
-				'YIM' => $yim,
-				'ONLINE_IMG' => ($is_online) ? 'user_online.gif' : 'user_offline.gif',
-				'ONLINE_ALT' => ($is_online) ? 'on' : 'off',
 
-				'U_VIEWPROFILE' => "profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id",
+				'U_VIEWPROFILE' => "profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id",
 			));
 
 			if ($is_moderator)
@@ -698,7 +672,7 @@ else
 			$username = $member['username'];
 			$user_id = $member['user_id'];
 
-			generate_user_info($member, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq, $aim_img, $aim, $msn_img, $msn, $yim_img, $yim);
+			generate_user_info($member, $bb_cfg['default_dateformat'], $is_moderator, $from, $posts, $joined, $poster_avatar, $profile_img, $profile, $search_img, $search, $pm_img, $pm, $email_img, $email, $www_img, $www, $icq_status_img, $icq_img, $icq);
 
 			$row_class = !($i % 2) ? 'row1' : 'row2';
 
@@ -725,16 +699,8 @@ else
 				'ICQ_STATUS_IMG' => $icq_status_img,
 				'ICQ_IMG' => $icq_img,
 				'ICQ' => $icq,
-				'AIM_IMG' => $aim_img,
-				'AIM' => $aim,
-				'MSN_IMG' => $msn_img,
-				'MSN' => $msn,
-				'YIM_IMG' => $yim_img,
-				'YIM' => $yim,
-				'ONLINE_IMG' => ($is_online) ? 'user_online.gif' : 'user_offline.gif',
-				'ONLINE_ALT' => ($is_online) ? 'on' : 'off',
 
-				'U_VIEWPROFILE' => "profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id",
+				'U_VIEWPROFILE' => "profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id",
 			));
 		}
 

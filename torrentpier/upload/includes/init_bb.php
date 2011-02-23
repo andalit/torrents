@@ -5,7 +5,7 @@
 ### LOG END ###
 
 if (!defined('IN_PHPBB')) die(basename(__FILE__));
-# if (PHP_VERSION < '4.3') die('TorrentPier requires PHP version 4.3+. Your PHP version '. PHP_VERSION);
+if (PHP_VERSION < '5.3') die('TorrentPier requires PHP version 5.3+. Your PHP version '. PHP_VERSION);
 if (!defined('BB_SCRIPT')) define('BB_SCRIPT', 'undefined');
 
 // Exit if board is disabled via ON/OFF trigger
@@ -15,7 +15,7 @@ if (!defined('IN_ADMIN') && !defined('IN_INSTALL') && !defined('IN_AJAX') && !de
 	{
 		cron_release_deadlock();  // Если нужна разблокировка в случае залипания крона, отключающего форум
 		header('HTTP/1.0 503 Service Unavailable');
-		require(TEMPLATES_DIR .'board_disabled_exit.'. PHP_EXT);
+		require(TEMPLATES_DIR .'board_disabled_exit.php');
 	}
 }
 
@@ -100,13 +100,13 @@ if (!defined('IN_INSTALL') && !defined('IN_AJAX'))
 
 if (DEBUG === true)
 {
-	require(DEV_DIR .'init_debug.'. PHP_EXT);
+	require(DEV_DIR .'init_debug.php');
 #	if ($a);
 #	trigger_error("error handler test", E_USER_ERROR);
 }
 
 // Config options
-define('TPL_LIMIT_LOAD_EXIT', TEMPLATES_DIR .'limit_load_exit.'. PHP_EXT);
+define('TPL_LIMIT_LOAD_EXIT', TEMPLATES_DIR .'limit_load_exit.php');
 
 // Cookie params
 $c = $bb_cfg['cookie_prefix'];
@@ -273,72 +273,63 @@ define('POST_REPORT_REASON_URL', 'r');
 // Report [END]
 
 // Table names
-$b = $buffer_prefix;
-$t = $table_prefix;
-
-define('BUF_TOPIC_VIEW_TABLE',       $b .'topic_view');
-define('BUF_LAST_SEEDER_TABLE',      $b .'last_seeder');
-
-define('ADS_TABLE',                  $t .'ads');
-define('ATTACH_CONFIG_TABLE',        $t .'attachments_config');
-define('ATTACHMENTS_DESC_TABLE',     $t .'attachments_desc');
-define('ATTACHMENTS_TABLE',          $t .'attachments');
-define('AUTH_ACCESS_SNAP_TABLE',     $t .'auth_access_snap');
-define('AUTH_ACCESS_TABLE',          $t .'auth_access');
-define('BANLIST_TABLE',              $t .'banlist');
-define('BT_DLSTATUS_MAIN_TABLE',     $t .'bt_dlstatus_main');
-define('BT_DLSTATUS_NEW_TABLE',      $t .'bt_dlstatus_new');
-define('BT_DLSTATUS_SNAP_TABLE',     $t .'bt_dlstatus_snap');
-define('BT_DLSTATUS_TABLE',          $t .'bt_dlstatus_mrg');   // main + new
-define('BT_LAST_TORSTAT_TABLE',      $t .'bt_last_torstat');
-define('BT_LAST_USERSTAT_TABLE',     $t .'bt_last_userstat');
-define('BT_TORHELP_TABLE',           $t .'bt_torhelp');
-define('BT_TORSTAT_TABLE',           $t .'bt_torstat');
-define('BT_USER_SETTINGS_TABLE',     $t .'bt_user_settings');
-define('CATEGORIES_TABLE',           $t .'categories');
-define('CONFIG_TABLE',               $t .'config');
-define('CONFIRM_TABLE',              $t .'confirm');
-define('COUNTRIES_TABLE',            $t .'countries');
-define('CRON_TABLE',                 $t .'cron');
-define('DATASTORE_TABLE',            $t .'datastore');
-define('DISALLOW_TABLE',             $t .'disallow');
-define('EXTENSION_GROUPS_TABLE',     $t .'extension_groups');
-define('EXTENSIONS_TABLE',           $t .'extensions');
-define('FORUMS_TABLE',               $t .'forums');
-define('GROUPS_TABLE',               $t .'groups');
-define('LOG_TABLE',                  $t .'log');
-define('POSTS_SEARCH_TABLE',         $t .'posts_search');
-define('POSTS_TABLE',                $t .'posts');
-define('POSTS_TEXT_TABLE',           $t .'posts_text');
-define('POSTS_HTML_TABLE',           $t .'posts_html');
-define('PRIVMSGS_TABLE',             $t .'privmsgs');
-define('PRIVMSGS_TEXT_TABLE',        $t .'privmsgs_text');
-define('QUOTA_LIMITS_TABLE',         $t .'quota_limits');
-define('QUOTA_TABLE',                $t .'attach_quota');
-define('RANKS_TABLE',                $t .'ranks');
-// Report
-define('REPORTS_TABLE',              $t .'reports');
-define('REPORTS_CHANGES_TABLE',      $t .'reports_changes');
-define('REPORTS_MODULES_TABLE',      $t .'reports_modules');
-define('REPORTS_REASONS_TABLE',      $t .'reports_reasons');
-// Report [END]
-define('SEARCH_REBUILD_TABLE',       $t .'search_rebuild');
-define('SEARCH_TABLE',               $t .'search_results');
-define('SESSIONS_TABLE',             $t .'sessions');
-define('SMILIES_TABLE',              $t .'smilies');
-define('TOPIC_TPL_TABLE',            $t .'topic_templates');
-define('TOPICS_TABLE',               $t .'topics');
-define('TOPICS_WATCH_TABLE',         $t .'topics_watch');
-define('USER_GROUP_TABLE',           $t .'user_group');
-define('USERS_TABLE',                $t .'users');
-define('VOTE_DESC_TABLE',            $t .'vote_desc');
-define('VOTE_RESULTS_TABLE',         $t .'vote_results');
-define('VOTE_USERS_TABLE',           $t .'vote_voters');
-define('WORDS_TABLE',                $t .'words');
-// dj_maxx: add visual confirmation to login form
-define('UNTRUSTED_IPS_TABLE',        $t.'untrusted_ips');
-// end of
-unset($t, $b);
+define('BUF_TOPIC_VIEW_TABLE',       'buf_topic_view');
+define('BUF_LAST_SEEDER_TABLE',      'buf_last_seeder');
+define('ADS_TABLE',                  'bb_ads');
+define('ATTACH_CONFIG_TABLE',        'bb_attachments_config');
+define('ATTACHMENTS_DESC_TABLE',     'bb_attachments_desc');
+define('ATTACHMENTS_TABLE',          'bb_attachments');
+define('AUTH_ACCESS_SNAP_TABLE',     'bb_auth_access_snap');
+define('AUTH_ACCESS_TABLE',          'bb_auth_access');
+define('BANLIST_TABLE',              'bb_banlist');
+define('BT_DLSTATUS_MAIN_TABLE',     'bb_bt_dlstatus_main');
+define('BT_DLSTATUS_NEW_TABLE',      'bb_bt_dlstatus_new');
+define('BT_DLSTATUS_SNAP_TABLE',     'bb_bt_dlstatus_snap');
+define('BT_DLSTATUS_TABLE',          'bb_bt_dlstatus_mrg');   // main + new
+define('BT_LAST_TORSTAT_TABLE',      'bb_bt_last_torstat');
+define('BT_LAST_USERSTAT_TABLE',     'bb_bt_last_userstat');
+define('BT_TORHELP_TABLE',           'bb_bt_torhelp');
+define('BT_TORSTAT_TABLE',           'bb_bt_torstat');
+define('BT_USER_SETTINGS_TABLE',     'bb_bt_user_settings');
+define('CATEGORIES_TABLE',           'bb_categories');
+define('CONFIG_TABLE',               'bb_config');
+define('CONFIRM_TABLE',              'bb_confirm');
+define('COUNTRIES_TABLE',            'bb_countries');
+define('CRON_TABLE',                 'bb_cron');
+define('DATASTORE_TABLE',            'bb_datastore');
+define('DISALLOW_TABLE',             'bb_disallow');
+define('EXTENSION_GROUPS_TABLE',     'bb_extension_groups');
+define('EXTENSIONS_TABLE',           'bb_extensions');
+define('FORUMS_TABLE',               'bb_forums');
+define('GROUPS_TABLE',               'bb_groups');
+define('LOG_TABLE',                  'bb_log');
+define('POSTS_SEARCH_TABLE',         'bb_posts_search');
+define('POSTS_TABLE',                'bb_posts');
+define('POSTS_TEXT_TABLE',           'bb_posts_text');
+define('POSTS_HTML_TABLE',           'bb_posts_html');
+define('PRIVMSGS_TABLE',             'bb_privmsgs');
+define('PRIVMSGS_TEXT_TABLE',        'bb_privmsgs_text');
+define('QUOTA_LIMITS_TABLE',         'bb_quota_limits');
+define('QUOTA_TABLE',                'bb_attach_quota');
+define('RANKS_TABLE',                'bb_ranks');
+define('REPORTS_TABLE',              'bb_reports'); // Report
+define('REPORTS_CHANGES_TABLE',      'bb_reports_changes'); // Report Change's
+define('REPORTS_MODULES_TABLE',      'bb_reports_modules'); // Report Module Table
+define('REPORTS_REASONS_TABLE',      'bb_reports_reasons'); // Report Reasons
+define('SEARCH_REBUILD_TABLE',       'bb_search_rebuild');
+define('SEARCH_TABLE',               'bb_search_results');
+define('SESSIONS_TABLE',             'bb_sessions');
+define('SMILIES_TABLE',              'bb_smilies');
+define('TOPIC_TPL_TABLE',            'bb_topic_templates');
+define('TOPICS_TABLE',               'bb_topics');
+define('TOPICS_WATCH_TABLE',         'bb_topics_watch');
+define('USER_GROUP_TABLE',           'bb_user_group');
+define('USERS_TABLE',                'bb_users');
+define('VOTE_DESC_TABLE',            'bb_vote_desc');
+define('VOTE_RESULTS_TABLE',         'bb_vote_results');
+define('VOTE_USERS_TABLE',           'bb_vote_voters');
+define('WORDS_TABLE',                'bb_words');
+define('UNTRUSTED_IPS_TABLE',        'bb_untrusted_ips'); // dj_maxx: add visual confirmation to login form
 
 define('TORRENT_EXT', 'torrent');
 
@@ -353,19 +344,19 @@ define('SEARCH_ID_LENGTH', 12);
 define('SID_LENGTH',       20);
 define('LOGIN_KEY_LENGTH', 12);
 
-define('PAGE_HEADER', INC_DIR .'page_header.'. PHP_EXT);
-define('PAGE_FOOTER', INC_DIR .'page_footer.'. PHP_EXT);
+define('PAGE_HEADER', INC_DIR .'page_header.php');
+define('PAGE_FOOTER', INC_DIR .'page_footer.php');
 
-define('CAT_URL',      "index.$phpEx?"     .'c=');
-define('DOWNLOAD_URL', "download.$phpEx?"  .'id=');
-define('FORUM_URL',    "viewforum.$phpEx?" .'f=');
-define('GROUP_URL',    "groupcp.$phpEx?"   .'g=');
-define('LOGIN_URL',    "login.$phpEx?"     .'redirect=');
-define('MODCP_URL',    "modcp.$phpEx?"     .'f=');
-define('PM_URL',       "privmsg.$phpEx?"   .'mode=post&amp;u=');
-define('POST_URL',     "viewtopic.$phpEx?" .'p=');
-define('PROFILE_URL',  "profile.$phpEx?"   .'mode=viewprofile&amp;u=');
-define('TOPIC_URL',    "viewtopic.$phpEx?" .'t=');
+define('CAT_URL',      "index.php?"     .'c=');
+define('DOWNLOAD_URL', "download.php?"  .'id=');
+define('FORUM_URL',    "viewforum.php?" .'f=');
+define('GROUP_URL',    "groupcp.php?"   .'g=');
+define('LOGIN_URL',    "login.php?"     .'redirect=');
+define('MODCP_URL',    "modcp.php?"     .'f=');
+define('PM_URL',       "privmsg.php?"   .'mode=post&amp;u=');
+define('POST_URL',     "viewtopic.php?" .'p=');
+define('PROFILE_URL',  "profile.php?"   .'mode=viewprofile&amp;u=');
+define('TOPIC_URL',    "viewtopic.php?" .'t=');
 
 define('USER_AGENT', @strtolower($_SERVER['HTTP_USER_AGENT']));
 define('UA_OPERA',   strpos(USER_AGENT, 'pera'));
@@ -509,32 +500,31 @@ if (STRIP_SLASHES)
 	array_deep($_ENV,     'stripslashes');
 	array_deep($_FILES,   'stripslashes');
 }
-else
+elseif (!defined('IN_AJAX'))
 {
-	array_deep($HTTP_GET_VARS,    'addslashes');
-	array_deep($HTTP_POST_VARS,   'addslashes');
-	array_deep($HTTP_COOKIE_VARS, 'addslashes');
+	array_deep($_GET,    'addslashes');
+	array_deep($_POST,   'addslashes');
 }
 
-require(INC_DIR .'functions.'. PHP_EXT);
-require(INC_DIR .'sessions.'.  PHP_EXT);
-require(INC_DIR .'template.'.  PHP_EXT);
-require(INC_DIR .'db/mysql.'.  PHP_EXT);
+require(INC_DIR .'functions.php');
+require(INC_DIR .'sessions.php');
+require(INC_DIR .'template.php');
+require(INC_DIR .'db/mysql.php');
 
-if (DBG_USER) require(INC_DIR .'functions_dev.'. PHP_EXT);
+if (DBG_USER) require(INC_DIR .'functions_dev.php');
 
 // Make the database connection.
 $db = new sql_db(array(
-	'dbms'        => $dbms,
-	'dbhost'      => $dbhost,
-	'dbname'      => $dbname,
-	'dbuser'      => $dbuser,
-	'dbpasswd'    => $dbpasswd,
-	'charset'     => $dbcharset,
-	'collation'   => $dbcollation,
-	'persist'     => $pconnect,
+	'dbms'        => DBMS,
+	'dbhost'      => DBHOST,
+	'dbname'      => DBNAME,
+	'dbuser'      => DBUSER,
+	'dbpasswd'    => DBPASSWD,
+	'charset'     => DBCHARSET,
+	'collation'   => DBCOLLATION,
+	'persist'     => PCONNECT,
+	'flags'       => DBFLAGS,
 ));
-unset($dbpasswd);
 
 // Setup forum wide options
 $board_config =& $bb_cfg;
@@ -551,7 +541,7 @@ else
 	$bb_cfg['board_dateformat'] = $bb_cfg['default_dateformat'];
 	$bb_cfg['board_lang']       = $bb_cfg['default_lang'];
 
-	if (file_exists("install/install.$phpEx"))
+	if (file_exists("install/install.php"))
 	{
 		message_die(GENERAL_MESSAGE, 'Please_remove_install_contrib');
 	}
@@ -609,7 +599,7 @@ if ((empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('I
 		// Update cron_last_check
 		bb_update_config(array('cron_last_check' => (time() + 10)));
 
-		require(CFG_DIR .'cron_cfg.'. PHP_EXT);
+		require(CFG_DIR .'cron_cfg.php');
 
 		bb_log(date('H:i:s - ') . getmypid() .' -x-- DB-LOCK try'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
@@ -618,7 +608,7 @@ if ((empty($_POST) && !defined('IN_ADMIN') && !defined('IN_AJAX') && !defined('I
 			bb_log(date('H:i:s - ') . getmypid() .' --x- DB-LOCK OBTAINED !!!!!!!!!!!!!!!!!'. LOG_LF, CRON_LOG_DIR .'cron_check');
 
 			sleep(2);
-			require(CRON_DIR .'cron_init.'. PHP_EXT);
+			require(CRON_DIR .'cron_init.php');
 
 			$db->release_lock('cron');
 		}
@@ -649,6 +639,3 @@ if (!defined('IN_INSTALL'))
 		message_die(GENERAL_MESSAGE, 'Board_disable', 'Information');
 	}
 }
-
-#	if (@$_GET['sdfhjk45689032'] == 1) require(INC_DIR .'cron/jobs/site_backup.php');
-

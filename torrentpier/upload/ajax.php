@@ -37,7 +37,7 @@ if (file_exists(BB_DISABLED))
 switch ($ajax->action)
 {
 	case 'view_post':
-		require(INC_DIR .'bbcode.'. PHP_EXT);
+		require(INC_DIR .'bbcode.php');
 	break;
 }
 
@@ -211,7 +211,7 @@ class ajax_common
 	*/
 	function check_admin_session ()
 	{
-		global $user, $HTTP_POST_VARS;
+		global $user;
 
 		if (!$user->data['session_admin'])
 		{
@@ -223,7 +223,7 @@ class ajax_common
 			{
 				$login_args = array(
 					'login_username' => $user->data['username'],
-					'login_password' => $HTTP_POST_VARS['user_password'],  // $HTTP_POST_VARS - for compatibility with phpbb
+					'login_password' => $_POST['user_password'],
 				);
 				if (!$user->login($login_args, true))
 				{
@@ -288,7 +288,7 @@ class ajax_common
 				}
 
 				$table = BT_USERS_TABLE;
-				$value = (float) $this->request['value'];
+				$value = (float) str_replace(',', '.', $this->request['value']);
 
 				foreach (array('KB'=>1,'MB'=>2,'GB'=>3,'TB'=>4) as $s => $m)
 				{
@@ -303,7 +303,7 @@ class ajax_common
 
 				if (!$btu = get_bt_userdata($user_id))
 				{
-					require(INC_DIR .'functions_torrent.'. PHP_EXT);
+					require(INC_DIR .'functions_torrent.php');
 					generate_passkey($user_id, true);
 					$btu = get_bt_userdata($user_id);
 				}

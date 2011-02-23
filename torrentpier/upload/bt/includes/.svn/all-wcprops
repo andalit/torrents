@@ -1,19 +1,19 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/388/trunk/upload/bt/includes
+/svn/!svn/ver/589/trunk/upload/bt/includes
 END
 tr_announcer.php
 K 25
 svn:wc:ra_dav:version-url
 V 59
-/svn/!svn/ver/245/trunk/upload/bt/includes/tr_announcer.php
+/svn/!svn/ver/580/trunk/upload/bt/includes/tr_announcer.php
 END
 tr_ratio.php
 K 25
 svn:wc:ra_dav:version-url
-V 54
-/svn/!svn/ver/82/trunk/upload/bt/includes/tr_ratio.php
+V 55
+/svn/!svn/ver/585/trunk/upload/bt/includes/tr_ratio.php
 END
 tr_scraper.php
 K 25
@@ -31,5 +31,5 @@ init_tr.php
 K 25
 svn:wc:ra_dav:version-url
 V 54
-/svn/!svn/ver/388/trunk/upload/bt/includes/init_tr.php
+/svn/!svn/ver/589/trunk/upload/bt/includes/init_tr.php
 END

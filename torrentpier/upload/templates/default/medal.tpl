@@ -194,7 +194,7 @@
 	  <th class="thTop" nowrap>{L_USERNAME}</th>
 	  <th class="thTop" nowrap>{L_TOPIC}</th>
 	  <th class="thTop" nowrap>{L_FORUM}</th>
-	  <th class="thTop" nowrap>{L_dlComplete_2}</th>
+	  <th class="thTop" nowrap>{L_DLCOMPLETE_2}</th>
 	  <th class="thTop" nowrap>{L_JOINED}</th>
 	</tr>
 	<!-- BEGIN torrentsrow -->
@@ -222,7 +222,7 @@
 	  <th class="thTop" nowrap>{L_USERNAME}</th>
 	  <th class="thTop" nowrap>{L_TOPIC}</th>
 	  <th class="thTop" nowrap>{L_FORUM}</th>
-	  <th class="thTop" nowrap>{L_dlComplete_2}</th>
+	  <th class="thTop" nowrap>{L_DLCOMPLETE_2}</th>
 	  <th class="thTop" nowrap>{L_JOINED}</th>
 	</tr>
 	<!-- BEGIN torrent30 -->
@@ -250,7 +250,7 @@
 	  <th class="thTop" nowrap>{L_USERNAME}</th>
 	  <th class="thTop" nowrap>{L_TOPIC}</th>
 	  <th class="thTop" nowrap>{L_FORUM}</th>
-	  <th class="thTop" nowrap>{L_dlComplete_2}</th>
+	  <th class="thTop" nowrap>{L_DLCOMPLETE_2}</th>
 	  <th class="thTop" nowrap>{L_JOINED}</th>
 	</tr>
 	<!-- BEGIN torrent7 -->

@@ -23,26 +23,25 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'report');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR ."functions_report.". PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR ."functions_report.php");
 
 // Init userdata
 $user->session_start();
 
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("index.$phpEx", true));
+	redirect(append_sid("index.php", true));
 }
 
 $return_links = array(
-	'index' => '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>'),
-	'list' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_LIST'], '<a href="' . append_sid("report.$phpEx") . '">', '</a>')
+	'index' => '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'], '<a href="' . append_sid("index.php") . '">', '</a>'),
+	'list' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_LIST'], '<a href="' . append_sid("report.php") . '">', '</a>')
 );
 
-if (isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
+if (isset($_POST['mode']) || isset($_GET['mode']))
 {
-	$mode = (isset($HTTP_POST_VARS['mode'])) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : $_GET['mode'];
 }
 else
 {
@@ -76,9 +75,9 @@ if (isset($report_module))
 {
 	$errors = array();
 	
-	if (isset($HTTP_POST_VARS['id']) || isset($HTTP_GET_VARS['id']))
+	if (isset($_POST['id']) || isset($_GET['id']))
 	{
-		$report_subject_id = (isset($HTTP_POST_VARS['id'])) ? (int) $HTTP_POST_VARS['id'] : (int) $HTTP_GET_VARS['id'];
+		$report_subject_id = (isset($_POST['id'])) ? (int) $_POST['id'] : (int) $_GET['id'];
 	}
 	else
 	{
@@ -97,10 +96,10 @@ if (isset($report_module))
 		message_die(GENERAL_MESSAGE, $report_module->lang['DUPLICATE_ERROR'] . $report_module->return_link($report_subject_id) . $return_links['index']);
 	}
 	
-	if (isset($HTTP_POST_VARS['submit']))
+	if (isset($_POST['submit']))
 	{
-		$report_reason = (isset($HTTP_POST_VARS['reason'])) ? (int) $HTTP_POST_VARS['reason'] : 0;
-		$report_desc = (isset($HTTP_POST_VARS['message'])) ? htmlspecialchars($HTTP_POST_VARS['message']) : '';
+		$report_reason = (isset($_POST['reason'])) ? (int) $_POST['reason'] : 0;
+		$report_desc = (isset($_POST['message'])) ? htmlspecialchars($_POST['message']) : '';
 		
 		//
 		// Obtain report title if necessary
@@ -111,7 +110,7 @@ if (isset($report_module))
 		}
 		else
 		{
-			$report_title = (isset($HTTP_POST_VARS['title'])) ? htmlspecialchars($HTTP_POST_VARS['title']) : '';
+			$report_title = (isset($_POST['title'])) ? htmlspecialchars($_POST['title']) : '';
 			$report_subject_id = 0;
 		}
 		
@@ -141,9 +140,9 @@ if (isset($report_module))
 			message_die(GENERAL_MESSAGE, $lang['REPORT_INSERTED'] . $report_module->return_link($report_subject_id) . $return_links['index']);
 		}
 	}
-	else if (isset($HTTP_POST_VARS['cancel']))
+	else if (isset($_POST['cancel']))
 	{
-		$redirect_url = (method_exists($report_module, 'subject_url')) ? $report_module->subject_url($report_subject_id, true) : append_sid("index.$phpEx", true);
+		$redirect_url = (method_exists($report_module, 'subject_url')) ? $report_module->subject_url($report_subject_id, true) : append_sid("index.php", true);
 		redirect($redirect_url);
 	}
 	
@@ -216,7 +215,7 @@ if (isset($report_module))
 	$hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="id" value="' . $report_subject_id . '" />';
 	
 	$template->assign_vars(array(
-		'S_REPORT_ACTION' => append_sid("report.$phpEx"),
+		'S_REPORT_ACTION' => append_sid("report.php"),
 		'S_HIDDEN_FIELDS' => $hidden_fields,
 		
 		'L_WRITE_REPORT' => $report_module->lang['WRITE_REPORT'],
@@ -235,13 +234,13 @@ else
 {
 	if ($userdata['user_level'] != ADMIN && ($bb_cfg['report_list_admin'] || $userdata['user_level'] != MOD))
 	{
-		redirect(append_sid("index.$phpEx", true));
+		redirect(append_sid("index.php", true));
 	}
 	
 	$params = array('open', 'process', 'clear', 'delete');
 	foreach ($params as $param)
 	{
-		if (isset($HTTP_POST_VARS[$param]))
+		if (isset($_POST[$param]))
 		{
 			$mode = $param;
 		}
@@ -265,17 +264,17 @@ else
 			//
 			// Validate report ids
 			//
-			if (isset($HTTP_POST_VARS[POST_REPORT_URL]) || isset($HTTP_GET_VARS[POST_REPORT_URL]))
+			if (isset($_POST[POST_REPORT_URL]) || isset($_GET[POST_REPORT_URL]))
 			{
-				$report_id = (isset($HTTP_POST_VARS[POST_REPORT_URL])) ? $HTTP_POST_VARS[POST_REPORT_URL] : $HTTP_GET_VARS[POST_REPORT_URL];
+				$report_id = (isset($_POST[POST_REPORT_URL])) ? $_POST[POST_REPORT_URL] : $_GET[POST_REPORT_URL];
 				$reports = array((int) $report_id);
 				
 				$single_report = true;
 			}
-			else if (isset($HTTP_POST_VARS['reports']))
+			else if (isset($_POST['reports']))
 			{
 				$reports = array();
-				foreach ($HTTP_POST_VARS['reports'] as $report_id)
+				foreach ($_POST['reports'] as $report_id)
 				{
 					$reports[] = (int) $report_id;
 				}
@@ -285,7 +284,7 @@ else
 
 			if (empty($reports))
 			{
-				$template->assign_var('META', '<meta http-equiv="refresh" content="3;url=' . append_sid("report.$phpEx") . '">');
+				$template->assign_var('META', '<meta http-equiv="refresh" content="3;url=' . append_sid("report.php") . '">');
 				
 				message_die(GENERAL_MESSAGE, $lang['NO_REPORTS_SELECTED'] . $return_links['list'] . $return_links['index']);
 			}
@@ -293,9 +292,9 @@ else
 			//
 			// Cancel action
 			//
-			if (isset($HTTP_POST_VARS['cancel']))
+			if (isset($_POST['cancel']))
 			{
-				$redirect_url = ($single_report) ? "report.$phpEx?" . POST_REPORT_URL . '=' . $reports[0] : "report.$phpEx";
+				$redirect_url = ($single_report) ? "report.php?" . POST_REPORT_URL . '=' . $reports[0] : "report.php";
 				redirect(append_sid($redirect_url, true));
 			}
 			
@@ -316,7 +315,7 @@ else
 			}
 			
 			$template->assign_vars(array(
-				'S_CONFIRM_ACTION' => append_sid("report.$phpEx"),
+				'S_CONFIRM_ACTION' => append_sid("report.php"),
 				'S_HIDDEN_FIELDS' => $hidden_fields)
 			);
 			
@@ -325,9 +324,9 @@ else
 			//
 			if ($mode != 'delete')
 			{
-				if (isset($HTTP_POST_VARS['confirm']))
+				if (isset($_POST['confirm']))
 				{
-					$comment = (isset($HTTP_POST_VARS['comment'])) ? htmlspecialchars(str_replace("\'", "'", $HTTP_POST_VARS['comment'])) : '';
+					$comment = (isset($_POST['comment'])) ? htmlspecialchars(str_replace("\'", "'", $_POST['comment'])) : '';
 					
 					switch ($mode)
 					{
@@ -346,10 +345,10 @@ else
 					
 					reports_update_status($reports, $status, $comment);
 					
-					$meta_url = ($single_report) ? "report.$phpEx?" . POST_REPORT_URL . '=' . $reports[0] : "report.$phpEx";
+					$meta_url = ($single_report) ? "report.php?" . POST_REPORT_URL . '=' . $reports[0] : "report.php";
 					$template->assign_var('META', '<meta http-equiv="refresh" content="3;url=' . append_sid($meta_url) . '">');
 					
-					$return_link = ($single_report) ? '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT'], '<a href="' . append_sid("report.$phpEx?" . POST_REPORT_URL . '=' . $reports[0]) . '">', '</a>') : '';
+					$return_link = ($single_report) ? '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT'], '<a href="' . append_sid("report.php?" . POST_REPORT_URL . '=' . $reports[0]) . '">', '</a>') : '';
 					$message = ($single_report) ? 'REPORT_CHANGED' : 'REPORTS_CHANGED';
 					message_die(GENERAL_MESSAGE, $lang[$message] . $return_link . $return_links['list'] . $return_links['index']);
 				}
@@ -374,11 +373,11 @@ else
 			//
 			else
 			{
-				if (isset($HTTP_POST_VARS['confirm']))
+				if (isset($_POST['confirm']))
 				{
 					reports_delete($reports);
 					
-					$template->assign_var('META', '<meta http-equiv="refresh" content="3;url=' . append_sid("report.$phpEx") . '">');
+					$template->assign_var('META', '<meta http-equiv="refresh" content="3;url=' . append_sid("report.php") . '">');
 					
 					$message = ($single_report) ? 'Report_deleted' : 'Reports_deleted';
 					message_die(GENERAL_MESSAGE, $lang[$message] . $return_links['list'] . $return_links['index']);
@@ -402,8 +401,8 @@ else
 		break;
 		
 		case 'reported':
-			$cat = (isset($HTTP_GET_VARS[POST_CAT_URL])) ? (int) $HTTP_GET_VARS[POST_CAT_URL] : 0;
-			$report_subject_id = (isset($HTTP_GET_VARS['id'])) ? (int) $HTTP_GET_VARS['id'] : 0;
+			$cat = (isset($_GET[POST_CAT_URL])) ? (int) $_GET[POST_CAT_URL] : 0;
+			$report_subject_id = (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
 			
 			if (empty($cat) || empty($report_subject_id) || !isset($report_modules[$cat]))
 			{
@@ -430,7 +429,7 @@ else
 			//
 			else if (count($reports) == 1)
 			{
-				$redirect_url = append_sid("report.$phpEx?" . POST_REPORT_URL . '=' . $reports[0]['report_id'], true);
+				$redirect_url = append_sid("report.php?" . POST_REPORT_URL . '=' . $reports[0]['report_id'], true);
 				redirect($redirect_url);
 			}
 			
@@ -441,7 +440,7 @@ else
 			);
 			
 			$template->assign_vars(array(
-				'S_REPORT_ACTION', append_sid("report.$phpEx"),
+				'S_REPORT_ACTION', append_sid("report.php"),
 				
 				'L_BY' => $lang['REPORT_BY'],
 				'L_MARK' => $lang['REPORT_MARK'],
@@ -457,8 +456,8 @@ else
 			foreach ($reports as $report)
 			{
 				$template->assign_block_vars('open_reports', array(
-					'U_SHOW' => append_sid("report.$phpEx?" . POST_REPORT_URL . '=' . $report['report_id']),
-					'U_AUTHOR' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
+					'U_SHOW' => append_sid("report.php?" . POST_REPORT_URL . '=' . $report['report_id']),
+					'U_AUTHOR' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
 					
 					'ID' => $report['report_id'],
 					'TITLE' => $report['report_title'],
@@ -479,9 +478,9 @@ else
 			);
 			
 			$template->assign_vars(array(
-				'S_REPORT_ACTION' => append_sid("report.$phpEx"),
+				'S_REPORT_ACTION' => append_sid("report.php"),
 				
-				'U_REPORT_INDEX' => append_sid("report.$phpEx"),
+				'U_REPORT_INDEX' => append_sid("report.php"),
 				
 				'L_BY' => $lang['REPORT_BY'],
 				'L_MARK' => $lang['REPORT_MARK'],
@@ -491,7 +490,7 @@ else
 				'L_SELECT_ALL' => $lang['MARK_ALL'])
 			);
 			
-			$cat = (isset($HTTP_GET_VARS[POST_CAT_URL])) ? (int) $HTTP_GET_VARS[POST_CAT_URL] : null;
+			$cat = (isset($_GET[POST_CAT_URL])) ? (int) $_GET[POST_CAT_URL] : null;
 			$cat_url = (!empty($cat)) ? '&amp;' . POST_CAT_URL . "=$cat" : '';
 			
 			$show_delete_option = false;
@@ -513,7 +512,7 @@ else
 				}
 				
 				$template->assign_block_vars('report_modules', array(
-					'U_SHOW' => append_sid("report.$phpEx?" . POST_CAT_URL . '=' . $report_module->id),
+					'U_SHOW' => append_sid("report.php?" . POST_CAT_URL . '=' . $report_module->id),
 					
 					'TITLE' => $report_module->lang['REPORT_LIST_TITLE'])
 				);
@@ -545,8 +544,8 @@ else
 				foreach ($reports[$report_module->id] as $report)
 				{		
 					$template->assign_block_vars('report_modules.reports', array(
-						'U_SHOW' => append_sid("report.$phpEx?" . POST_REPORT_URL . '=' . $report['report_id'] . $cat_url),
-						'U_AUTHOR' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
+						'U_SHOW' => append_sid("report.php?" . POST_REPORT_URL . '=' . $report['report_id'] . $cat_url),
+						'U_AUTHOR' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
 						
 						'ROW_CLASS' => $report_status_classes[$report['report_status']],
 						'ID' => $report['report_id'],
@@ -556,7 +555,7 @@ else
 						'STATUS' => $lang['REPORT_STATUS'][$report['report_status']])
 					);
 					
-					if (isset($HTTP_GET_VARS[POST_REPORT_URL]) && $HTTP_GET_VARS[POST_REPORT_URL] == $report['report_id'])
+					if (isset($_GET[POST_REPORT_URL]) && $_GET[POST_REPORT_URL] == $report['report_id'])
 					{
 						$template->assign_block_vars('report_modules.reports.switch_current', array());
 					}
@@ -571,13 +570,13 @@ else
 			//
 			// Show information for one report
 			//
-			if (isset($HTTP_GET_VARS[POST_REPORT_URL]))
+			if (isset($_GET[POST_REPORT_URL]))
 			{
 				$template->set_filenames(array(
 					'report_view' => 'report_view_body.tpl')
 				);
 				
-				if (!$report = report_obtain((int) $HTTP_GET_VARS[POST_REPORT_URL]))
+				if (!$report = report_obtain((int) $_GET[POST_REPORT_URL]))
 				{
 					message_die(GENERAL_MESSAGE, $lang['REPORT_NOT_EXISTS'] . $return_links['list'] . $return_links['index']);
 				}
@@ -685,7 +684,7 @@ else
 					
 					foreach ($report_changes as $report_change)
 					{
-						$u_report_change_user = append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report_change['user_id']);
+						$u_report_change_user = append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report_change['user_id']);
 						$report_change_user = '<a href="' . $u_report_change_user . '">' . $report_change['username'] . '</a>';
 						
 						$report_change_status = $lang['REPORT_STATUS'][$report_change['report_status']];
@@ -741,8 +740,8 @@ else
 				$template->assign_vars(array(
 					'S_HIDDEN_FIELDS' => '<input type="hidden" name="' . POST_REPORT_URL . '" value="' . $report['report_id'] . '" />',
 					
-					'U_REPORT_AUTHOR' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
-					'U_REPORT_AUTHOR_PRIVMSG' => append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . '=' . $report['user_id']),
+					'U_REPORT_AUTHOR' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
+					'U_REPORT_AUTHOR_PRIVMSG' => append_sid("privmsg.php?mode=post&amp;" . POST_USERS_URL . '=' . $report['user_id']),
 					
 					'REPORT_TYPE' => $report_module->lang['REPORT_TYPE'],
 					'REPORT_TITLE' => $report['report_title'],
@@ -790,8 +789,8 @@ else
 						$report_module =& $report_modules[$report['report_module_id']];
 						
 						$template->assign_block_vars('switch_deleted_reports.deleted_reports', array(
-							'U_SHOW' => append_sid("report.$phpEx?" . POST_REPORT_URL . '=' . $report['report_id'] . $cat_url),
-							'U_AUTHOR' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
+							'U_SHOW' => append_sid("report.php?" . POST_REPORT_URL . '=' . $report['report_id'] . $cat_url),
+							'U_AUTHOR' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $report['user_id']),
 							
 							'ID' => $report['report_id'],
 							'TITLE' => $report['report_title'],
@@ -818,5 +817,3 @@ else
 		break;
 	}
 }
-
-?>

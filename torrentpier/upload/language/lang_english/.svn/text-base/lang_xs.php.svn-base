@@ -138,4 +138,3 @@ $lang['XS_CACHE_LOG_NOCOMPILE'] = 'Error compiling: {FILE}';
 */
 $lang['TEMPLATE_CONFIG'] = 'Template Config';
 $lang['XS_STYLE_CONFIGURATION'] = 'Template Configuration';
-

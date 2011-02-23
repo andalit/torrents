@@ -5,11 +5,11 @@ define ('TP_ROOT', './../ptv/'); // Absolete or related local path to your Torre
 define ('USER_ID_DIFF', 1); //	User_id difference between TP and TBDev (tp_user_id - tb_user_id)
 
 // TorrentPier Database
-$dbhost = 'localhost';
-$dbname = 'torrentpier';
-$dbuser = 'root';
-$dbpasswd  = 'root';
-$dbcharset = 'cp1251';
+define('DBHOST', 'localhost');
+define('DBNAME', 'torrentpier');
+define('DBUSER', 'root');
+define('DBPASSWD', 'root');
+define('DBCHARSET', 'cp1251');
 
 // Start announce
 define ('IN_ANNOUNCE', true);
@@ -37,9 +37,9 @@ $user_id = $user['id'];
 mysql_close();
 
 // Init connection to TP database for get passkey
-@mysql_connect($dbhost, $dbuser, $dbpasswd);
-@mysql_select_db($dbname);
-mysql_query("SET NAMES $dbcharset");
+@mysql_connect(DBHOST, DBUSER, DBPASSWD);
+@mysql_select_db(DBNAME);
+mysql_query("SET NAMES ".DBCHARSET);
 
 // Get passkey for TorrentPier
 $user_id += USER_ID_DIFF; 
@@ -55,7 +55,7 @@ mysql_close();
 
 $_GET['uk'] = $user['auth_key'];
 
-unset($res, $user, $dbpasswd, $passkey, $user_id);
+unset($res, $user, $passkey, $user_id);
 
 // Execute TP's announce
 chdir(TP_ROOT .'bt/');

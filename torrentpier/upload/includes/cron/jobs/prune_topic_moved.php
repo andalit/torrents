@@ -12,4 +12,3 @@ if ($bb_cfg['topic_moved_days_keep'])
 			AND topic_time < $prune_time
 	");
 }
-

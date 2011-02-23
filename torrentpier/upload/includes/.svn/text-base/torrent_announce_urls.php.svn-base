@@ -13,4 +13,3 @@ $announce_urls = array();
 //
 
 // $announce_urls[] = 'http://somesite.com/announce';
-

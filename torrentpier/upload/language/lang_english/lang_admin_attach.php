@@ -224,4 +224,3 @@ $lang['ATTACHMENTS'] = 'Attachments';
 $lang['ATTACHMENT'] = 'Attachment';
 $lang['EXTENSIONS'] = 'Extensions';
 $lang['EXTENSION'] = 'Extension';
-

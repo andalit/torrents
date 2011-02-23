@@ -32,9 +32,9 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 }
 
 define('IN_XS', true);
-include('xs_include.' . $phpEx);
+include('xs_include.php');
 
-$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_cache.'.$phpEx) . '">' . $lang['XS_MANAGE_CACHE'] . '</a>'));
+$template->assign_block_vars('nav_left',array('ITEM' => '&raquo; <a href="' . append_sid('xs_cache.php') . '">' . $lang['XS_MANAGE_CACHE'] . '</a>'));
 
 $data = '';
 
@@ -51,10 +51,10 @@ $skip_files = array(
 //
 // clear cache
 //
-if(isset($HTTP_GET_VARS['clear']) && !defined('DEMO_MODE'))
+if(isset($_GET['clear']) && !defined('DEMO_MODE'))
 {
 	@set_time_limit(XS_MAX_TIMEOUT);
-	$clear = $HTTP_GET_VARS['clear'];
+	$clear = $_GET['clear'];
 	if(!$clear)
 	{
 		// clear all cache
@@ -124,9 +124,9 @@ if(isset($HTTP_GET_VARS['clear']) && !defined('DEMO_MODE'))
 //
 // compile cache
 //
-if(isset($HTTP_GET_VARS['compile']) && !defined('DEMO_MODE'))
+if(isset($_GET['compile']) && !defined('DEMO_MODE'))
 {
-	$tpl = $HTTP_GET_VARS['compile'];
+	$tpl = $_GET['compile'];
 	@set_time_limit(XS_MAX_TIMEOUT);
 	$num_errors = 0;
 	$num_compiled = 0;
@@ -226,8 +226,8 @@ for($i=0; $i<count($style_rowset); $i++)
 					'ROW_CLASS'	=> $row_class,
 					'TPL'		=> $prev_tpl,
 					'STYLES'	=> $str,
-					'U_CLEAR'	=> "xs_cache.{$phpEx}?clear={$str2}&sid={$userdata['session_id']}",
-					'U_COMPILE'	=> "xs_cache.{$phpEx}?compile={$str2}&sid={$userdata['session_id']}",
+					'U_CLEAR'	=> "xs_cache.php?clear={$str2}&sid={$userdata['session_id']}",
+					'U_COMPILE'	=> "xs_cache.php?compile={$str2}&sid={$userdata['session_id']}",
 				)
 			);
 		}
@@ -246,19 +246,18 @@ if($prev_id > 0)
 			'ROW_CLASS'	=> $row_class,
 			'TPL'		=> $prev_tpl,
 			'STYLES'	=> $str,
-			'U_CLEAR'	=> "xs_cache.{$phpEx}?clear={$str2}&sid={$userdata['session_id']}",
-			'U_COMPILE'	=> "xs_cache.{$phpEx}?compile={$str2}&sid={$userdata['session_id']}",
+			'U_CLEAR'	=> "xs_cache.php?clear={$str2}&sid={$userdata['session_id']}",
+			'U_COMPILE'	=> "xs_cache.php?compile={$str2}&sid={$userdata['session_id']}",
 		)
 	);
 }
 
 $template->assign_vars(array(
-	'U_CLEAR_ALL'	=> "xs_cache.{$phpEx}?clear=&sid={$userdata['session_id']}",
-	'U_COMPILE_ALL'	=> "xs_cache.{$phpEx}?compile=&sid={$userdata['session_id']}",
+	'U_CLEAR_ALL'	=> "xs_cache.php?clear=&sid={$userdata['session_id']}",
+	'U_COMPILE_ALL'	=> "xs_cache.php?compile=&sid={$userdata['session_id']}",
 	'RESULT'		=> '<br /><br />' . $data
 	)
 );
 
 $template->pparse('body');
 xs_exit();
-

@@ -32,7 +32,6 @@ require_once VAR_DUMP_DIR .'Var_Dump/Renderer/Common.php';
 
 class Var_Dump_Renderer_Table extends Var_Dump_Renderer_Common
 {
-
     /**
      * Default configuration options.
      *
@@ -241,6 +240,4 @@ class Var_Dump_Renderer_Table extends Var_Dump_Renderer_Common
         }
         return $txt;
     }
-
 }
-

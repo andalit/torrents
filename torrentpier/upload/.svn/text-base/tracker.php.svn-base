@@ -23,8 +23,7 @@
 define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'tracker');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 // Page config
 $page_cfg['include_bbcode_js'] = true;
@@ -418,9 +417,9 @@ if (!$set_default)
 		{
 			$req_poster_id = intval($_GET[$poster_id_key]);
 		}
-		else if (isset($HTTP_POST_VARS[$poster_name_key]) && !$search_id)
+		else if (isset($_POST[$poster_name_key]) && !$search_id)
 		{
-			if ($req_poster_name = phpbb_clean_username($HTTP_POST_VARS[$poster_name_key]))
+			if ($req_poster_name = phpbb_clean_username($_POST[$poster_name_key]))
 			{
 				$poster_name_sql = str_replace("\\'", "''", $req_poster_name);
 
@@ -467,16 +466,16 @@ if (!$set_default)
 			{
 				// Sphinx escape
 				$tmp = preg_replace('#(?<=\S)\-#', ' ', $tmp);                    // "1-2-3" -> "1 2 3"
-				$tmp = preg_replace('#[^0-9a-zA-Zà-ÿÀ-ß¸¨\-_*|]#', ' ', $tmp);    // äîïóñòèìûå ñèìâîëû (êðîìå " êîòîðûå îòäåëüíî)
-				$tmp = str_replace('-', ' -', $tmp);                              // - òîëüêî â íà÷àëå ñëîâà
-				$tmp = str_replace('*', '* ', $tmp);                              // * òîëüêî â êîíöå ñëîâà
+				$tmp = preg_replace('#[^0-9a-zA-ZÐ°-ÑÐ-Ð¯Ñ‘Ð\-_*|]#', ' ', $tmp);    // Ð´Ð¾Ð¿ÑƒÑÑ‚Ð¸Ð¼Ñ‹Ðµ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹ (ÐºÑ€Ð¾Ð¼Ðµ " ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¾Ñ‚Ð´ÐµÐ»ÑŒÐ½Ð¾)
+				$tmp = str_replace('-', ' -', $tmp);                              // - Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² Ð½Ð°Ñ‡Ð°Ð»Ðµ ÑÐ»Ð¾Ð²Ð°
+				$tmp = str_replace('*', '* ', $tmp);                              // * Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² ÐºÐ¾Ð½Ñ†Ðµ ÑÐ»Ð¾Ð²Ð°
 				$tmp = preg_replace('#\s*\|\s*#', '|', $tmp);                     // "| " -> "|"
 				$tmp = preg_replace('#\|+#', ' | ', $tmp);                        // "||" -> "|"
-				$tmp = preg_replace('#(?<=\s)[\-*]+\s#', ' ', $tmp);              // îäèíî÷íûå " - ", " * "
+				$tmp = preg_replace('#(?<=\s)[\-*]+\s#', ' ', $tmp);              // Ð¾Ð´Ð¸Ð½Ð¾Ñ‡Ð½Ñ‹Ðµ " - ", " * "
 				$tmp = trim($tmp, ' -|');
 				$tmp = str_compact($tmp);
 				// Sphinx escape End.
-				$title_match_q = preg_replace('/[¸¨]/', 'å', $tmp);
+				$title_match_q = preg_replace('/[Ñ‘Ð]/', 'Ðµ', $tmp);
 			} else {
 				$title_match_sql = clean_text_match($tmp, $all_words_val, false, false);
 			}
@@ -665,7 +664,6 @@ if ($allowed_forums)
 		$s_seen_time      = $s_not_seen_opt[$s_not_seen_val]['sql'];
 		$s_seen_sign      = ($s_not_seen_val == $never) ? '=' : '<';
 		$s_seen_exclude   = ($s_not_seen_val == $never) ? '' : "AND tor.seeder_last_seen != 0";
-		$search_bool_mode = ($bb_cfg['bt_search_bool_mode']) ? " IN BOOLEAN MODE" : '';
 		$order_by_peers   = ($order_val == $ord_seeders || $order_val == $ord_leechers);
 		$order_by_speed   = ($order_val == $ord_sp_up || $order_val == $ord_sp_down);
 
@@ -738,7 +736,7 @@ if ($allowed_forums)
 		}
 		if ($title_match)
 		{
-			$SQL['WHERE'][] = "MATCH (t.topic_title) AGAINST ('$title_match_sql'". $search_bool_mode .")";
+			$SQL['WHERE'][] = "t.topic_title LIKE '%$title_match_val%'";
 		}
 
 		// ORDER
@@ -1006,7 +1004,7 @@ $template->assign_vars(array(
 	'TITLE_MATCH_VAL'  => $title_match_val,
 
 	'AJAX_TOPICS'      => $user->opt_js['tr_t_ax'],
-	'U_SEARCH_USER'    => "search.$phpEx?mode=searchuser&input_name=$poster_name_key",
+	'U_SEARCH_USER'    => "search.php?mode=searchuser&input_name=$poster_name_key",
 ));
 
 // Hidden fields
@@ -1058,4 +1056,3 @@ $template->assign_vars(array(
 ));
 
 print_page('tracker.tpl');
-

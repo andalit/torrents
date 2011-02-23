@@ -27,8 +27,7 @@ $start = NULL;
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'medal');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-include(BB_ROOT ."common.$phpEx");
+include(BB_ROOT ."common.php");
 $current_time = (isset($_GET['time']) && $_GET['time'] == 'all') ? 0 : time();
 //
 // Start session management
@@ -55,7 +54,7 @@ if( !empty($bb_cache->db) && !$_GET['re'] && ($out = $bb_cache->get('medal-out')
 } else {
 	ob_start();
 
-make_jumpbox('viewforum.'.$phpEx);
+make_jumpbox('viewforum.php');
 
 //profiler_block( 'ratio' );
 
@@ -94,7 +93,7 @@ if ( $row = $db->sql_fetchrow($result) )
                         'UP' => humn_size ($upload),
                         'DOWN' => humn_size ($download),
                         'BONUS' => humn_size( $row['u_up_bonus'] ),
-                        'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
+                        'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
                 );
                 $i++;
         }
@@ -139,7 +138,7 @@ if ( $row = $db->sql_fetchrow($result) )
                         'UP' => humn_size ($upload),
                         'DOWN' => humn_size ($download),
                         'BONUS' => humn_size( $row['u_up_bonus'] ),
-                        'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
+                        'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
                 );
                 $i++;
         }
@@ -183,12 +182,12 @@ if ( $row = $db->sql_fetchrow($result) )
                         'USERNAME' => $username,
                         'CATEGORY' => $category,
                         'FORUM_NAME' => $forum_name,
-                        'FORUM_HREF' => append_sid("viewforum.$phpEx?f=". $row['forum_id']),
+                        'FORUM_HREF' => append_sid("viewforum.php?f=". $row['forum_id']),
                         'COMPLETE_COUNT' => $complete,
                         'REG_TIME' => $reg_time,
                         'TOPIC_TITLE' => $topic_title,
-                        'TOPIC_HREF'   => append_sid("viewtopic.$phpEx?t=". $row['topic_id']),
-                        'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
+                        'TOPIC_HREF'   => append_sid("viewtopic.php?t=". $row['topic_id']),
+                        'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
                 );
                 $i++;
         }
@@ -235,12 +234,12 @@ if ( $row = $db->sql_fetchrow($result) )
                         'USERNAME' => $username,
                         'CATEGORY' => $category,
                         'FORUM_NAME' => $forum_name,
-                        'FORUM_HREF' => append_sid("viewforum.$phpEx?f=". $row['forum_id']),
+                        'FORUM_HREF' => append_sid("viewforum.php?f=". $row['forum_id']),
                         'COMPLETE_COUNT' => $complete,
                         'REG_TIME' => $reg_time,
                         'TOPIC_TITLE' => $topic_title,
-                        'TOPIC_HREF'   => append_sid("viewtopic.$phpEx?t=". $row['topic_id']),
-                        'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
+                        'TOPIC_HREF'   => append_sid("viewtopic.php?t=". $row['topic_id']),
+                        'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
                 );
                 $i++;
         }
@@ -287,12 +286,12 @@ if ( $row = $db->sql_fetchrow($result) )
                         'USERNAME' => $username,
                         'CATEGORY' => $category,
                         'FORUM_NAME' => $forum_name,
-                        'FORUM_HREF' => append_sid("viewforum.$phpEx?f=". $row['forum_id']),
+                        'FORUM_HREF' => append_sid("viewforum.php?f=". $row['forum_id']),
                         'COMPLETE_COUNT' => $complete,
                         'REG_TIME' => $reg_time,
                         'TOPIC_TITLE' => $topic_title,
-                        'TOPIC_HREF'   => append_sid("viewtopic.$phpEx?t=". $row['topic_id']),
-                        'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
+                        'TOPIC_HREF'   => append_sid("viewtopic.php?t=". $row['topic_id']),
+                        'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"))
                 );
                 $i++;
         }
@@ -327,7 +326,7 @@ while ( $row = $db->sql_fetchrow($result) )
 		'DL_COUNT' => $row['rc'],
 		'RELEASES' => $row['cc'],
 		'DL_AVG' => round( $row['rc'] / $row['cc'] ),
-		'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
+		'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
 		'U_RELEASES' => append_sid("tracker.php?pid=". $row['user_id']),
 	));
 }
@@ -360,7 +359,7 @@ while ( $row = $db->sql_fetchrow($result) )
 		'DL_COUNT' => $row['rc'],
 		'RELEASES' => $row['cc'],
 		'DL_AVG' => round( $row['rc'] / $row['cc'] ),
-		'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
+		'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
 		'U_RELEASES' => append_sid("tracker.php?pid=". $row['user_id']),
 	));
 }
@@ -394,7 +393,7 @@ while ( $row = $db->sql_fetchrow($result) )
 		'THANKS' => $row['rc'],
 		'RELEASES' => $row['cc'],
 		'RATE' => $row['r_count'] ? round($row['r_sum']/$row['r_count'],2) .' ('. $row['r_count'] .')' : '',
-		'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
+		'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
 		'U_RELEASES' => append_sid("tracker.php?pid=". $row['user_id']),
 	));
 }
@@ -428,7 +427,7 @@ while ( $row = $db->sql_fetchrow($result) )
 		'THANKS' => $row['rc'],
 		'RELEASES' => $row['cc'],
 		'RATE' => $row['r_count'] ? round($row['r_sum']/$row['r_count'],2) .' ('. $row['r_count'] .')' : '',
-		'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
+		'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=". $row['user_id']),
 		'U_RELEASES' => append_sid("tracker.php?pid=". $row['user_id']),
 	));
 }
@@ -446,5 +445,3 @@ $template->pparse('body');
 }
 
 require(PAGE_FOOTER);
-
-?>

@@ -12,7 +12,7 @@ function tpl_func_developer ($item, $val)
 	return '[b]'. $GLOBALS['lang']['TPL'][$item] .'[/b]: ' . "[url={$val['url']}]{$val['name']}[/url]" ."\n";
 }
 
-if (!empty($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
+if (!empty($_REQUEST['preview']) && is_array($_POST['msg']))
 {
 	$tpl_items = array(
 		'release_name',
@@ -40,7 +40,7 @@ if (!empty($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
 
 	foreach ($tpl_items as $item)
 	{
-		$msg[$item] = @$HTTP_POST_VARS['msg'][$item];
+		$msg[$item] = @$_POST['msg'][$item];
 	}
 	array_deep($msg, 'trim');
 
@@ -50,4 +50,3 @@ if (!empty($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
 		$subject = $msg['release_name'];
 	}
 }
-

@@ -95,4 +95,3 @@ $db->query("
 	LEFT JOIN ". BT_TORRENTS_TABLE ." tor USING(topic_id)
 	WHERE tor.topic_id IS NULL
 ");
-

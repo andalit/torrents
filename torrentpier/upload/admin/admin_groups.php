@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_group.'. PHP_EXT);
+require(INC_DIR .'functions_group.php');
 
 $group_id = (@$_REQUEST[POST_GROUPS_URL]) ? intval($_REQUEST[POST_GROUPS_URL]) : 0;
 $mode     = (@$_REQUEST['mode']) ? strval($_REQUEST['mode']) : '';
@@ -59,14 +59,14 @@ if (!empty($_POST['edit']) || !empty($_POST['new']))
 		'GROUP_DESCRIPTION'      => htmlspecialchars($group_info['group_description']),
 		'GROUP_MODERATOR'        => replace_quote($group_info['group_mod_name']),
 		'T_GROUP_EDIT_DELETE'    => ($mode == 'newgroup') ? $lang['CREATE_NEW_GROUP'] : $lang['EDIT_GROUP'],
-		'U_SEARCH_USER'          => append_sid(BB_ROOT ."search.$phpEx?mode=searchuser"),
+		'U_SEARCH_USER'          => append_sid(BB_ROOT ."search.php?mode=searchuser"),
 		'S_GROUP_OPEN_TYPE'      => GROUP_OPEN,
 		'S_GROUP_CLOSED_TYPE'    => GROUP_CLOSED,
 		'S_GROUP_HIDDEN_TYPE'    => GROUP_HIDDEN,
 		'S_GROUP_OPEN_CHECKED'   => ($group_info['group_type'] == GROUP_OPEN) ? HTML_CHECKED : '',
 		'S_GROUP_CLOSED_CHECKED' => ($group_info['group_type'] == GROUP_CLOSED) ? HTML_CHECKED : '',
 		'S_GROUP_HIDDEN_CHECKED' => ($group_info['group_type'] == GROUP_HIDDEN ) ? HTML_CHECKED : '',
-		'S_GROUP_ACTION'         => append_sid("admin_groups.$phpEx"),
+		'S_GROUP_ACTION'         => append_sid("admin_groups.php"),
 		'S_HIDDEN_FIELDS'        => $s_hidden_fields,
 	));
 }
@@ -82,8 +82,8 @@ else if (!empty($_POST['group_update']))
 		delete_group($group_id);
 
 		$message = $lang['DELETED_GROUP'] .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.$phpEx") .'">', '</a>') .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+		$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.php") .'">', '</a>') .'<br /><br />';
+		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 		bb_die($message);
 	}
@@ -93,7 +93,7 @@ else if (!empty($_POST['group_update']))
 		$group_name = isset($_POST['group_name']) ? trim($_POST['group_name']) : '';
 		$group_desc = isset($_POST['group_description']) ? trim($_POST['group_description']) : '';
 
-		$group_moderator = isset($_POST['username']) ? $HTTP_POST_VARS['username'] : '';
+		$group_moderator = isset($_POST['username']) ? $_POST['username'] : '';
 
 		if ($group_name === '')
 		{
@@ -143,8 +143,8 @@ else if (!empty($_POST['group_update']))
 			$db->query("UPDATE ". GROUPS_TABLE ." SET $sql_args WHERE group_id = $group_id");
 
 			$message = $lang['UPDATED_GROUP'] .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.$phpEx") .'">', '</a>') .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+			$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.php") .'">', '</a>') .'<br /><br />';
+			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 			bb_die($message);
 		}
@@ -160,8 +160,8 @@ else if (!empty($_POST['group_update']))
 			add_user_into_group($new_group_id, $group_moderator);
 
 			$message = $lang['ADDED_NEW_GROUP'] .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.$phpEx") .'">', '</a>') .'<br /><br />';
-			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+			$message .= sprintf($lang['CLICK_RETURN_GROUPSADMIN'], '<a href="'. append_sid("admin_groups.php") .'">', '</a>') .'<br /><br />';
+			$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 			bb_die($message);
 		}
@@ -176,7 +176,7 @@ else
 	$template->assign_vars(array(
 		'TPL_GROUP_SELECT' => true,
 
-		'S_GROUP_ACTION'   => append_sid("admin_groups.$phpEx"),
+		'S_GROUP_ACTION'   => append_sid("admin_groups.php"),
 		'S_GROUP_SELECT'   => get_select('groups'),
 	));
 }

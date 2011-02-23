@@ -23,11 +23,10 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'posting');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR .'bbcode.'. PHP_EXT);
-require(INC_DIR .'functions_post.'. PHP_EXT);
-require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR .'bbcode.php');
+require(INC_DIR .'functions_post.php');
+require(BB_ROOT .'attach_mod/attachment_mod.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -305,12 +304,12 @@ if (!$is_auth[$is_auth_type])
 		default:
 			$redirect = '';
 	}
-	redirect("login.$phpEx?redirect=posting.$phpEx&amp;$redirect");
+	redirect("login.php?redirect=posting.php&amp;$redirect");
 }
 
 if ($mode == 'newtopic' && $topic_tpl && $post_info['topic_tpl_id'])
 {
-	require(INC_DIR .'topic_templates.'. PHP_EXT);
+	require(INC_DIR .'topic_templates.php');
 }
 
 // BBCode
@@ -428,7 +427,7 @@ if ( ( $delete || $poll_delete || $mode == 'delete' ) && !$confirm )
 
 	print_confirmation(array(
 		'QUESTION'      => ($delete || $mode == 'delete') ? $lang['CONFIRM_DELETE'] : $lang['CONFIRM_DELETE_POLL'],
-		'FORM_ACTION'   => "posting.$phpEx",
+		'FORM_ACTION'   => "posting.php",
 		'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 	));
 }
@@ -437,9 +436,9 @@ else if ( $mode == 'vote' )
 	//
 	// Vote in a poll
 	//
-	if ( !empty($HTTP_POST_VARS['vote_id']) )
+	if ( !empty($_POST['vote_id']) )
 	{
-		$vote_option_id = intval($HTTP_POST_VARS['vote_id']);
+		$vote_option_id = intval($_POST['vote_id']);
 
 		$sql = "SELECT vd.vote_id
 			FROM " . VOTE_DESC_TABLE . " vd, " . VOTE_RESULTS_TABLE . " vr
@@ -497,13 +496,13 @@ else if ( $mode == 'vote' )
 		}
 		$db->sql_freeresult($result);
 
-		meta_refresh(append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id")); 
-		$message .= '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
+		meta_refresh(append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id")); 
+		$message .= '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id") . '">', '</a>');
 		message_die(GENERAL_MESSAGE, $message);
 	}
 	else
 	{
-		redirect(append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id", true));
+		redirect(append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id", true));
 	}
 }
 //snp
@@ -522,12 +521,12 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 		case 'editpost':
 		case 'newtopic':
 		case 'reply':
-			$username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
-			$subject = ( !empty($HTTP_POST_VARS['subject']) ) ? trim($HTTP_POST_VARS['subject']) : '';
-			$message = ( !empty($HTTP_POST_VARS['message']) ) ? $HTTP_POST_VARS['message'] : '';
-			$poll_title = ( isset($HTTP_POST_VARS['poll_title']) && $is_auth['auth_pollcreate'] ) ? $HTTP_POST_VARS['poll_title'] : '';
-			$poll_options = ( isset($HTTP_POST_VARS['poll_option_text']) && $is_auth['auth_pollcreate'] ) ? $HTTP_POST_VARS['poll_option_text'] : '';
-			$poll_length = ( isset($HTTP_POST_VARS['poll_length']) && $is_auth['auth_pollcreate'] ) ? $HTTP_POST_VARS['poll_length'] : '';
+			$username = ( !empty($_POST['username']) ) ? $_POST['username'] : '';
+			$subject = ( !empty($_POST['subject']) ) ? trim($_POST['subject']) : '';
+			$message = ( !empty($_POST['message']) ) ? $_POST['message'] : '';
+			$poll_title = ( isset($_POST['poll_title']) && $is_auth['auth_pollcreate'] ) ? $_POST['poll_title'] : '';
+			$poll_options = ( isset($_POST['poll_option_text']) && $is_auth['auth_pollcreate'] ) ? $_POST['poll_option_text'] : '';
+			$poll_length = ( isset($_POST['poll_length']) && $is_auth['auth_pollcreate'] ) ? $_POST['poll_length'] : '';
 			$bbcode_uid = '';
 
 			prepare_post($mode, $post_data, $bbcode_on, $smilies_on, $error_msg, $username, $bbcode_uid, $subject, $message, $poll_title, $poll_options, $poll_length);
@@ -542,7 +541,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		case 'delete':
 		case 'poll_delete':
-			require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+			require_once(INC_DIR .'functions_admin.php');
 			delete_post($mode, $post_data, $return_message, $return_meta, $forum_id, $topic_id, $post_id, $poll_id);
 			break;
 	}
@@ -571,7 +570,7 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 
 		if ($torrent_attach && $bb_cfg['bt_newtopic_auto_reg'] && $mode == 'newtopic' && !$error_msg)
 		{
-			include($phpbb_root_path .'includes/functions_torrent.'. $phpEx);
+			include($phpbb_root_path .'includes/functions_torrent.php');
 			tracker_register(TORRENT_ATTACH_ID, 'newtopic');
 		}
 
@@ -591,24 +590,24 @@ else if ( ($submit || $confirm) && !$topic_has_new_posts )
 }
 
 //snp
-//if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg != '' )
-if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg || ($submit && $topic_has_new_posts) )
+//if( $refresh || isset($_POST['del_poll_option']) || $error_msg != '' )
+if( $refresh || isset($_POST['del_poll_option']) || $error_msg || ($submit && $topic_has_new_posts) )
 //snp end
 {
-	$username = ( !empty($HTTP_POST_VARS['username']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['username']))) : '';
-	$subject = ( !empty($HTTP_POST_VARS['subject']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['subject']))) : '';
-	$message = ( !empty($HTTP_POST_VARS['message']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['message']))) : '';
+	$username = ( !empty($_POST['username']) ) ? htmlspecialchars(trim(stripslashes($_POST['username']))) : '';
+	$subject = ( !empty($_POST['subject']) ) ? htmlspecialchars(trim(stripslashes($_POST['subject']))) : '';
+	$message = ( !empty($_POST['message']) ) ? htmlspecialchars(trim(stripslashes($_POST['message']))) : '';
 
-	$poll_title = ( !empty($HTTP_POST_VARS['poll_title']) ) ? htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['poll_title']))) : '';
-	$poll_length = ( isset($HTTP_POST_VARS['poll_length']) ) ? max(0, intval($HTTP_POST_VARS['poll_length'])) : 0;
+	$poll_title = ( !empty($_POST['poll_title']) ) ? htmlspecialchars(trim(stripslashes($_POST['poll_title']))) : '';
+	$poll_length = ( isset($_POST['poll_length']) ) ? max(0, intval($_POST['poll_length'])) : 0;
 
 	$poll_options = array();
-	if ( !empty($HTTP_POST_VARS['poll_option_text']) )
+	if ( !empty($_POST['poll_option_text']) )
 	{
-#		while( list($option_id, $option_text) = @each($HTTP_POST_VARS['poll_option_text']) )
-		foreach ($HTTP_POST_VARS['poll_option_text'] as $option_id => $option_text)
+#		while( list($option_id, $option_text) = @each($_POST['poll_option_text']) )
+		foreach ($_POST['poll_option_text'] as $option_id => $option_text)
 		{
-			if( isset($HTTP_POST_VARS['del_poll_option'][$option_id]) )
+			if( isset($_POST['del_poll_option'][$option_id]) )
 			{
 				unset($poll_options[$option_id]);
 			}
@@ -619,9 +618,9 @@ if( $refresh || isset($HTTP_POST_VARS['del_poll_option']) || $error_msg || ($sub
 		}
 	}
 
-	if ( $poll_add && !empty($HTTP_POST_VARS['add_poll_option_text']) )
+	if ( $poll_add && !empty($_POST['add_poll_option_text']) )
 	{
-		$poll_options[] = htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['add_poll_option_text'])));
+		$poll_options[] = htmlspecialchars(trim(stripslashes($_POST['add_poll_option_text'])));
 	}
 
 	if ($preview)
@@ -855,7 +854,7 @@ $template->assign_vars(array(
 
 	'SHOW_VIRTUAL_KEYBOARD' => $bb_cfg['show_virtual_keyboard'],
 
-	'U_VIEW_FORUM' => append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"))
+	'U_VIEW_FORUM' => append_sid("viewforum.php?" . POST_FORUM_URL . "=$forum_id"))
 );
 
 if ($mode == 'newtopic' || $post_data['first_post'])
@@ -881,12 +880,11 @@ $template->assign_vars(array(
 	'USERNAME' => @$username,
 	'SUBJECT' => $subject,
 	'MESSAGE' => $message,
-	'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="'."faq.$phpEx?mode=bbcode".'" target="_phpbbcode">', '</a>'),
+	'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="'."faq.php?mode=bbcode".'" target="_phpbbcode">', '</a>'),
 	'SMILIES_STATUS' => ($bb_cfg['allow_smilies']) ? $lang['SMILIES_ARE_ON'] : $lang['SMILIES_ARE_OFF'],
 
 	'L_SUBJECT' => $lang['SUBJECT'],
 	'L_MESSAGE_BODY' => $lang['MESSAGE_BODY'],
-	'L_SPELLCHECK' => $lang['SPELLCHECK'],
 	'L_CONFIRM_DELETE' => $lang['CONFIRM_DELETE'],
 	'L_DISABLE_BBCODE' => $lang['DISABLE_BBCODE_POST'],
 	'L_DISABLE_SMILIES' => $lang['DISABLE_SMILIES_POST'],
@@ -932,10 +930,9 @@ $template->assign_vars(array(
 	'L_FONT_LARGE' => $lang['FONT_LARGE'],
 	'L_FONT_HUGE' => $lang['FONT_HUGE'],
 
-	'L_BBCODE_CLOSE_TAGS' => $lang['CLOSE_TAGS'],
 	'L_STYLES_TIP' => $lang['STYLES_TIP'],
 
-	'U_VIEWTOPIC' => ( $mode == 'reply' ) ? append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;postorder=desc") : '',
+	'U_VIEWTOPIC' => ( $mode == 'reply' ) ? append_sid("viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;postorder=desc") : '',
 
 	'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? 'checked="checked"' : '',
 	'S_SMILIES_CHECKED' => ( !$smilies_on ) ? 'checked="checked"' : '',
@@ -943,7 +940,7 @@ $template->assign_vars(array(
 	'S_NOTIFY_CHECKED' => ( $notify_user ) ? 'checked="checked"' : '',
 	'S_TYPE_TOGGLE' => $topic_type_toggle,
 	'S_TOPIC_ID' => $topic_id,
-	'S_POST_ACTION' => append_sid("posting.$phpEx"),
+	'S_POST_ACTION' => append_sid("posting.php"),
 	'S_HIDDEN_FORM_FIELDS' => $hidden_form_fields)
 );
 
@@ -1016,4 +1013,3 @@ require(PAGE_HEADER);
 $template->pparse('body');
 
 require(PAGE_FOOTER);
-

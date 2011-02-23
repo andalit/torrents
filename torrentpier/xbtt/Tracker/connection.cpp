@@ -222,7 +222,9 @@ void Cconnection::read(const std::string& v)
 		if (!ti.valid())
 			break;
 		gzip = false;
-		if (0)
+		if (ti.banned())
+				s = Cbvalue().d(bts_failure_reason, bts_banned_client).read();
+		else if (0)
 			s = Cbvalue().d(bts_failure_reason, bts_banned_client).read();
 		else
 		{

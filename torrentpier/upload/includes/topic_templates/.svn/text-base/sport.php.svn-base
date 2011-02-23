@@ -12,7 +12,7 @@ function tpl_func_framesize ($item, $val)
 	return '[b]'. $GLOBALS['lang']['TPL'][$item] .'[/b]: '. $val['framesize_x'] .'x'. $val['framesize_y'] ."\n";
 }
 
-if (isset($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
+if (isset($_REQUEST['preview']) && is_array($_POST['msg']))
 {
 	$tpl_items = array(
 		'release_name',
@@ -42,7 +42,7 @@ if (isset($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
 
 	foreach ($tpl_items as $item)
 	{
-		$msg[$item] = @$HTTP_POST_VARS['msg'][$item];
+		$msg[$item] = @$_POST['msg'][$item];
 	}
 	array_deep($msg, 'trim');
 
@@ -72,4 +72,3 @@ if (isset($_REQUEST['preview']) && is_array($HTTP_POST_VARS['msg']))
 		$message = tpl_build_message($msg);
 	}
 }
-

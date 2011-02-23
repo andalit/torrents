@@ -3,7 +3,7 @@
 if (!defined('IN_PHPBB')) die(basename(__FILE__));
 if (!$post_info) die('$post_info missing');
 
-require(DEFAULT_LANG_DIR .'lang_topic_templates.'. PHP_EXT);
+require(DEFAULT_LANG_DIR .'lang_topic_templates.php');
 
 function build_tpl_item ($item, $val)
 {
@@ -65,31 +65,31 @@ if ($topic_tpl = $db->fetch_row($sql))
 	$tpl_script = basename($topic_tpl['tpl_script']);
 
 	// this include() should return $message and $subject on submit
-	require(INC_DIR ."topic_templates/$tpl_script.". PHP_EXT);
+	require(INC_DIR ."topic_templates/$tpl_script.php");
 
 	$lang['TPL']['GUIDE'] = array();
-	@include(INC_DIR ."topic_templates/{$tpl_script}_guide.". PHP_EXT);
+	@include(INC_DIR ."topic_templates/{$tpl_script}_guide.php");
 
 	if (isset($_REQUEST['preview']))
 	{
-		$HTTP_POST_VARS['subject'] = $subject;
-		$HTTP_POST_VARS['message'] = $message;
+		$_POST['subject'] = $subject;
+		$_POST['message'] = $message;
 	}
 	else
 	{
-		require(INC_DIR .'topic_templates/tpl_selects.'. PHP_EXT);
+		require(INC_DIR .'topic_templates/tpl_selects.php');
 
 		$template->assign_vars(array(
 			'PAGE_TITLE'        => $lang['BT_NEW_RELEASE'],
 			'FORUM_NAME'        => htmlCHR($post_info['forum_name']),
-			'S_ACTION'          => append_sid("posting.$phpEx?mode=newtopic&tpl=1&". POST_FORUM_URL .'='. $post_info['forum_id']),
+			'S_ACTION'          => append_sid("posting.php?mode=newtopic&tpl=1&". POST_FORUM_URL .'='. $post_info['forum_id']),
 			'S_CANCEL_ACTION'   => append_sid(FORUM_URL . $post_info['forum_id']),
 			'TORRENT_EXT'       => TORRENT_EXT,
 			'TORRENT_EXT_LEN'   => strlen(TORRENT_EXT) + 1,
 			'U_VIEW_FORUM'      => append_sid(FORUM_URL . $post_info['forum_id']),
 
 			'REGULAR_TOPIC_BUTTON' => true, # (IS_MOD || IS_ADMIN),
-			'REGULAR_TOPIC_HREF'   => append_sid("posting.$phpEx?mode=newtopic&". POST_FORUM_URL .'='. $post_info['forum_id']),
+			'REGULAR_TOPIC_HREF'   => append_sid("posting.php?mode=newtopic&". POST_FORUM_URL .'='. $post_info['forum_id']),
 			'L_POST_REGULAR_TOPIC' => $lang['POST_REGULAR_TOPIC'],
 
 			'L_BACK'            => $lang['BT_BACK'],
@@ -123,4 +123,3 @@ if ($topic_tpl = $db->fetch_row($sql))
 		print_page("topic_templates/$tpl_file");
 	}
 }
-

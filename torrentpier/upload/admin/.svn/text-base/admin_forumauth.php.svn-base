@@ -65,9 +65,9 @@ else
 	$forum_sql = '';
 }
 
-if( isset($HTTP_GET_VARS['adv']) )
+if( isset($_GET['adv']) )
 {
-	$adv = intval($HTTP_GET_VARS['adv']);
+	$adv = intval($_GET['adv']);
 }
 else
 {
@@ -77,15 +77,15 @@ else
 //
 // Start program proper
 //
-if( isset($HTTP_POST_VARS['submit']) )
+if( isset($_POST['submit']) )
 {
 	$sql = '';
 
 	if(!empty($forum_id))
 	{
-		if(isset($HTTP_POST_VARS['simpleauth']))
+		if(isset($_POST['simpleauth']))
 		{
-			$simple_ary = $simple_auth_ary[intval($HTTP_POST_VARS['simpleauth'])];
+			$simple_ary = $simple_auth_ary[intval($_POST['simpleauth'])];
 
 			for($i = 0; $i < count($simple_ary); $i++)
 			{
@@ -101,11 +101,11 @@ if( isset($HTTP_POST_VARS['submit']) )
 		{
 			for($i = 0; $i < count($forum_auth_fields); $i++)
 			{
-				$value = intval($HTTP_POST_VARS[$forum_auth_fields[$i]]);
+				$value = intval($_POST[$forum_auth_fields[$i]]);
 
 				if ( $forum_auth_fields[$i] == 'auth_vote' )
 				{
-					if ( $HTTP_POST_VARS['auth_vote'] == AUTH_ALL )
+					if ( $_POST['auth_vote'] == AUTH_ALL )
 					{
 						$value = AUTH_REG;
 					}
@@ -130,7 +130,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 	}
 
 	$datastore->update('cat_forums');
-	$message = $lang['FORUM_AUTH_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_FORUMAUTH'],  '<a href="'."admin_forumauth.$phpEx".'">', "</a>");
+	$message = $lang['FORUM_AUTH_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_FORUMAUTH'],  '<a href="'."admin_forumauth.php".'">', "</a>");
 	message_die(GENERAL_MESSAGE, $message);
 
 } // End of submit
@@ -152,7 +152,7 @@ if (empty($forum_id))
 		'L_AUTH_EXPLAIN' => $lang['FORUM_AUTH_EXPLAIN'],
 		'L_AUTH_SELECT'  => $lang['SELECT_A_FORUM'],
 
-		'S_AUTH_ACTION'  => "admin_forumauth.$phpEx",
+		'S_AUTH_ACTION'  => "admin_forumauth.php",
 		'S_AUTH_SELECT'  => get_forum_select('admin', 'f', null, 80),
 	));
 
@@ -241,7 +241,7 @@ else
 	}
 
 	$adv_mode = ( empty($adv) ) ? '1' : '0';
-	$switch_mode = "admin_forumauth.$phpEx?f=$forum_id&amp;adv=$adv_mode";
+	$switch_mode = "admin_forumauth.php?f=$forum_id&amp;adv=$adv_mode";
 	$switch_mode_text = ( empty($adv) ) ? $lang['ADVANCED_MODE'] : $lang['SIMPLE_MODE'];
 	$u_switch_mode = '<a href="' . $switch_mode . '">' . $switch_mode_text . '</a>';
 
@@ -257,11 +257,10 @@ else
 
 		'U_SWITCH_MODE' => $u_switch_mode,
 
-		'S_FORUMAUTH_ACTION' => "admin_forumauth.$phpEx",
+		'S_FORUMAUTH_ACTION' => "admin_forumauth.php",
 		'S_COLUMN_SPAN' => $s_column_span,
 		'S_HIDDEN_FIELDS' => $s_hidden_fields,
 	));
 }
 
 print_page('admin_forumauth.tpl', 'admin');
-

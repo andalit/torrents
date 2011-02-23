@@ -20,23 +20,22 @@
 	http://code.google.com/p/torrentpier/
  */
 
+ignore_user_abort(true);
 define('TIMESTART', utime());
 define('TIMENOW',   time());
 
 if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) die();
 
 if (!defined('BB_ROOT')) define('BB_ROOT', './');
-if (!defined('PHP_EXT')) define('PHP_EXT', substr(strrchr(__FILE__, '.'), 1));
 if (!defined('IN_PHPBB') && !defined('IN_TRACKER')) define('IN_PHPBB', true);
 
-if (!isset($phpEx)) $phpEx = PHP_EXT;
 $phpbb_root_path = BB_ROOT;
 
 // Get initial config
-require(BB_ROOT .'config.'. PHP_EXT);
-require(BB_ROOT .'config_mods.'. PHP_EXT);
+require(BB_ROOT .'config.php');
+require(BB_ROOT .'config_mods.php');
 
-if (empty($dbcharset)) $dbcharset = 'utf8';
+if (!defined('DBCHARSET')) define('DBCHARSET', 'utf8');
 
 // Debug options
 define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
@@ -44,10 +43,10 @@ define('DBG_USER', (isset($_COOKIE[COOKIE_DBG]) || DEBUG === true));
 if (DBG_LOG) dbg_log(' ', '__hits__');
 
 // Board/Tracker shared constants and functions
-define('BT_TORRENTS_TABLE',      $table_prefix .'bt_torrents');
-define('BT_TRACKER_TABLE',       $table_prefix .'bt_tracker');
-define('BT_TRACKER_SNAP_TABLE',  $table_prefix .'bt_tracker_snap');
-define('BT_USERS_TABLE',         $table_prefix .'bt_users');
+define('BT_TORRENTS_TABLE',      'bb_bt_torrents');
+define('BT_TRACKER_TABLE',       'bb_bt_tracker');
+define('BT_TRACKER_SNAP_TABLE',  'bb_bt_tracker_snap');
+define('BT_USERS_TABLE',         'bb_bt_users');
 
 define('BT_AUTH_KEY_LENGTH', 10);
 
@@ -332,7 +331,7 @@ class cache_file extends cache_common
 
 	function get ($name)
 	{
-		$filename = $this->dir . clean_filename($name) . '.'. PHP_EXT;
+		$filename = $this->dir . clean_filename($name) . '.php';
 		
 		if(file_exists($filename)) 
 		{
@@ -349,7 +348,7 @@ class cache_file extends cache_common
 			return false;
 		}
 		
-		$filename   = $this->dir . clean_filename($name) . '.'. PHP_EXT;
+		$filename   = $this->dir . clean_filename($name) . '.php';
 		$expire     = TIMENOW + $ttl;
 		$cache_data = array(
 			'expire'  => $expire,
@@ -366,7 +365,7 @@ class cache_file extends cache_common
 
 	function rm ($name)
 	{
-		$filename   = $this->dir . clean_filename($name) . '.' . PHP_EXT;
+		$filename   = $this->dir . clean_filename($name) . '.php';
 		if (file_exists($filename))
 		{
 			return (bool) unlink($filename);
@@ -929,7 +928,7 @@ function ver_compare ($version1, $operator, $version2)
 // Board init
 if (defined('IN_PHPBB'))
 {
-	require(INC_DIR .'init_bb.'. PHP_EXT);
+	require(INC_DIR .'init_bb.php');
 }
 // Tracker init
 else if (defined('IN_TRACKER'))
@@ -953,6 +952,7 @@ else if (defined('IN_TRACKER'))
 	if (STRIP_SLASHES)
 	{
 		array_deep($_GET, 'stripslashes');
+		array_deep($_POST, 'stripslashes');
 	}
 
 	if (!defined('IN_ADMIN'))

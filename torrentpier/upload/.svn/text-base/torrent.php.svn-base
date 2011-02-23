@@ -23,10 +23,9 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'torrent');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
-require(INC_DIR .'functions_torrent.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(BB_ROOT .'attach_mod/attachment_mod.php');
+require(INC_DIR .'functions_torrent.php');
 
 // Start session management
 $user->session_start();
@@ -34,7 +33,7 @@ $user->session_start();
 // Check if user logged in
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect=index.$phpEx", true));
+	redirect(append_sid("login.php?redirect=index.php", true));
 }
 
 $sid = request_var('sid', '');
@@ -71,7 +70,7 @@ if (($mode == 'reg' || $mode == 'unreg' || !empty($_POST['tor_action'])) && !$at
 // Show users torrent-profile
 if ($mode == 'userprofile')
 {
-	redirect(append_sid("profile.$phpEx?mode=viewprofile&u=$req_uid"), true);
+	redirect(append_sid("profile.php?mode=viewprofile&u=$req_uid"), true);
 }
 
 // check SID
@@ -100,13 +99,13 @@ if (!empty($_POST['tor_action']) && $confirm)
 	if ($_POST['tor_action'] === 'del_torrent')
 	{
 		delete_torrent($attach_id, 'request');
-		redirect("viewtopic.$phpEx?t=$topic_id");
+		redirect("viewtopic.php?t=$topic_id");
 	}
 	// Delete torrent and move topic
 	if ($_POST['tor_action'] === 'del_torrent_move_topic')
 	{
 		delete_torrent($attach_id, 'request');
-		redirect("modcp.$phpEx?t=$topic_id&mode=move&sid={$userdata['session_id']}");
+		redirect("modcp.php?t=$topic_id&mode=move&sid={$userdata['session_id']}");
 	}
 	// Set/UnSet GOLD & SILVER
 	if ( ($_POST['tor_action'] === 'set_silver' || $_POST['tor_action'] === 'set_gold' || $_POST['tor_action'] === 'unset_silver_gold' ) && $bb_cfg['gold_silver_enabled'])
@@ -124,7 +123,7 @@ if (!empty($_POST['tor_action']) && $confirm)
 			$tor_type = 0;
 		}
 		change_tor_type($attach_id, $tor_type);
-		redirect("viewtopic.$phpEx?t=$topic_id");
+		redirect("viewtopic.php?t=$topic_id");
 	}
 }
 
@@ -149,4 +148,3 @@ if ($mode == 'gen_passkey')
 }
 
 message_die(GENERAL_ERROR, 'Not confirmed or invalid mode');
-

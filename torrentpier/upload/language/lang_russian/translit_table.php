@@ -35,4 +35,3 @@ $translit_table = array(
 	'ю' => 'yu',  'Ю' => 'YU',
 	'я' => 'ya',  'Я' => 'YA',
 );
-

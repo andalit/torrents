@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 49
-/svn/!svn/ver/373/trunk/upload/includes/datastore
+/svn/!svn/ver/585/trunk/upload/includes/datastore
 END
 build_stats.php
 K 25
@@ -18,8 +18,8 @@ END
 build_moderators.php
 K 25
 svn:wc:ra_dav:version-url
-V 69
-/svn/!svn/ver/82/trunk/upload/includes/datastore/build_moderators.php
+V 70
+/svn/!svn/ver/585/trunk/upload/includes/datastore/build_moderators.php
 END
 build_cat_forums.php
 K 25

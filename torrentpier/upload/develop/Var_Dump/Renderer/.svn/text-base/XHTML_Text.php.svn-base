@@ -35,7 +35,6 @@ require_once VAR_DUMP_DIR .'Var_Dump/Renderer/Text.php';
 
 class Var_Dump_Renderer_XHTML_Text extends Var_Dump_Renderer_Text
 {
-
     /**
      * Class constructor.
      *
@@ -59,6 +58,4 @@ class Var_Dump_Renderer_XHTML_Text extends Var_Dump_Renderer_Text
         );
         $this->setOptions($options);
     }
-
 }
-

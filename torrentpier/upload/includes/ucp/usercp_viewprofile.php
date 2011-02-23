@@ -32,13 +32,13 @@ $datastore->enqueue(array(
 
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect={$_SERVER['REQUEST_URI']}", TRUE));
+	redirect(append_sid("login.php?redirect={$_SERVER['REQUEST_URI']}", TRUE));
 }
-if ( empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS )
+if ( empty($_GET[POST_USERS_URL]) || $_GET[POST_USERS_URL] == ANONYMOUS )
 {
 	message_die(GENERAL_MESSAGE, $lang['NO_USER_ID_SPECIFIED']);
 }
-$profiledata = get_userdata($HTTP_GET_VARS[POST_USERS_URL]);
+$profiledata = get_userdata($_GET[POST_USERS_URL]);
 
 if (!$profiledata)
 {
@@ -64,21 +64,7 @@ else
 	$percentage = 0;
 }
 $avatar_img = '';
-if ( $profiledata['user_avatar_type'] && $profiledata['user_allowavatar'] )
-{
-	switch( $profiledata['user_avatar_type'] )
-	{
-		case USER_AVATAR_UPLOAD:
-			$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img src="' . $board_config['avatar_path'] . '/' . $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
-			break;
-		case USER_AVATAR_REMOTE:
-			$avatar_img = ( $board_config['allow_avatar_remote'] ) ? '<img src="' . $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
-			break;
-		case USER_AVATAR_GALLERY:
-			$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img src="' . $board_config['avatar_gallery_path'] . '/' . $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
-			break;
-	}
-}
+$avatar_img = get_avatar($profiledata['user_avatar'], $profiledata['user_avatar_type'], $profiledata['user_allowavatar']);
 
 if (!$ranks = $datastore->get('ranks'))
 {
@@ -93,7 +79,7 @@ if ($user_rank = $profiledata['user_rank'] AND isset($ranks[$user_rank]))
 	$poster_rank = $ranks[$user_rank]['rank_title'];
 }
 
-$temp_url = append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']);
+$temp_url = append_sid("privmsg.php?mode=post&amp;" . POST_USERS_URL . "=" . $profiledata['user_id']);
 $pm_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['SEND_PRIVATE_MESSAGE'] . '" title="' . $lang['SEND_PRIVATE_MESSAGE'] . '" border="0" /></a>';
 
 $location = ($profiledata['user_from']) ? $profiledata['user_from'] : '';
@@ -103,7 +89,7 @@ $pm = '<a href="' . $temp_url . '">' . $lang['SEND_PRIVATE_MESSAGE'] . '</a>';
 
 if ( bf($profiledata['user_opt'], 'user_opt', 'viewemail') || IS_ADMIN )
 {
-	$email_uri = ( $board_config['board_email_form'] ) ? append_sid("profile.$phpEx?mode=email&amp;" . POST_USERS_URL .'=' . $profiledata['user_id']) : 'mailto:' . $profiledata['user_email'];
+	$email_uri = ( $board_config['board_email_form'] ) ? append_sid("profile.php?mode=email&amp;" . POST_USERS_URL .'=' . $profiledata['user_id']) : 'mailto:' . $profiledata['user_email'];
 	$email_img = '<a href="' . $email_uri . '"><img src="' . $images['icon_email'] . '" alt="' . $lang['SEND_EMAIL'] . '" title="' . $lang['SEND_EMAIL'] . '" border="0" /></a>';
 	$email = '<a href="' . $email_uri . '">' . $lang['SEND_EMAIL'] . '</a>';
 }
@@ -126,13 +112,7 @@ else
 	$icq_img = '';
 	$icq = '';
 }
-$aim_img = ( $profiledata['user_aim'] ) ? '<a href="aim:goim?screenname=' . $profiledata['user_aim'] . '&amp;message=Hello+Are+you+there?"><img src="' . $images['icon_aim'] . '" alt="' . $lang['AIM'] . '" title="' . $lang['AIM'] . '" border="0" /></a>' : '';
-$aim = ( $profiledata['user_aim'] ) ? '<a href="aim:goim?screenname=' . $profiledata['user_aim'] . '&amp;message=Hello+Are+you+there?">' . $lang['AIM'] . '</a>' : '';
-$msn_img = ( $profiledata['user_msnm'] ) ? $profiledata['user_msnm'] : '';
-$msn = $msn_img;
-$yim_img = ( $profiledata['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $profiledata['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
-$yim = ( $profiledata['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $profiledata['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
-$temp_url = append_sid("search.$phpEx?search_author=1&amp;uid={$profiledata['user_id']}");
+$temp_url = append_sid("search.php?search_author=1&amp;uid={$profiledata['user_id']}");
 $search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['SEARCH_USER_POSTS'] . '" title="' . sprintf($lang['SEARCH_USER_POSTS'], $profiledata['username']) . '" border="0" /></a>';
 $search = '<a href="' . $temp_url . '">' . sprintf($lang['SEARCH_USER_POSTS'], $profiledata['username']) . '</a>';
 
@@ -140,14 +120,14 @@ $search = '<a href="' . $temp_url . '">' . sprintf($lang['SEARCH_USER_POSTS'], $
 //
 // Get report user module and create report link
 //
-include(INC_DIR . "functions_report.$phpEx");
+include(INC_DIR . "functions_report.php");
 $report_user = report_modules('name', 'report_user');
 
 if ($report_user && $report_user->auth_check('auth_write'))
 {
 	$template->assign_block_vars('switch_report_user', array());
 	$template->assign_vars(array(
-		'U_REPORT_USER' => append_sid("report.$phpEx?mode=" . $report_user->mode . '&amp;id=' . $profiledata['user_id']),
+		'U_REPORT_USER' => append_sid("report.php?mode=" . $report_user->mode . '&amp;id=' . $profiledata['user_id']),
 		'L_REPORT_USER' => $report_user->lang['WRITE_REPORT'])
 	);
 }
@@ -158,7 +138,7 @@ if ($report_user && $report_user->auth_check('auth_write'))
 //
 if ($profiledata['user_id'] == $userdata['user_id'] || IS_ADMIN)
 {
-	require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
+	require(BB_ROOT .'attach_mod/attachment_mod.php');
 	display_upload_attach_box_limits($profiledata['user_id']);
 }
 
@@ -201,12 +181,6 @@ $template->assign_vars(array(
 	'ICQ_STATUS_IMG' => $icq_status_img,
 	'ICQ_IMG' 	=> $icq_img,
 	'ICQ' 		=> $icq,
-	'AIM_IMG' 	=> $aim_img,
-	'AIM' 		=> $aim,
-	'MSN_IMG' 	=> $msn_img,
-	'MSN' 		=> $msn,
-	'YIM_IMG' 	=> $yim_img,
-	'YIM' 		=> $yim,
 	'LAST_VISIT_TIME' => ($profiledata['user_lastvisit']) ? bb_date($profiledata['user_lastvisit']) : $lang['NEVER'],
 	'LAST_ACTIVITY_TIME' => ($profiledata['user_session_time']) ? bb_date($profiledata['user_session_time']) : $lang['NEVER'],
 	'LOCATION' => $location,
@@ -224,18 +198,18 @@ $template->assign_vars(array(
 	'L_ABOUT_USER_PROFILE' 	=> sprintf($lang['ABOUT_USER'], $profiledata['username']),
 	'L_SEARCH_USER_POSTS_PROFILE'  => sprintf($lang['SEARCH_USER_POSTS'], '<b>'. $profiledata['username'] .'</b>'),
 
-	'U_SEARCH_USER'     => "search.$phpEx?search_author=1&amp;uid={$profiledata['user_id']}",
-	'U_SEARCH_TOPICS'   => "search.$phpEx?uid={$profiledata['user_id']}&amp;myt=1",
-	'U_SEARCH_RELEASES' => "tracker.$phpEx?rid={$profiledata['user_id']}#results",
+	'U_SEARCH_USER'     => "search.php?search_author=1&amp;uid={$profiledata['user_id']}",
+	'U_SEARCH_TOPICS'   => "search.php?uid={$profiledata['user_id']}&amp;myt=1",
+	'U_SEARCH_RELEASES' => "tracker.php?rid={$profiledata['user_id']}#results",
 	'L_SEARCH_RELEASES' => $lang['SEARCH_USER_RELEASES'],
 
-	'S_PROFILE_ACTION'  => "profile.$phpEx",
+	'S_PROFILE_ACTION'  => "profile.php",
 ));
 
 //bt
 // Show users torrent-profile
 define('IN_VIEWPROFILE', TRUE);
-include(INC_DIR .'ucp/torrent_userprofile.'. $phpEx);
+include(INC_DIR .'ucp/torrent_userprofile.php');
 //bt end
 
 $template->assign_vars(array(
@@ -251,8 +225,8 @@ if (IS_ADMIN)
 	$template->assign_vars(array(
 		'EDITABLE_TPLS' => true,
 
-		'U_MANAGE'      => "admin/admin_users.$phpEx?mode=edit&amp;u={$profiledata['user_id']}",
-		'U_PERMISSIONS' => "admin/admin_ug_auth.$phpEx?mode=user&amp;u={$profiledata['user_id']}",
+		'U_MANAGE'      => "admin/admin_users.php?mode=edit&amp;u={$profiledata['user_id']}",
+		'U_PERMISSIONS' => "admin/admin_ug_auth.php?mode=user&amp;u={$profiledata['user_id']}",
 	));
 }
 

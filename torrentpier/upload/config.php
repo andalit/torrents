@@ -56,26 +56,25 @@ $bb_cfg['js_ver']  = 1;
 $bb_cfg['css_ver'] = 1;
 
 // Increase number of revision after update
-$bb_cfg['tp_version'] = '1.0.2';
-$bb_cfg['tp_release_state'] = 'SVN r534';
-$bb_cfg['tp_release_date'] = '16-11-2010';
+$bb_cfg['tp_version'] = '2.0.2';
+$bb_cfg['tp_release_state'] = 'SVN r590';
+$bb_cfg['tp_release_date'] = '21-02-2011';
 
 $bb_cfg['board_disabled_msg'] = 'форум временно отключен'; // 'forums temporarily disabled'; // show this msg if board has been disabled via ON/OFF trigger
 $bb_cfg['srv_overloaded_msg'] = "Извините, в данный момент сервер перегружен\nПопробуйте повторить запрос через несколько минут";
 
 // Database
-$dbhost = 'localhost';
-$dbname = 'forum';
-$dbuser = 'root';
-$dbpasswd  = 'root';
-$dbcharset = 'utf8';
+define('DBHOST', 'localhost');
+define('DBNAME', 'forum');
+define('DBUSER', 'root');
+define('DBPASSWD', 'root');
+define('DBCHARSET', 'utf8');
 
-$dbms = 'mysql';
-$dbcollation = '';
-$pconnect = false;
-
-$table_prefix  = 'bb_';
-$buffer_prefix = 'buf_';
+// http://www.php.net/manual/en/mysql.constants.php#mysql.client-flags
+define('DBFLAGS', NULL); // Flags: MYSQL_CLIENT_COMPRESS - Compress MySQL
+define('DBMS', 'mysql');
+define('DBCOLLATION', '');
+define('PCONNECT', false);
 
 // SphinX Search
 define('SPHINX_PECL', class_exists('SphinxClient')); // Only: Sphinx include in PHP PECL
@@ -386,7 +385,7 @@ define('DEBUG',     false);                         // !!! "DEBUG" should be ALW
 define('DBG_LOG',   false);
 define('PROFILER',  'false');                        // Profiler extension name, or FALSE to disable (supported: 'dbg')
 
-define('SQL_DEBUG',            false);
+define('SQL_DEBUG',            true);
 define('SQL_LOG_ERRORS',       true);              // all SQL_xxx options enabled only if SQL_DEBUG == TRUE
 define('SQL_CALC_QUERY_TIME',  true);              // for stats
 define('SQL_LOG_SLOW_QUERIES', true);
@@ -574,12 +573,11 @@ $bb_cfg['first_logon_redirect_url']    = 'index.php';
 $bb_cfg['faq_url']                     = 'faq.php';
 $bb_cfg['terms_and_conditions_url']    = 'index.php';
 
-$bb_cfg['user_agreement_url']          = "misc.$phpEx?do=info&show=user_agreement";
-$bb_cfg['copyright_holders_url']       = "misc.$phpEx?do=info&show=copyright_holders";
-$bb_cfg['advert_url']                  = "misc.$phpEx?do=info&show=advert";
+$bb_cfg['user_agreement_url']          = "misc.php?do=info&show=user_agreement";
+$bb_cfg['copyright_holders_url']       = "misc.php?do=info&show=copyright_holders";
+$bb_cfg['advert_url']                  = "misc.php?do=info&show=advert";
 
 $bb_cfg['html_path']                   = BB_PATH .'/misc/html/';  #  
 $bb_cfg['user_agreement_html_path']    = $bb_cfg['html_path'] .'user_agreement.html';  #  
 $bb_cfg['copyright_holders_html_path'] = $bb_cfg['html_path'] .'copyright_holders.html';  #  
-$bb_cfg['advert_html_path']            = $bb_cfg['html_path'] .'advert.html';  #  
-
+$bb_cfg['advert_html_path']            = $bb_cfg['html_path'] .'advert.html';  #

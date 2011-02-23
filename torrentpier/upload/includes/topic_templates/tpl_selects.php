@@ -135,4 +135,3 @@ foreach ($selects as $tpl_name => $sel_ary)
 		$tpl_name => join("','", replace_quote($sel_ary))
 	));
 }
-

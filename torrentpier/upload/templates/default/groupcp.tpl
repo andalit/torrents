@@ -122,7 +122,7 @@
 <!-- BEGIN member -->
 <tr class="{member.ROW_CLASS} tCenter">
 	<td>{member.PM_IMG}</td>
-	<td><img class="floatR" src="images/{member.ONLINE_IMG}" alt="{member.ONLINE_ALT}" /><a href="{member.U_VIEWPROFILE}" class="gen">{member.USERNAME}</a></td>
+	<td><a href="{member.U_VIEWPROFILE}" class="gen">{member.USERNAME}</a></td>
 	<td>{member.POSTS}</td>
 	<td>{member.FROM}</td>
 	<td>{member.EMAIL_IMG}</td>
@@ -191,7 +191,7 @@
 <!-- BEGIN pending -->
 <tr class="{pending.ROW_CLASS} tCenter">
 	<td><input type="checkbox" name="pending_members[]" value="{pending.USER_ID}" /></td>
-	<td><img class="floatR" src="images/{pending.ONLINE_IMG}" alt="{pending.ONLINE_ALT}" /><a href="{pending.U_VIEWPROFILE}" class="gen">{pending.USERNAME}</a></td>
+	<td><a href="{pending.U_VIEWPROFILE}" class="gen">{pending.USERNAME}</a></td>
 	<td>{pending.POSTS}</td>
 	<td>{pending.FROM}</td>
 	<td>{pending.EMAIL_IMG}</td>

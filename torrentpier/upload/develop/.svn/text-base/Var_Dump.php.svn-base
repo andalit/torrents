@@ -507,6 +507,4 @@ class Var_Dump
             echo $display->toString($expression);
         }
     }
-
 }
-

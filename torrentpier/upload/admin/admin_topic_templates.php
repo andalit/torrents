@@ -9,7 +9,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(LANG_DIR .'lang_admin_bt.'. PHP_EXT);
+require(LANG_DIR .'lang_admin_bt.php');
 
 $forums = $db->fetch_rowset("
 	SELECT f.forum_id, f.forum_parent, f.topic_tpl_id, f.forum_name
@@ -61,8 +61,8 @@ if (isset($_POST['submit']) && @is_array($_POST['forum_tpl']))
 	}
 
 	$message = $lang['CONFIG_UPD'] .'<br /><br />';
-	$message .= sprintf($lang['RETURN_CONFIG'], '<a href="'. append_sid("admin_topic_templates.$phpEx") .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+	$message .= sprintf($lang['RETURN_CONFIG'], '<a href="'. append_sid("admin_topic_templates.php") .'">', '</a>') .'<br /><br />';
+	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 	message_die(GENERAL_MESSAGE, $message);
 }
@@ -83,7 +83,7 @@ foreach ($forums as $i => $forum)
 $template->assign_vars(array(
 	'L_ADMIN_TITLE' => $lang['RELEASE_TEMPLATES'],
 	'L_ADMIN_TEXT'  => $lang['RELEASE_EXP'],
-	'S_ACTION'      => append_sid("admin_topic_templates.$phpEx"),
+	'S_ACTION'      => append_sid("admin_topic_templates.php"),
 ));
 
 print_page('admin_topic_templates.tpl', 'admin');

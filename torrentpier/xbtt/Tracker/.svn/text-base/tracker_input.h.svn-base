@@ -13,6 +13,7 @@ public:
 	bool valid() const;
 
 	// TorrentPier begin
+	bool banned() const;
 	Ctracker_input(int family = AF_INET);
 	// TorrentPier end
 

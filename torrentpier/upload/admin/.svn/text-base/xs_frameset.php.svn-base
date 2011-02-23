@@ -33,11 +33,11 @@ if(empty($template->xs_version) || $template->xs_version !== 8)
 
 define('IN_XS', true);
 define('NO_XS_HEADER', true);
-include('xs_include.' . $phpEx);
+include('xs_include.php');
 
-$action = isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '';
+$action = isset($_GET['action']) ? $_GET['action'] : '';
 $get_data = array();
-foreach($HTTP_GET_VARS as $var => $value)
+foreach($_GET as $var => $value)
 {
 	if($var !== 'action' && $var !== 'sid')
 	{
@@ -46,17 +46,17 @@ foreach($HTTP_GET_VARS as $var => $value)
 }
 
 // check for style download command
-if(isset($HTTP_POST_VARS['action']) && $HTTP_POST_VARS['action'] === 'web')
+if(isset($_POST['action']) && $_POST['action'] === 'web')
 {
 	$action = 'import';
-	$get_data[] = 'get_remote=' . urlencode(stripslashes($HTTP_POST_VARS['source']));
-	if(isset($HTTP_POST_VARS['return']))
+	$get_data[] = 'get_remote=' . urlencode(stripslashes($_POST['source']));
+	if(isset($_POST['return']))
 	{
-		$get_data[] = 'return=' . urlencode(stripslashes($HTTP_POST_VARS['return']));
+		$get_data[] = 'return=' . urlencode(stripslashes($_POST['return']));
 	}
 }
 
-$get_data = count($get_data) ? $phpEx . '?' . implode('&', $get_data) : $phpEx;
+$get_data = count($get_data) ? 'php?' . implode('&', $get_data) : 'php';
 
 $content_url = array(
 	'config'		=> append_sid('xs_config.'.$get_data),
@@ -87,10 +87,9 @@ else
 
 $template->set_filenames(array('body' => XS_TPL_PATH . 'frameset.tpl'));
 $template->assign_vars(array(
-	'FRAME_TOP'		=> append_sid('xs_frame_top.'.$phpEx),
+	'FRAME_TOP'		=> append_sid('xs_frame_top.php'),
 	'FRAME_MAIN'	=> $content,
 	));
 
 $template->pparse('body');
 xs_exit();
-

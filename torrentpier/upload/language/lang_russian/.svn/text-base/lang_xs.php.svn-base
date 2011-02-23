@@ -138,4 +138,3 @@ $lang['XS_CACHE_LOG_NOCOMPILE'] = 'Ошибка компиляции файла 
 */
 $lang['TEMPLATE_CONFIG'] = 'Конфигурация шаблона';
 $lang['XS_STYLE_CONFIGURATION'] = 'Конфигурация шаблона';
-

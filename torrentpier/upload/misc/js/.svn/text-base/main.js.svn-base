@@ -1,4 +1,3 @@
-
 /**
  * SWFObject v1.5: Flash Player detection and embed - http://blog.deconcept.com/swfobject/
  *
@@ -244,7 +243,7 @@ var Menu = {
 	},
 
 	setLocation: function() {
-		var CSS = this.$root.offset(this.getOffsetOptions);
+		var CSS = this.$root.offset();
 		CSS.top  += this.$root.height() + this.offsetCorrection_Y;
 		CSS.left += this.offsetCorrection_X;
 		this.$menu.css(CSS);
@@ -351,9 +350,11 @@ Ajax.prototype = {
 	state      : {},  // current action state
 	request    : {},  // request data
 	params     : {},  // action params, format: ajax.params[ElementID] = { param: "val" ... }
+	form_token : '',
 
 	exec: function(request) {
 		this.request[request.action] = request;
+		request['form_token'] = this.form_token;
 		$.ajax({
 			url      : this.url,
 			type     : this.type,
@@ -503,7 +504,7 @@ $(document).ready(function(){
 
 	// Bind ajax events
 	$('var.ajax-params').each(function(){
-		var params = $.parseJSON( $(this).html() );
+		var params = $.evalJSON( $(this).html() );
 		params.event = params.event || 'dblclick';
 		ajax.params[params.id] = params;
 		$("#"+params.id).bind(params.event, ajax.callInitFn);

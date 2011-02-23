@@ -77,9 +77,9 @@ foreach ($forum_auth_fields as $auth_type)
 $forum_auth_levels = array('ALL',   'REG',    'PRIVATE', 'MOD',    'ADMIN');
 $forum_auth_const  = array(AUTH_ALL, AUTH_REG, AUTH_ACL,  AUTH_MOD, AUTH_ADMIN);
 
-if(isset($HTTP_GET_VARS[POST_FORUM_URL]) || isset($HTTP_POST_VARS[POST_FORUM_URL]))
+if(isset($_GET[POST_FORUM_URL]) || isset($_POST[POST_FORUM_URL]))
 {
-	$forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
+	$forum_id = (isset($_POST[POST_FORUM_URL])) ? intval($_POST[POST_FORUM_URL]) : intval($_GET[POST_FORUM_URL]);
 	$forum_sql = "AND forum_id = $forum_id";
 }
 else
@@ -88,9 +88,9 @@ else
 	$forum_sql = '';
 }
 
-if(isset($HTTP_GET_VARS[POST_CAT_URL]) || isset($HTTP_POST_VARS[POST_CAT_URL]))
+if(isset($_GET[POST_CAT_URL]) || isset($_POST[POST_CAT_URL]))
 {
-	$cat_id = (isset($HTTP_POST_VARS[POST_CAT_URL])) ? intval($HTTP_POST_VARS[POST_CAT_URL]) : intval($HTTP_GET_VARS[POST_CAT_URL]);
+	$cat_id = (isset($_POST[POST_CAT_URL])) ? intval($_POST[POST_CAT_URL]) : intval($_GET[POST_CAT_URL]);
 	$cat_sql = "AND c.cat_id = $cat_id";
 }
 else
@@ -99,9 +99,9 @@ else
 	$cat_sql = '';
 }
 
-if( isset($HTTP_GET_VARS['adv']) )
+if( isset($_GET['adv']) )
 {
-	$adv = intval($HTTP_GET_VARS['adv']);
+	$adv = intval($_GET['adv']);
 }
 else
 {
@@ -111,15 +111,15 @@ else
 //
 // Start program proper
 //
-if( isset($HTTP_POST_VARS['submit']) )
+if( isset($_POST['submit']) )
 {
 	$sql = '';
 
 	if(!empty($forum_id))
 	{
-		if(isset($HTTP_POST_VARS['simpleauth']))
+		if(isset($_POST['simpleauth']))
 		{
-			$simple_ary = $simple_auth_ary[intval($HTTP_POST_VARS['simpleauth'])];
+			$simple_ary = $simple_auth_ary[intval($_POST['simpleauth'])];
 
 			for($i = 0; $i < count($simple_ary); $i++)
 			{
@@ -135,11 +135,11 @@ if( isset($HTTP_POST_VARS['submit']) )
 		{
 			for($i = 0; $i < count($forum_auth_fields); $i++)
 			{
-				$value = intval($HTTP_POST_VARS[$forum_auth_fields[$i]]);
+				$value = intval($_POST[$forum_auth_fields[$i]]);
 
 				if ( $forum_auth_fields[$i] == 'auth_vote' )
 				{
-					if ( $HTTP_POST_VARS['auth_vote'] == AUTH_ALL )
+					if ( $_POST['auth_vote'] == AUTH_ALL )
 					{
 						$value = AUTH_REG;
 					}
@@ -166,11 +166,11 @@ if( isset($HTTP_POST_VARS['submit']) )
 	{
 		for($i = 0; $i < count($forum_auth_fields); $i++)
 		{
-			$value = intval($HTTP_POST_VARS[$forum_auth_fields[$i]]);
+			$value = intval($_POST[$forum_auth_fields[$i]]);
 
 			if ( $forum_auth_fields[$i] == 'auth_vote' )
 			{
-				if ( $HTTP_POST_VARS['auth_vote'] == AUTH_ALL )
+				if ( $_POST['auth_vote'] == AUTH_ALL )
 				{
 					$value = AUTH_REG;
 				}
@@ -193,7 +193,7 @@ if( isset($HTTP_POST_VARS['submit']) )
 	}
 
 	$datastore->update('cat_forums');
-	$message = $lang['FORUM_AUTH_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_FORUMAUTH'],  '<a href="' . append_sid("admin_forumauth_list.$phpEx") . '">', "</a>");
+	$message = $lang['FORUM_AUTH_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_FORUMAUTH'],  '<a href="' . append_sid("admin_forumauth_list.php") . '">', "</a>");
 	message_die(GENERAL_MESSAGE, $message);
 
 } // End of submit
@@ -255,7 +255,7 @@ if( empty($forum_id) && empty($cat_id) )
 
 		$template->assign_block_vars('cat_row', array(
 			'CAT_NAME' => htmlCHR($category_rows[$i]['cat_title']),
-			'CAT_URL' => append_sid('admin_forumauth_list.'.$phpEx.'?'.POST_CAT_URL.'='.$category_rows[$i]['cat_id']))
+			'CAT_URL' => append_sid('admin_forumauth_list.php'.'?'.POST_CAT_URL.'='.$category_rows[$i]['cat_id']))
 		);
 
 		for ($j=0; $j<count($forum_rows); $j++)
@@ -264,7 +264,7 @@ if( empty($forum_id) && empty($cat_id) )
 			{
 				$template->assign_block_vars('cat_row.forum_row', array(
 					'ROW_CLASS' => !($j % 2) ? 'row4' : 'row5',
-					'FORUM_NAME' => '<a class="'.(($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen').'" href="'.append_sid('admin_forumauth.'.$phpEx.'?'.POST_FORUM_URL.'='.$forum_rows[$j]['forum_id']).'">'.htmlCHR($forum_rows[$j]['forum_name']).'</a>',
+					'FORUM_NAME' => '<a class="'.(($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen').'" href="'.append_sid('admin_forumauth.php?'.POST_FORUM_URL.'='.$forum_rows[$j]['forum_id']).'">'.htmlCHR($forum_rows[$j]['forum_name']).'</a>',
 					'IS_SUBFORUM' => $forum_rows[$j]['forum_parent'],
 				));
 
@@ -323,7 +323,7 @@ else
 
 	$template->assign_block_vars('cat_row', array(
 		'CAT_NAME' => htmlCHR($cat_name),
-		'CAT_URL' => append_sid('admin_forumauth_list.'.$phpEx.'?'.POST_CAT_URL.'='.$cat_id))
+		'CAT_URL' => append_sid('admin_forumauth_list.php'.'?'.POST_CAT_URL.'='.$cat_id))
 	);
 
 	for ($j=0; $j<count($forum_rows); $j++)
@@ -332,7 +332,7 @@ else
 		{
 			$template->assign_block_vars('cat_row.forum_row', array(
 				'ROW_CLASS' => !($j % 2) ? 'row4' : 'row5',
-				'FORUM_NAME' => '<a class="'.(($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen').'" href="'.append_sid('admin_forumauth.'.$phpEx.'?'.POST_FORUM_URL.'='.$forum_rows[$j]['forum_id']).'">'.htmlCHR($forum_rows[$j]['forum_name']).'</a>',
+				'FORUM_NAME' => '<a class="'.(($forum_rows[$j]['forum_parent']) ? 'genmed' : 'gen').'" href="'.append_sid('admin_forumauth.php?'.POST_FORUM_URL.'='.$forum_rows[$j]['forum_id']).'">'.htmlCHR($forum_rows[$j]['forum_name']).'</a>',
 				'IS_SUBFORUM' => $forum_rows[$j]['forum_parent'],
 			));
 
@@ -387,11 +387,10 @@ else
 		'L_AUTH_TITLE' => $lang['AUTH_CONTROL_CATEGORY'],
 		'L_AUTH_EXPLAIN' => $lang['CAT_AUTH_LIST_EXPLAIN'],
 
-		'S_FORUMAUTH_ACTION' => append_sid("admin_forumauth_list.$phpEx"),
+		'S_FORUMAUTH_ACTION' => append_sid("admin_forumauth_list.php"),
 		'S_COLUMN_SPAN' => count($forum_auth_fields)+1,
 		'S_HIDDEN_FIELDS' => $s_hidden_fields)
 	);
 }
 
 print_page('admin_forumauth_list.tpl', 'admin');
-

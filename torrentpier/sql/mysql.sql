@@ -394,7 +394,7 @@ CREATE TABLE `bb_bt_tracker` (
   `topic_id` mediumint(8) unsigned NOT NULL default '0',
   `user_id` mediumint(9) NOT NULL default '0',
   `ip` char(8) character set utf8 collate utf8_bin NOT NULL default '0',
-  `ipv6` CHAR(32) NOT NULL,
+  `ipv6` varchar(32) DEFAULT NULL,
   `port` smallint(5) unsigned NOT NULL default '0',
   `seeder` tinyint(1) NOT NULL default '0',
   `releaser` tinyint(1) NOT NULL default '0',
@@ -546,11 +546,9 @@ INSERT INTO `bb_config` VALUES ('bt_show_port_only_moder', '1');
 INSERT INTO `bb_config` VALUES ('bt_tor_browse_only_reg', '0');
 INSERT INTO `bb_config` VALUES ('bt_unset_dltype_on_tor_unreg', '0');
 INSERT INTO `bb_config` VALUES ('config_id', '1');
-INSERT INTO `bb_config` VALUES ('coppa_fax', '');
-INSERT INTO `bb_config` VALUES ('coppa_mail', '');
 INSERT INTO `bb_config` VALUES ('cron_last_check', '1211477514');
 INSERT INTO `bb_config` VALUES ('default_dateformat', 'Y-m-d H:i');
-INSERT INTO `bb_config` VALUES ('default_lang', 'english');
+INSERT INTO `bb_config` VALUES ('default_lang', 'russian');
 INSERT INTO `bb_config` VALUES ('enable_confirm', '1');
 INSERT INTO `bb_config` VALUES ('flood_interval', '15');
 INSERT INTO `bb_config` VALUES ('hot_threshold', '300');
@@ -587,7 +585,6 @@ INSERT INTO `bb_config` VALUES ('xs_template_time', '0');
 INSERT INTO `bb_config` VALUES ('xs_use_cache', '1');
 INSERT INTO `bb_config` VALUES ('xs_version', '8');
 INSERT INTO `bb_config` VALUES ('active_ads', 'a:0:{}');
-
 INSERT INTO `bb_config` VALUES ('report_subject_auth', '1');
 INSERT INTO `bb_config` VALUES ('report_modules_cache', '1');
 INSERT INTO `bb_config` VALUES ('report_hack_count', '0');
@@ -1633,15 +1630,12 @@ CREATE TABLE `bb_users` (
   `user_from` varchar(100) NOT NULL default '',
   `user_sig` text NOT NULL,
   `user_sig_bbcode_uid` varchar(10) NOT NULL default '',
-  `user_aim` varchar(255) NOT NULL default '',
-  `user_yim` varchar(255) NOT NULL default '',
-  `user_msnm` varchar(255) NOT NULL default '',
   `user_occ` varchar(100) NOT NULL default '',
   `user_interests` varchar(255) NOT NULL default '',
   `user_actkey` varchar(32) NOT NULL default '',
   `user_newpasswd` varchar(32) NOT NULL default '',
   `user_allow_passkey` tinyint(1) NOT NULL default '1',
-  `user_from_flag` varchar(25) NOT NULL default '',
+  `user_from_flag` varchar(3) NOT NULL default '',
   `ignore_srv_load` tinyint(1) NOT NULL default '0',
   `autologin_id` varchar(12) character set utf8 collate utf8_bin NOT NULL default '',
   `user_newest_pm_id` mediumint(8) NOT NULL default '0',
@@ -1655,9 +1649,9 @@ CREATE TABLE `bb_users` (
 -- Дамп данных таблицы `bb_users`
 -- 
 
-INSERT INTO `bb_users` VALUES (-1, 0, 'Anonymous', '', 0, 0, 0, 1117103663, 0, 0, 0, 0.00, '', '', 0, 0, 0, 220, 1, 0, 1, 0, 1, 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', 1, '', 0, '', 0);
-INSERT INTO `bb_users` VALUES (2, 1, 'admin', 0x3231323332663239376135376135613734333839346130653461383031666333, 1211472784, 1210263184, 0, 1117103663, 0, 1, 1, 0.00, '', '', 0, 0, 1211472803, 159, 1, 1, 1, 0, 1, 1, '', 0, 'admin@admin.com', '', '', '', '', '', '', '', '', '', '', '', '', 1, '', 0, 0x4f5750316d724533314b7335, 0);
-INSERT INTO `bb_users` VALUES (-746, 0, 'bot', '', 1117115716, 1117115634, 0, 1117114766, 0, 0, 0, 0.00, '', '', 0, 0, 0, 148, 1, 1, 1, 0, 0, 0, 'bot.gif', 1, 'bot@bot.bot', '', '', '', '', '', '', '', '', '', '', '', '', 1, '', 0, '', 0);
+INSERT INTO `bb_users` VALUES (-1, 0, 'Anonymous', '', 0, 0, 0, 1117103663, 0, 0, 0, 0.00, '', '', 0, 0, 0, 220, 1, 0, 1, 0, 1, 0, '', 0, '', '', '', '', '', '', '', '', '', '', 1, '', 0, '', 0);
+INSERT INTO `bb_users` VALUES (2, 1, 'admin', 0x3231323332663239376135376135613734333839346130653461383031666333, 1211472784, 1210263184, 0, 1117103663, 0, 1, 1, 0.00, '', '', 0, 0, 1211472803, 159, 1, 1, 1, 0, 1, 1, '', 0, 'admin@admin.com', '', '', '', '', '', '', '', '', '', 1, '', 0, 0x4f5750316d724533314b7335, 0);
+INSERT INTO `bb_users` VALUES (-746, 0, 'bot', '', 1117115716, 1117115634, 0, 1117114766, 0, 0, 0, 0.00, '', '', 0, 0, 0, 148, 1, 1, 1, 0, 0, 0, 'bot.gif', 1, 'bot@bot.bot', '', '', '', '', '', '', '', '', '', 1, '', 0, '', 0);
 
 -- --------------------------------------------------------
 

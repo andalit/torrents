@@ -17,10 +17,10 @@ $subject = '';
 //
 // Do the job ...
 //
-if ( isset($HTTP_POST_VARS['submit']) )
+if ( isset($_POST['submit']) )
 {
-	$subject = stripslashes(trim($HTTP_POST_VARS['subject']));
-	$message = stripslashes(trim($HTTP_POST_VARS['message']));
+	$subject = stripslashes(trim($_POST['subject']));
+	$message = stripslashes(trim($_POST['message']));
 
 	$error = FALSE;
 	$error_msg = '';
@@ -37,7 +37,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 		$error_msg .= ( !empty($error_msg) ) ? '<br />' . $lang['EMPTY_MESSAGE'] : $lang['EMPTY_MESSAGE'];
 	}
 
-	$group_id = intval($HTTP_POST_VARS[POST_GROUPS_URL]);
+	$group_id = intval($_POST[POST_GROUPS_URL]);
 
 	$sql = ( $group_id != -1 ) ? "SELECT u.user_email FROM " . USERS_TABLE . " u, " . USER_GROUP_TABLE . " ug WHERE ug.group_id = $group_id AND ug.user_pending <> 1 AND u.user_id = ug.user_id" : "SELECT user_email FROM " . USERS_TABLE;
 	if ( !($result = $db->sql_query($sql)) )
@@ -66,7 +66,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 
 	if ( !$error )
 	{
-		include($phpbb_root_path . 'includes/emailer.'.$phpEx);
+		include($phpbb_root_path . 'includes/emailer.php');
 
 		//
 		// Let's do some checking to make sure that mass mail functions
@@ -110,7 +110,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 		$emailer->send();
 		$emailer->reset();
 
-		message_die(GENERAL_MESSAGE, $lang['EMAIL_SENT'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'],  '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['EMAIL_SENT'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'],  '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -155,7 +155,7 @@ $template->assign_vars(array(
 	'L_EMAIL_SUBJECT' => $lang['SUBJECT'],
 	'L_NOTICE' => @$notice,
 
-	'S_USER_ACTION' => append_sid('admin_mass_email.'.$phpEx),
+	'S_USER_ACTION' => append_sid('admin_mass_email.php'),
 	'S_GROUP_SELECT' => $select_list)
 );
 

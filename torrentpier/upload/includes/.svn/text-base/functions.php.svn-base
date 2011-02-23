@@ -240,7 +240,7 @@ class datastore_common
 	{
 		if (!empty($this->known_items[$title]))
 		{
-			require(INC_DIR . $this->ds_dir . $this->known_items[$title] .'.'. PHP_EXT);
+			require(INC_DIR . $this->ds_dir . $this->known_items[$title] .'.php');
 		}
 		else
 		{
@@ -546,7 +546,7 @@ class datastore_file extends datastore_common
 	{
 		$this->data[$title] = $var;
 		
-		$filename   = $this->dir . clean_filename($title) . '.'. PHP_EXT;
+		$filename   = $this->dir . clean_filename($title) . '.php';
 
 		$filecache = "<?php\n";
 		$filecache .= "if (!defined('BB_ROOT')) die(basename(__FILE__));\n";
@@ -588,7 +588,7 @@ class datastore_file extends datastore_common
 
 		foreach($items as $item)
 		{
-			$filename = $this->dir . $item . '.' . PHP_EXT;
+			$filename = $this->dir . $item . '.php';
 			
 			if(file_exists($filename))
 			{
@@ -1931,11 +1931,11 @@ function make_jumpbox ($selected = 0)
 
 function make_user_flag($country_code)
 {
-	global $lang, $phpEx;
+	global $lang;
 	
 	if(!defined('COUNTRIES_LANG'))
 	{
-		include(LANG_DIR . "lang_countries.$phpEx");
+		include(LANG_DIR . "lang_countries.php");
 	}
 	
 	$title = $lang['COUNTRIES'][$country_code];
@@ -2028,7 +2028,7 @@ function setup_style ()
 		'EXT_LINK_NEW_WIN' => $bb_cfg['ext_link_new_win'],
 	));
 
-	require(TEMPLATES_DIR . $tpl_dir_name .'/tpl_config.'. PHP_EXT);
+	require(TEMPLATES_DIR . $tpl_dir_name .'/tpl_config.php');
 
 	$theme = array('template_name' => $tpl_dir_name);
 
@@ -2263,7 +2263,7 @@ function ajax_die ($msg_text, $msg_code = E_AJAX_GENERAL_ERROR)
 
 function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = '', $err_file = '', $sql = '')
 {
-	global $db, $template, $bb_cfg, $theme, $lang, $phpEx, $phpbb_root_path, $nav_links, $gen_simple_header, $images;
+	global $db, $template, $bb_cfg, $theme, $lang, $phpbb_root_path, $nav_links, $gen_simple_header, $images;
 	global $userdata;
 
 	if (defined('HAS_DIED'))
@@ -2296,7 +2296,7 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 
 	if (empty($lang))
 	{
-		require($bb_cfg['default_lang_dir'] .'lang_main.'. PHP_EXT);
+		require($bb_cfg['default_lang_dir'] .'lang_main.php');
 	}
 	if (empty($userdata) && ($msg_code == GENERAL_MESSAGE || $msg_code == GENERAL_ERROR))
 	{
@@ -2384,14 +2384,14 @@ function message_die ($msg_code, $msg_text = '', $msg_title = '', $err_line = ''
 // dougk_ff7 <October 5, 2002>
 function phpbb_realpath($path)
 {
-	global $phpbb_root_path, $phpEx;
+	global $phpbb_root_path;
 
-	return (!@function_exists('realpath') || !@realpath($phpbb_root_path . 'includes/functions.'.$phpEx)) ? $path : @realpath($path);
+	return (!@function_exists('realpath') || !@realpath($phpbb_root_path . 'includes/functions.php')) ? $path : @realpath($path);
 }
 
 function login_redirect ($url = '')
 {
-	redirect('login.'. PHP_EXT .'?redirect='. (($url) ? $url : $_SERVER['REQUEST_URI']));
+	redirect('login.php' .'?redirect='. (($url) ? $url : $_SERVER['REQUEST_URI']));
 }
 
 function meta_refresh($url, $time = 5)
@@ -2513,7 +2513,7 @@ function transliterate ($str)
 
 	if (!isset($translit_table))
 	{
-		require(DEFAULT_LANG_DIR .'translit_table.'. PHP_EXT);
+		require(DEFAULT_LANG_DIR .'translit_table.php');
 	}
 	return strtr($str, $translit_table);
 }
@@ -2677,7 +2677,7 @@ class log_action
 
 		if (empty($lang['LOG_ACTION']))
 		{
-			require($bb_cfg['default_lang_dir'] .'lang_log_action.'. PHP_EXT);
+			require($bb_cfg['default_lang_dir'] .'lang_log_action.php');
 		}
 
 		foreach ($lang['LOG_ACTION']['LOG_TYPE'] as $log_type => $log_desc)
@@ -2896,7 +2896,7 @@ function caching_output ($enabled, $mode, $cache_var_name, $ttl = 300)
 function bb_json_encode ($data)
 {
 	if (!function_exists('json_encode')) {
-		require_once( INC_DIR . 'JSON.' . PHP_EXT );
+		require_once( INC_DIR . 'JSON.php' );
 		$json = new Services_JSON;	
 		return $json->encode($data);
 	}
@@ -2911,7 +2911,7 @@ function bb_json_decode ($data)
 	if (!is_string($data)) trigger_error('invalid argument for '. __FUNCTION__, E_USER_ERROR);
 	
 	if (!function_exists('json_decode')) {
-		require_once( INC_DIR . 'JSON.' . PHP_EXT );
+		require_once( INC_DIR . 'JSON.php' );
 		$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 		return $json->decode($data);
 	}
@@ -3010,7 +3010,7 @@ function ModeratorSearch($base_attach_size, $base_topic_title, $base_topic_id)
 
 	$db->sql_freeresult($result);
 
-	if (!SPHINX_PECL) require_once (INC_DIR .'sphinxapi.'. PHP_EXT);
+	if (!SPHINX_PECL) require_once (INC_DIR .'sphinxapi.php');
 	$index = 'doubles';
 	$cl = new SphinxClient ();
 	$cl->SetServer ( SPHINX_HOST, SPHINX_PORT );
@@ -3109,4 +3109,28 @@ function create_magnet($infohash, $auth_key, $logged_in)
 	global $bb_cfg, $userdata, $_GET;
 	$passkey_url = (!$logged_in || isset($_GET['no_passkey'])) ? '' : "?{$bb_cfg['passkey_key']}=$auth_key&";
 	return '<a href="magnet:?xt=urn:btih:'. bin2hex($infohash) .'&tr='. urlencode($bb_cfg['bt_announce_url'] . $passkey_url) .'"><img src="images/magnet.gif" width="12" height="12" border="0" /></a>';
+}
+
+function get_avatar ($avatar, $type, $allowavatar = true)
+{
+	global $bb_cfg, $lang;
+
+	$user_avatar = '<img src="'. $bb_cfg['no_avatar'] .'" alt="" border="0" />';
+
+	if ($allowavatar)
+	{
+		switch($type)
+		{
+			case USER_AVATAR_UPLOAD:
+				$user_avatar = ( $bb_cfg['allow_avatar_upload'] ) ? '<img src="'. $bb_cfg['avatar_path'] .'/'. $avatar .'" alt="" border="0" />' : '';
+				break;
+			case USER_AVATAR_REMOTE:
+				$user_avatar = ( $bb_cfg['allow_avatar_remote'] ) ? '<img src="'. $avatar .'" alt="" border="0" onload="imgFit(this, 100);" onClick="return imgFit(this, 100);" />' : '';
+				break;
+			case USER_AVATAR_GALLERY:
+				$user_avatar = ( $bb_cfg['allow_avatar_local'] ) ? '<img src="'. $bb_cfg['avatar_gallery_path'] .'/'. $avatar .'" alt="" border="0" />' : '';
+				break;			
+		}
+	}
+	return $user_avatar;
 }

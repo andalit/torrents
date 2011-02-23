@@ -12,7 +12,7 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_group.'. PHP_EXT);
+require(INC_DIR .'functions_group.php');
 
 $yes_sign = '&radic;';
 $no_sign  = 'x';
@@ -86,8 +86,8 @@ if ($submit && $mode == 'user')
 		delete_permissions($group_id, $user_id);
 
 		$message = $lang['AUTH_UPDATED'] .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_USERAUTH'], '<a href="'. append_sid("admin_ug_auth.$phpEx?mode=$mode") .'">', '</a>') .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+		$message .= sprintf($lang['CLICK_RETURN_USERAUTH'], '<a href="'. append_sid("admin_ug_auth.php?mode=$mode") .'">', '</a>') .'<br /><br />';
+		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 		bb_die($message);
 	}
@@ -105,8 +105,8 @@ if ($submit && $mode == 'user')
 		delete_permissions($group_id, $user_id);
 
 		$message = $lang['AUTH_UPDATED'] .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_USERAUTH'], '<a href="'. append_sid("admin_ug_auth.$phpEx?mode=$mode") .'">', '</a>') .'<br /><br />';
-		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+		$message .= sprintf($lang['CLICK_RETURN_USERAUTH'], '<a href="'. append_sid("admin_ug_auth.php?mode=$mode") .'">', '</a>') .'<br /><br />';
+		$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 		bb_die($message);
 	}
@@ -136,8 +136,8 @@ if ($submit && $mode == 'user')
 
 	$l_auth_return = ($mode == 'user') ? $lang['CLICK_RETURN_USERAUTH'] : $lang['CLICK_RETURN_GROUPAUTH'];
 	$message = $lang['AUTH_UPDATED'] .'<br /><br />';
-	$message .= sprintf($l_auth_return, '<a href="'. append_sid("admin_ug_auth.$phpEx?mode=$mode") .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+	$message .= sprintf($l_auth_return, '<a href="'. append_sid("admin_ug_auth.php?mode=$mode") .'">', '</a>') .'<br /><br />';
+	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 	bb_die($message);
 }
@@ -169,8 +169,8 @@ else if ($submit && $mode == 'group' && is_array(@$_POST['auth']))
 
 	$l_auth_return = $lang['CLICK_RETURN_GROUPAUTH'];
 	$message = $lang['AUTH_UPDATED'] .'<br /><br />';
-	$message .= sprintf($l_auth_return, '<a href="'. append_sid("admin_ug_auth.$phpEx?mode=$mode") .'">', '</a>') .'<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.$phpEx?pane=right") .'">', '</a>');
+	$message .= sprintf($l_auth_return, '<a href="'. append_sid("admin_ug_auth.php?mode=$mode") .'">', '</a>') .'<br /><br />';
+	$message .= sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="'. append_sid("index.php?pane=right") .'">', '</a>');
 
 	bb_die($message);
 }
@@ -184,7 +184,7 @@ if ($mode == 'user' && (!empty($_POST['username']) || $user_id))
 
 	if (!empty($_POST['username']))
 	{
-		$this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
+		$this_userdata = get_userdata($_POST['username'], true);
 		$user_id = $this_userdata['user_id'];
 	}
 	else
@@ -445,7 +445,7 @@ else
 	{
 		$template->assign_vars(array(
 			'TPL_SELECT_USER' => true,
-			'U_SEARCH_USER'   => BB_ROOT ."search.$phpEx?mode=searchuser",
+			'U_SEARCH_USER'   => BB_ROOT ."search.php?mode=searchuser",
 		));
 	}
 	else
@@ -468,7 +468,7 @@ $template->assign_vars(array(
 	'NO_SIGN'       => $no_sign,
 	'T_MOD_YES'     => $lang['MODERATOR'],
 	'T_MOD_NO'      => $lang['NO'],
-	'S_AUTH_ACTION' => append_sid("admin_ug_auth.$phpEx"),
+	'S_AUTH_ACTION' => append_sid("admin_ug_auth.php"),
 	'SELECTED_CAT'  => !empty($_REQUEST['c']) ? $_REQUEST['c'] : '',
 	'U_ALL_FORUMS'  => !empty($base_url) ? "$base_url&amp;c=all" : '',
 ));

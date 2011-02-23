@@ -135,7 +135,7 @@ class emailer
 	// Send the mail out to the recipients set previously in var $this->address
 	function send()
 	{
-		global $bb_cfg, $lang, $phpEx, $phpbb_root_path, $db;
+		global $bb_cfg, $lang, $phpbb_root_path, $db;
 
 		if ($bb_cfg['emailer_disabled'])
 		{
@@ -206,7 +206,7 @@ class emailer
 		{
 			if ( !defined('SMTP_INCLUDED') )
 			{
-				include($phpbb_root_path . 'includes/smtp.' . $phpEx);
+				include($phpbb_root_path . 'includes/smtp.php');
 			}
 
 			$result = smtpmail($to, $this->subject, $this->msg, $this->extra_headers);
@@ -366,4 +366,3 @@ class emailer
 	}
 
 } // class emailer
-

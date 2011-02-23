@@ -71,14 +71,16 @@
 </tr>
 </table>
 
-<table class="forumline">
+<table class="forumline tablesorter"> 
+<thead>
 <tr>
-	<th width="5%">&nbsp;</th>
-	<th width="50%">{L_SUBJECT}</th>
-	<th width="20%">{L_FROM_OR_TO}</th>
-	<th width="20%">{L_DATE}</th>
-	<th width="5%">&nbsp;</th>
-</tr>
+	<th width="2%">&nbsp;</th> 
+	<th width="50%" class="{sorter: 'text'}"><b class="tbs-text">{L_SUBJECT}</b></th> 
+	<th width="5%" class="{sorter: 'text'}"><b class="tbs-text">{L_FROM_OR_TO}</b></th> 
+	<th width="5%" class="{sorter: 'digit'}"><b class="tbs-text">{L_DATE}</b></th> 
+	<th width="2%">&nbsp;</th>
+</tr> 
+</thead>
 <!-- BEGIN listrow -->
 <tr class="{listrow.ROW_CLASS} med tCenter">
 	<td><img src="{listrow.PRIVMSG_FOLDER_IMG}" alt="{listrow.L_PRIVMSG_FOLDER_ALT}" title="{listrow.L_PRIVMSG_FOLDER_ALT}" /></td>
@@ -93,6 +95,7 @@
 	<td class="row1 pad_10 tCenter" colspan="5">{L_NO_MESSAGES}</td>
 </tr>
 <!-- END switch_no_messages -->
+<tfoot>
 <tr>
 	<td class="catBottom tRight pad_4" colspan="5">
 		<div class="floatL">
@@ -104,6 +107,7 @@
 		</div>
  </td>
 </tr>
+</tfoot>
 </table>
 
 </form>

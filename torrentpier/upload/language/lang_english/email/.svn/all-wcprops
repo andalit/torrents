@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 58
-/svn/!svn/ver/373/trunk/upload/language/lang_english/email
+/svn/!svn/ver/556/trunk/upload/language/lang_english/email
 END
 admin_welcome_inactive.tpl
 K 25
@@ -9,17 +9,17 @@ svn:wc:ra_dav:version-url
 V 85
 /svn/!svn/ver/358/trunk/upload/language/lang_english/email/admin_welcome_inactive.tpl
 END
-blank.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 67
-/svn/!svn/ver/82/trunk/upload/language/lang_english/email/blank.tpl
-END
 admin_welcome_activated.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 86
 /svn/!svn/ver/358/trunk/upload/language/lang_english/email/admin_welcome_activated.tpl
+END
+blank.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/82/trunk/upload/language/lang_english/email/blank.tpl
 END
 user_welcome.tpl
 K 25
@@ -38,12 +38,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/!svn/ver/358/trunk/upload/language/lang_english/email/user_activate.tpl
-END
-coppa_welcome_inactive.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 85
-/svn/!svn/ver/358/trunk/upload/language/lang_english/email/coppa_welcome_inactive.tpl
 END
 group_request.tpl
 K 25

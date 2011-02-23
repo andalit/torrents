@@ -130,5 +130,3 @@ $lang['WRONG_INPUT'] = 'You have entered some wrong values. Please check your in
 $lang['NEXT'] = 'Next';
 $lang['PROCESSING'] = 'Processing...';
 $lang['FINISHED'] = 'Finished';
-
-?>

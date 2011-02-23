@@ -23,9 +23,8 @@
 define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'search');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR .'bbcode.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR .'bbcode.php');
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_buttons',
@@ -41,7 +40,7 @@ $tracking_forums = get_tracks('forum');
 // SphinX init...
 if (SPHINX_ENABLE)
 {
-	if (!SPHINX_PECL) require_once (INC_DIR .'sphinxapi.'. PHP_EXT);
+	if (!SPHINX_PECL) require_once (INC_DIR .'sphinxapi.php');
 	$sphinx = new SphinxClient ();
 	$sphinx->SetServer ( SPHINX_HOST, SPHINX_PORT );
 	$sphinx->SetConnectTimeout ( SPHINX_TIMEOUT );
@@ -54,7 +53,7 @@ if ($mode =& $_REQUEST['mode'])
 	// This handles the simple windowed user search functions called from various other scripts
 	if ($mode == 'searchuser')
 	{
-		$username = isset($_POST['search_username']) ? $HTTP_POST_VARS['search_username'] : '';
+		$username = isset($_POST['search_username']) ? $_POST['search_username'] : '';
 		username_search($username);
 		exit;
 	}
@@ -281,8 +280,8 @@ if (empty($_GET) && empty($_POST))
 
 		'THIS_USER_ID'      => $userdata['user_id'],
 		'THIS_USER_NAME'    => addslashes($userdata['username']),
-		'SEARCH_ACTION'     => "search.$phpEx",
-		'U_SEARCH_USER'     => "search.$phpEx?mode=searchuser&input_name=$poster_name_key",
+		'SEARCH_ACTION'     => "search.php",
+		'U_SEARCH_USER'     => "search.php?mode=searchuser&input_name=$poster_name_key",
 		'ONLOAD_FOCUS_ID'   => 'text_match_input',
 
 		'MY_TOPICS_ID'      => 'my_topics',
@@ -395,7 +394,7 @@ if (!$items_found)
 			bb_die($lang['USER_NOT_EXIST']);
 		}
 	}
-	else if ($var =& $HTTP_POST_VARS[$poster_name_key])
+	else if ($var =& $_POST[$poster_name_key])
 	{
 		$poster_name_sql = str_replace("\\'", "''", phpbb_clean_username($var));
 
@@ -433,8 +432,6 @@ $title_match = ($text_match_sql && ($title_only_val || $bb_cfg['disable_ft_searc
 
 // "Display as" mode (posts or topics)
 $post_mode = (!$dl_search && ($display_as_val == $as_posts || isset($_GET['search_author'])));
-
-$search_bool_mode = ($bb_cfg['allow_search_in_bool_mode']) ? ' IN BOOLEAN MODE' : '';
 
 // Start building SQL
 $SQL = $db->get_empty_sql_array();
@@ -488,7 +485,11 @@ if ($post_mode)
 		if ($text_match_sql)
 		{
 			$field_match = ($title_match) ? "t.topic_title" : "ps.search_words" ;
-			$SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			$tmp_text_match_sql = $text_match_sql;
+			if (mb_substr($tmp_text_match_sql, 0, 1) == '+') $tmp_text_match_sql = mb_substr($tmp_text_match_sql, 1);
+			$tmp_text_match_sql = str_replace(' +', ' ', $tmp_text_match_sql);
+			if ($field_match == "ps.search_words") $tmp_text_match_sql = str_replace(' ', '%', $tmp_text_match_sql);
+			$SQL['WHERE'][] = "$field_match LIKE '%$tmp_text_match_sql%'";
 			prevent_huge_searches($SQL);
 		}
 
@@ -653,7 +654,11 @@ else
 		if ($text_match_sql)
 		{
 			$field_match = ($title_match) ? "t.topic_title" : "ps.search_words" ;
-			$SQL['WHERE'][] = "MATCH ($field_match) AGAINST ('$text_match_sql'". $search_bool_mode .")";
+			$tmp_text_match_sql = $text_match_sql;
+			if (mb_substr($tmp_text_match_sql, 0, 1) == '+') $tmp_text_match_sql = mb_substr($tmp_text_match_sql, 1);
+			$tmp_text_match_sql = str_replace(' +', ' ', $tmp_text_match_sql);
+			if ($field_match == "ps.search_words") $tmp_text_match_sql = str_replace(' ', '%', $tmp_text_match_sql);
+			$SQL['WHERE'][] = "$field_match LIKE '%$tmp_text_match_sql%'";
 			prevent_huge_searches($SQL);
 		}
 
@@ -778,7 +783,7 @@ if ($items_display)
 		'DISPLAY_AS_POSTS' => $post_mode,
 
 		'DL_CONTROLS'   => ($dl_search && $dl_user_id_val == $user_id),
-		'DL_ACTION'     => "dl_list.$phpEx",
+		'DL_ACTION'     => "dl_list.php",
 	));
 
 	print_page('search_results.tpl');
@@ -838,7 +843,7 @@ function fetch_search_ids ($sql, $search_type = SEARCH_TYPE_POST, $redirect_to_r
 
 	if ($redirect)
 	{
-		redirect("search.". PHP_EXT ."?id=$search_id");
+		redirect("search.php?id=$search_id");
 	}
 
 	return array_slice($items_found, 0, $per_page);
@@ -872,7 +877,7 @@ function prevent_huge_searches ($SQL)
 
 function username_search ($search_match)
 {
-	global $db, $template, $lang, $phpEx;
+	global $db, $template, $lang;
 	global $gen_simple_header;
 
 	$username_list = '';
@@ -910,7 +915,7 @@ function username_search ($search_match)
 		'USERNAME'          => !empty($search_match) ? htmlCHR(stripslashes(html_entity_decode($search_match))) : '',
 		'INPUT_NAME'        => $input_name,
 		'USERNAME_OPTIONS'  => $username_list,
-		'SEARCH_ACTION'     => "search.$phpEx?mode=searchuser&amp;input_name=$input_name",
+		'SEARCH_ACTION'     => "search.php?mode=searchuser&amp;input_name=$input_name",
 	));
 
 	print_page('search.tpl', 'simple');

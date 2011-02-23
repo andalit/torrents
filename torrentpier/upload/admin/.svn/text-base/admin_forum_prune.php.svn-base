@@ -70,4 +70,3 @@ $template->assign_vars(array(
 ));
 
 print_page('admin_forum_prune.tpl', 'admin');
-

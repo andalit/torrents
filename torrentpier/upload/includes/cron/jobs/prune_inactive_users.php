@@ -4,7 +4,7 @@ if (!defined('BB_ROOT')) die(basename(__FILE__));
 
 $users_per_cycle = 1000;
 
-require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+require_once(INC_DIR .'functions_admin.php');
 
 $excluded_users = join(',', array(
 	ANONYMOUS,

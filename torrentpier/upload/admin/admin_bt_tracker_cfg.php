@@ -9,8 +9,8 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'functions_admin_torrent.'. PHP_EXT);
-require(LANG_DIR .'lang_admin_bt.'. PHP_EXT);
+require(INC_DIR .'functions_admin_torrent.php');
+require(LANG_DIR .'lang_admin_bt.php');
 
 $submit       = isset($_POST['submit']);
 $confirmed    = isset($_POST['confirm']);
@@ -59,9 +59,7 @@ $template->assign_vars(array(
 	'DISABLE_SUBMIT'     => true,
 
 	'S_HIDDEN_FIELDS' => '',
-	'S_CONFIG_ACTION' => append_sid("admin_bt_tracker_cfg.$phpEx"),
+	'S_CONFIG_ACTION' => append_sid("admin_bt_tracker_cfg.php"),
 ));
 
 print_page('admin_bt_tracker_cfg.tpl', 'admin');
-
-

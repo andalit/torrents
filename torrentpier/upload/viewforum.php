@@ -22,8 +22,7 @@
 define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'forum');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT . "common.$phpEx");
+require(BB_ROOT . "common.php");
 
 $show_last_topic     = true;
 $last_topic_max_len  = 40;
@@ -89,7 +88,7 @@ if (!$is_auth['auth_view'])
 	{
 		$redirect = "f=$forum_id";
 		$redirect .= ($start) ? "&start=$start" : '';
-		redirect("login.$phpEx?redirect=viewforum.$phpEx&$redirect");
+		redirect("login.php?redirect=viewforum.php&$redirect");
 	}
 	// The user is not authed to read this forum ...
 	$message = sprintf($lang['SORRY_AUTH_VIEW'], $is_auth['auth_view_type']);
@@ -103,7 +102,7 @@ if ($is_auth['auth_mod'])
 {
 	$redirect = isset($_POST['redirect']) ? $_POST['redirect'] : $_SERVER['REQUEST_URI'];
 	$redirect = url_arg($redirect, 'mod', 1, '&');
-	$mod_redirect_url = "login.$phpEx?redirect=$redirect&admin=1";
+	$mod_redirect_url = "login.php?redirect=$redirect&admin=1";
 
 	if ($moderation && !$userdata['session_admin'])
 	{
@@ -122,7 +121,7 @@ if ($mark_read && !IS_GUEST)
 	$message = $lang['TOPICS_MARKED_READ'] .'<br /><br />';
 	$message .= sprintf($lang['CLICK_RETURN_FORUM'], '<a href="'. FORUM_URL . $forum_id .'">', '</a>');
 	$message .= '<br /><br />';
-	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.$phpEx" .'">', '</a>');
+	$message .= sprintf($lang['CLICK_RETURN_INDEX'], '<a href="'. "index.php" .'">', '</a>');
 	bb_die($message);
 }
 
@@ -277,7 +276,7 @@ if (isset($mod['mod_groups'][$forum_id]))
 {
 	foreach ($mod['mod_groups'][$forum_id] as $group_id)
 	{
-		$moderators[] = '<a href="'. "groupcp.$phpEx?". POST_GROUPS_URL ."=". $group_id .'">'. $mod['name_groups'][$group_id] .'</a>';
+		$moderators[] = '<a href="'. "groupcp.php?". POST_GROUPS_URL ."=". $group_id .'">'. $mod['name_groups'][$group_id] .'</a>';
 	}
 }
 
@@ -324,7 +323,7 @@ if (!empty($_REQUEST['topicdays']))
 // Correct $start value
 if ($start > $forum_topics)
 {
-	redirect("viewforum.$phpEx?f=$forum_id");
+	redirect("viewforum.php?f=$forum_id");
 }
 
 // Generate SORT and ORDER selects
@@ -424,14 +423,14 @@ $found_topics = count($topic_rowset);
 $orig_word = $replacement_word = array();
 obtain_word_list($orig_word, $replacement_word);
 
-$post_new_topic_url = "posting.$phpEx?mode=newtopic&amp;f=$forum_id";
+$post_new_topic_url = "posting.php?mode=newtopic&amp;f=$forum_id";
 $post_new_topic_url .= ($forum_data['topic_tpl_id']) ? '&tpl=1' : '';
 
 // Post URL generation for templating vars
 $template->assign_vars(array(
 	'U_POST_NEW_TOPIC'    => $post_new_topic_url,
 	'S_SELECT_TOPIC_DAYS' => build_select('topicdays', array_flip($sel_previous_days), $topic_days),
-	'S_POST_DAYS_ACTION'  => "viewforum.$phpEx?f=$forum_id&amp;start=$start",
+	'S_POST_DAYS_ACTION'  => "viewforum.php?f=$forum_id&amp;start=$start",
 	'S_DISPLAY_ORDER'     => $s_display_order,
 ));
 
@@ -472,7 +471,7 @@ $template->assign_vars(array(
 	'S_AUTH_LIST'         => $u_auth,
 	'U_VIEW_FORUM'        => FORUM_URL . $forum_id,
 	'U_MARK_READ'         => FORUM_URL . $forum_id ."&amp;mark=topics",
-	'U_SEARCH_SELF'       => "search.$phpEx?uid={$userdata['user_id']}&f=$forum_id",
+	'U_SEARCH_SELF'       => "search.php?uid={$userdata['user_id']}&f=$forum_id",
 ));
 
 // Okay, lets dump out the page ...

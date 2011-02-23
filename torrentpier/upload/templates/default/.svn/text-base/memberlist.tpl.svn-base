@@ -9,7 +9,7 @@
 	</tr>
 	<tr>
       <td align="right" nowrap="nowrap"><span class="genmed">
-      <input type="text"  class="post" name="username" maxlength="25" size="25" tabindex="1" value="" />&nbsp;<input type="submit" name="submituser" value="{L_FIND_USERNAME}" class="mainoption" />
+      <input type="text" class="post" name="username" maxlength="25" size="25" tabindex="1" value="{S_USERNAME}" />&nbsp;<input type="submit" name="submituser" value="{L_FIND_USERNAME}" class="mainoption" />
       </span></td>
 	</tr>
  	<tr>

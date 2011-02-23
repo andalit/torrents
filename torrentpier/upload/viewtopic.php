@@ -23,9 +23,8 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'topic');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR .'bbcode.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR .'bbcode.php');
 
 $datastore->enqueue(array(
 	'ranks',
@@ -195,7 +194,7 @@ if (!$is_auth['auth_read'])
 	{
 		$redirect = ($post_id) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id";
 		$redirect .= ($start) ? "&start=$start" : '';
-		redirect("login.$phpEx?redirect=viewtopic.$phpEx&$redirect");
+		redirect("login.php?redirect=viewtopic.php&$redirect");
 	}
 	bb_die($lang['TOPIC_POST_NOT_EXIST']);
 }
@@ -214,7 +213,7 @@ if ($is_auth['auth_mod'])
 {
 	$redirect = isset($_POST['redirect']) ? $_POST['redirect'] : $_SERVER['REQUEST_URI'];
 	$redirect = url_arg($redirect, 'mod', 1, '&');
-	$mod_redirect_url = "login.$phpEx?redirect=$redirect&admin=1";
+	$mod_redirect_url = "login.php?redirect=$redirect&admin=1";
 
 	if ($moderation && !$userdata['session_admin'])
 	{
@@ -283,9 +282,9 @@ if ($bb_cfg['topic_notify_enabled'])
 
 		if ($row = $db->fetch_row($sql))
 		{
-			if ( isset($HTTP_GET_VARS['unwatch']) )
+			if ( isset($_GET['unwatch']) )
 			{
-				if ( $HTTP_GET_VARS['unwatch'] == 'topic' )
+				if ( $_GET['unwatch'] == 'topic' )
 				{
 					$is_watching_topic = 0;
 
@@ -298,7 +297,7 @@ if ($bb_cfg['topic_notify_enabled'])
 					}
 				}
 
-				$message = $lang['NO_LONGER_WATCHING'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . "viewtopic.$phpEx?t=$topic_id&amp;start=$start" . '">', '</a>');
+				$message = $lang['NO_LONGER_WATCHING'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . "viewtopic.php?t=$topic_id&amp;start=$start" . '">', '</a>');
 				bb_die($message);
 			}
 			else
@@ -320,9 +319,9 @@ if ($bb_cfg['topic_notify_enabled'])
 		}
 		else
 		{
-			if ( isset($HTTP_GET_VARS['watch']) )
+			if ( isset($_GET['watch']) )
 			{
-				if ( $HTTP_GET_VARS['watch'] == 'topic' )
+				if ( $_GET['watch'] == 'topic' )
 				{
 					$is_watching_topic = TRUE;
 
@@ -334,7 +333,7 @@ if ($bb_cfg['topic_notify_enabled'])
 					}
 				}
 
-				$message = $lang['YOU_ARE_WATCHING'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . "viewtopic.$phpEx?t=$topic_id&amp;start=$start" . '">', '</a>');
+				$message = $lang['YOU_ARE_WATCHING'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_TOPIC'], '<a href="' . "viewtopic.php?t=$topic_id&amp;start=$start" . '">', '</a>');
 				bb_die($message);
 			}
 			else
@@ -345,11 +344,11 @@ if ($bb_cfg['topic_notify_enabled'])
 	}
 	else
 	{
-		if ( isset($HTTP_GET_VARS['unwatch']) )
+		if ( isset($_GET['unwatch']) )
 		{
-			if ( $HTTP_GET_VARS['unwatch'] == 'topic' )
+			if ( $_GET['unwatch'] == 'topic' )
 			{
-				redirect("login.$phpEx?redirect=viewtopic.$phpEx&t=$topic_id&unwatch=topic");
+				redirect("login.php?redirect=viewtopic.php&t=$topic_id&unwatch=topic");
 			}
 		}
 	}
@@ -447,12 +446,12 @@ if ( count($orig_word) )
 // Post, reply and other URL generation for
 // templating vars
 //
-$new_topic_url = "posting.$phpEx?mode=newtopic&amp;f=$forum_id";
+$new_topic_url = "posting.php?mode=newtopic&amp;f=$forum_id";
 $new_topic_url .= ($t_data['topic_tpl_id']) ? '&tpl=1' : '';
-$reply_topic_url = "posting.$phpEx?mode=reply&amp;t=$topic_id";
-$view_forum_url = "viewforum.$phpEx?f=$forum_id";
-$view_prev_topic_url = "viewtopic.$phpEx?t=$topic_id&amp;view=previous#newest";
-$view_next_topic_url = "viewtopic.$phpEx?t=$topic_id&amp;view=next#newest";
+$reply_topic_url = "posting.php?mode=reply&amp;t=$topic_id";
+$view_forum_url = "viewforum.php?f=$forum_id";
+$view_prev_topic_url = "viewtopic.php?t=$topic_id&amp;view=previous#newest";
+$view_next_topic_url = "viewtopic.php?t=$topic_id&amp;view=next#newest";
 
 $reply_img = ( $t_data['forum_status'] == FORUM_LOCKED || $t_data['topic_status'] == TOPIC_LOCKED ) ? $images['reply_locked'] : $images['reply_new'];
 $reply_alt = ( $t_data['forum_status'] == FORUM_LOCKED || $t_data['topic_status'] == TOPIC_LOCKED ) ? $lang['TOPIC_LOCKED_SHORT'] : $lang['REPLY_TO_TOPIC'];
@@ -477,23 +476,23 @@ if ( $is_auth['auth_mod'] )
 {
 	$s_auth_can .= $lang['RULES_MODERATE'];
 
-	$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=delete&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_delete'] . '" alt="' . $lang['DELETE_TOPIC'] . '" title="' . $lang['DELETE_TOPIC'] . '" border="0" /></a>&nbsp;';
+	$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=delete&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_delete'] . '" alt="' . $lang['DELETE_TOPIC'] . '" title="' . $lang['DELETE_TOPIC'] . '" border="0" /></a>&nbsp;';
 
-	$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=move&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_move'] . '" alt="' . $lang['MOVE_TOPIC'] . '" title="' . $lang['MOVE_TOPIC'] . '" border="0" /></a>&nbsp;';
+	$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=move&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_move'] . '" alt="' . $lang['MOVE_TOPIC'] . '" title="' . $lang['MOVE_TOPIC'] . '" border="0" /></a>&nbsp;';
 
-	$topic_mod .= ( $t_data['topic_status'] == TOPIC_UNLOCKED ) ? "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=lock&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_lock'] . '" alt="' . $lang['LOCK_TOPIC'] . '" title="' . $lang['LOCK_TOPIC'] . '" border="0" /></a>&nbsp;' : "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=unlock&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_unlock'] . '" alt="' . $lang['UNLOCK_TOPIC'] . '" title="' . $lang['UNLOCK_TOPIC'] . '" border="0" /></a>&nbsp;';
+	$topic_mod .= ( $t_data['topic_status'] == TOPIC_UNLOCKED ) ? "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=lock&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_lock'] . '" alt="' . $lang['LOCK_TOPIC'] . '" title="' . $lang['LOCK_TOPIC'] . '" border="0" /></a>&nbsp;' : "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=unlock&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_unlock'] . '" alt="' . $lang['UNLOCK_TOPIC'] . '" title="' . $lang['UNLOCK_TOPIC'] . '" border="0" /></a>&nbsp;';
 
-	$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=split&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_split'] . '" alt="' . $lang['SPLIT_TOPIC'] . '" title="' . $lang['SPLIT_TOPIC'] . '" border="0" /></a>&nbsp;';
+	$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=split&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_split'] . '" alt="' . $lang['SPLIT_TOPIC'] . '" title="' . $lang['SPLIT_TOPIC'] . '" border="0" /></a>&nbsp;';
 	//bt
 	if ($t_data['allow_dl_topic'] || $t_data['topic_dl_type'] == TOPIC_DL_TYPE_DL || IS_ADMIN)
 	{
 		if ($t_data['topic_dl_type'] == TOPIC_DL_TYPE_DL)
 		{
-			$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=unset_download&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_normal'] . '" alt="' . $lang['UNSET_DL_STATUS'] . '" title="' . $lang['UNSET_DL_STATUS'] . '" border="0" /></a>';
+			$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=unset_download&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_normal'] . '" alt="' . $lang['UNSET_DL_STATUS'] . '" title="' . $lang['UNSET_DL_STATUS'] . '" border="0" /></a>';
 		}
 		else
 		{
-			$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=set_download&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_dl'] . '" alt="' . $lang['SET_DL_STATUS'] . '" title="' . $lang['SET_DL_STATUS'] . '" border="0" /></a>';
+			$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=set_download&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_dl'] . '" alt="' . $lang['SET_DL_STATUS'] . '" title="' . $lang['SET_DL_STATUS'] . '" border="0" /></a>';
 		}
 	}
 	//bt end
@@ -501,7 +500,7 @@ if ( $is_auth['auth_mod'] )
 //bt
 else if (($t_data['topic_poster'] == $userdata['user_id']) && $userdata['session_logged_in'] && $t_data['self_moderated'])
 {
-	$topic_mod .= "<a href=\"modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=move&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_move'] . '" alt="' . $lang['MOVE_TOPIC'] . '" title="' . $lang['MOVE_TOPIC'] . '" border="0" /></a>&nbsp;';
+	$topic_mod .= "<a href=\"modcp.php?" . POST_TOPIC_URL . "=$topic_id&amp;mode=move&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_mod_move'] . '" alt="' . $lang['MOVE_TOPIC'] . '" title="' . $lang['MOVE_TOPIC'] . '" border="0" /></a>&nbsp;';
 }
 //bt end
 
@@ -509,7 +508,7 @@ else if (($t_data['topic_poster'] == $userdata['user_id']) && $userdata['session
 //
 // Get report topic module and create report link
 //
-require_once($phpbb_root_path . "includes/functions_report.$phpEx");
+require_once($phpbb_root_path . "includes/functions_report.php");
 $report_topic = report_modules('name', 'report_topic');
 
 if ($report_topic && $report_topic->auth_check('auth_write'))
@@ -520,7 +519,7 @@ if ($report_topic && $report_topic->auth_check('auth_write'))
 		if ($report_topic->auth_check('auth_view') && $is_auth)
 		{
 			$target = ($bb_cfg['report_new_window']) ? ' target="_blank"' : '';
-			$s_report_topic ='&nbsp;<a href="' . append_sid("report.$phpEx?mode=reported&amp;" . POST_CAT_URL . '=' . $report_topic->id . "&amp;id=$topic_id") . '"' . $target . '><img src="' . $images['topic_mod_reported'] . '" alt="' . $report_topic->lang['DUPLICATE_REPORT'] . '" title="' . $report_topic->lang['DUPLICATE_REPORT'] . '" border="0" /></a>&nbsp;';
+			$s_report_topic ='&nbsp;<a href="' . append_sid("report.php?mode=reported&amp;" . POST_CAT_URL . '=' . $report_topic->id . "&amp;id=$topic_id") . '"' . $target . '><img src="' . $images['topic_mod_reported'] . '" alt="' . $report_topic->lang['DUPLICATE_REPORT'] . '" title="' . $report_topic->lang['DUPLICATE_REPORT'] . '" border="0" /></a>&nbsp;';
 		}
 		else
 		{
@@ -529,7 +528,7 @@ if ($report_topic && $report_topic->auth_check('auth_write'))
 	}
 	else
 	{
-		$s_report_topic = '&nbsp;<a href="' . append_sid("report.$phpEx?mode=" . $report_topic->mode . "&amp;id=$topic_id") . '"><img src="' . $images['topic_mod_report'] . '" alt="' . $report_topic->lang['WRITE_REPORT'] . '" title="' . $report_topic->lang['WRITE_REPORT'] . '" border="0" /></a>&nbsp;';
+		$s_report_topic = '&nbsp;<a href="' . append_sid("report.php?mode=" . $report_topic->mode . "&amp;id=$topic_id") . '"><img src="' . $images['topic_mod_report'] . '" alt="' . $report_topic->lang['WRITE_REPORT'] . '" title="' . $report_topic->lang['WRITE_REPORT'] . '" border="0" /></a>&nbsp;';
 	}
 	
 	$topic_mod .= $s_report_topic;
@@ -545,13 +544,13 @@ if ( $can_watch_topic )
 {
 	if ( $is_watching_topic )
 	{
-		$s_watching_topic = "<a href=\"viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '">' . $lang['STOP_WATCHING_TOPIC'] . '</a>';
-		$s_watching_topic_img = ( isset($images['topic_un_watch']) ) ? "<a href=\"viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_un_watch'] . '" alt="' . $lang['STOP_WATCHING_TOPIC'] . '" title="' . $lang['STOP_WATCHING_TOPIC'] . '" border="0"></a>' : '';
+		$s_watching_topic = "<a href=\"viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '">' . $lang['STOP_WATCHING_TOPIC'] . '</a>';
+		$s_watching_topic_img = ( isset($images['topic_un_watch']) ) ? "<a href=\"viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['topic_un_watch'] . '" alt="' . $lang['STOP_WATCHING_TOPIC'] . '" title="' . $lang['STOP_WATCHING_TOPIC'] . '" border="0"></a>' : '';
 	}
 	else
 	{
-		$s_watching_topic = "<a href=\"viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '">' . $lang['START_WATCHING_TOPIC'] . '</a>';
-		$s_watching_topic_img = ( isset($images['Topic_watch']) ) ? "<a href=\"viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['Topic_watch'] . '" alt="' . $lang['START_WATCHING_TOPIC'] . '" title="' . $lang['START_WATCHING_TOPIC'] . '" border="0"></a>' : '';
+		$s_watching_topic = "<a href=\"viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '">' . $lang['START_WATCHING_TOPIC'] . '</a>';
+		$s_watching_topic_img = ( isset($images['Topic_watch']) ) ? "<a href=\"viewtopic.php?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start&amp;sid=" . $userdata['session_id'] . '"><img src="' . $images['Topic_watch'] . '" alt="' . $lang['START_WATCHING_TOPIC'] . '" title="' . $lang['START_WATCHING_TOPIC'] . '" border="0"></a>' : '';
 	}
 }
 
@@ -623,7 +622,7 @@ $template->assign_vars(array(
 
 	'S_SELECT_POST_DAYS'  => build_select('postdays', array_flip($sel_previous_days), $post_days),
 	'S_SELECT_POST_ORDER' => build_select('postorder', $sel_post_order_ary, $post_order),
-	'S_POST_DAYS_ACTION'  => "viewtopic.$phpEx?t=$topic_id&amp;start=$start",
+	'S_POST_DAYS_ACTION'  => "viewtopic.php?t=$topic_id&amp;start=$start",
 	'S_AUTH_LIST'         => $s_auth_can,
 	'S_TOPIC_ADMIN'       => $topic_mod,
 	'S_WATCH_TOPIC'       => $s_watching_topic,
@@ -634,7 +633,7 @@ $template->assign_vars(array(
 	'U_VIEW_NEWER_TOPIC'  => $view_next_topic_url,
 	'U_POST_NEW_TOPIC'    => $new_topic_url,
 	'U_POST_REPLY_TOPIC'  => $reply_topic_url,
-	'U_SEARCH_SELF'       => "search.$phpEx?uid={$userdata['user_id']}&t=$topic_id&dm=1",
+	'U_SEARCH_SELF'       => "search.php?uid={$userdata['user_id']}&t=$topic_id&dm=1",
 ));
 
 // Does this topic contain DL-List?
@@ -643,7 +642,7 @@ $template->assign_vars(array(
 	'PEERS_FULL_LINK' => false,
 	'DL_LIST_HREF'    => TOPIC_URL ."$topic_id&amp;dl=names&amp;spmode=full",
 ));
-require(INC_DIR .'torrent_show_dl_list.'. PHP_EXT);
+require(INC_DIR .'torrent_show_dl_list.php');
 
 //
 // Does this topic contain a poll?
@@ -682,9 +681,9 @@ if ( !empty($t_data['topic_vote']) )
 		$user_voted = ( $row = $db->sql_fetchrow($result) ) ? TRUE : 0;
 		$db->sql_freeresult($result);
 
-		if ( isset($HTTP_GET_VARS['vote']) || isset($HTTP_POST_VARS['vote']) )
+		if ( isset($_GET['vote']) || isset($_POST['vote']) )
 		{
-			$view_result = ( ( ( isset($HTTP_GET_VARS['vote']) ) ? $HTTP_GET_VARS['vote'] : $HTTP_POST_VARS['vote'] ) == 'viewresult' ) ? TRUE : 0;
+			$view_result = ( ( ( isset($_GET['vote']) ) ? $_GET['vote'] : $_POST['vote'] ) == 'viewresult' ) ? TRUE : 0;
 		}
 		else
 		{
@@ -768,14 +767,14 @@ if ( !empty($t_data['topic_vote']) )
 			'POLL_QUESTION'  => $vote_title,
 
 			'S_HIDDEN_FIELDS' => $s_hidden_fields,
-			'S_POLL_ACTION' => "posting.$phpEx?mode=vote&amp;t=$topic_id",
+			'S_POLL_ACTION' => "posting.php?mode=vote&amp;t=$topic_id",
 		));
 	}
 }
 
 if ($t_data['topic_attachment'])
 {
-	require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
+	require(BB_ROOT .'attach_mod/attachment_mod.php');
 	init_display_post_attachments($t_data['topic_attachment']);
 }
 
@@ -799,7 +798,7 @@ $prev_post_time = $max_post_time = 0;
 //
 // Get report post module
 //
-require_once($phpbb_root_path . "includes/functions_report.$phpEx");
+require_once($phpbb_root_path . "includes/functions_report.php");
 $report_post = report_modules('name', 'report_post');
 // Report [END]
 
@@ -830,20 +829,9 @@ for($i = 0; $i < $total_posts; $i++)
 	$poster_longevity = ( $postrow[$i]['user_id'] != ANONYMOUS ) ? delta_time($postrow[$i]['user_regdate']) : '';
 
 	$poster_avatar = '';
-	if ( !$user->opt_js['h_av'] && $postrow[$i]['user_avatar_type'] && $poster_id != ANONYMOUS && $postrow[$i]['user_allowavatar'] )
+	if ( !$user->opt_js['h_av'] && $poster_id != ANONYMOUS )
 	{
-		switch( $postrow[$i]['user_avatar_type'] )
-		{
-			case USER_AVATAR_UPLOAD:
-				$poster_avatar = ( $bb_cfg['allow_avatar_upload'] ) ? '<img src="' . $bb_cfg['avatar_path'] . '/' . $postrow[$i]['user_avatar'] . '" alt="" border="0" />' : '';
-				break;
-			case USER_AVATAR_REMOTE:
-				$poster_avatar = ( $bb_cfg['allow_avatar_remote'] ) ? '<img src="' . $postrow[$i]['user_avatar'] . '" alt="" border="0" onload="imgFit(this, 100);" onclick="return imgFit(this, 100);" />' : '';
-				break;
-			case USER_AVATAR_GALLERY:
-				$poster_avatar = ( $bb_cfg['allow_avatar_local'] ) ? '<img src="' . $bb_cfg['avatar_gallery_path'] . '/' . $postrow[$i]['user_avatar'] . '" alt="" border="0" />' : '';
-				break;
-		}
+		$poster_avatar = get_avatar($postrow[$i]['user_avatar'], $postrow[$i]['user_avatar_type'], $postrow[$i]['user_allowavatar']);
 	}
 
 	//
@@ -978,7 +966,7 @@ for($i = 0; $i < $total_posts; $i++)
 			$report_auth = ($userdata['user_level'] == ADMIN || (!$bb_cfg['report_list_admin'] && (!$bb_cfg['report_subject_auth'] || $is_auth['auth_mod'])));
 			if ($report_post->auth_check('auth_view') && $report_auth)
 			{
-				$temp_url = append_sid("report.$phpEx?mode=reported&amp;" . POST_CAT_URL . '=' . $report_post->id . '&amp;id=' . $postrow[$i]['post_id']);
+				$temp_url = append_sid("report.php?mode=reported&amp;" . POST_CAT_URL . '=' . $report_post->id . '&amp;id=' . $postrow[$i]['post_id']);
 				$target = ($bb_cfg['report_new_window']) ? ' target="_blank"' : '';
 				$report_img = '<a href="' . $temp_url . '"' . $target . '><img src="' . $images['icon_reported'] . '" alt="' . $report_post->lang['DUPLICATE_REPORT'] . '" title="' . $report_post->lang['DUPLICATE_REPORT'] . '" border="0" /></a>';
 				$report = '<a href="' . $temp_url . '"' . $target . '>[' . $report_post->lang['DUPLICATE_REPORT'] . ']</a>';
@@ -991,7 +979,7 @@ for($i = 0; $i < $total_posts; $i++)
 		}
 		else
 		{
-			$temp_url = append_sid("report.$phpEx?mode=" . $report_post->mode . '&amp;id=' . $postrow[$i]['post_id']);
+			$temp_url = append_sid("report.php?mode=" . $report_post->mode . '&amp;id=' . $postrow[$i]['post_id']);
 			$report_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_report'] . '" alt="' . $report_post->lang['WRITE_REPORT'] . '" title="' . $report_post->lang['WRITE_REPORT'] . '" border="0" /></a>';
 			$report = '<a class="txtb" href="' . $temp_url . '">[' . $report_post->lang['WRITE_REPORT'] . ']</a>';
 		}
@@ -1066,7 +1054,7 @@ if (defined('SPLIT_FORM_START'))
 	$template->assign_vars(array(
 		'SPLIT_FORM'     => true,
 		'START'          => $start,
-		'S_SPLIT_ACTION' => "modcp.$phpEx",
+		'S_SPLIT_ACTION' => "modcp.php",
 		'POST_FORUM_URL' => POST_FORUM_URL,
 		'POST_TOPIC_URL' => POST_TOPIC_URL,
 	));
@@ -1081,7 +1069,7 @@ if ($bb_cfg['show_quick_reply'])
 	{
 		$template->assign_vars(array(
 			'QUICK_REPLY'     => true,
-			'QR_POST_ACTION'  => "posting.$phpEx",
+			'QR_POST_ACTION'  => "posting.php",
 			'QR_TOPIC_ID'     => $topic_id,
 		));
 		if (!IS_GUEST)
@@ -1101,7 +1089,7 @@ $template->assign_vars(array(
 if (IS_ADMIN)
 {
 	$template->assign_vars(array(
-		'U_LOGS' => "admin/admin_log.$phpEx?sid={$userdata['session_id']}&amp;t=$topic_id&amp;db=900",
+		'U_LOGS' => "admin/admin_log.php?sid={$userdata['session_id']}&amp;t=$topic_id&amp;db=900",
 	));
 }
 

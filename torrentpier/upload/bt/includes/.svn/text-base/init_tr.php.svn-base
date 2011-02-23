@@ -529,17 +529,16 @@ function db_init ()
 	define('SQL_LAYER', 'mysql');
 
 	$GLOBALS['db'] = new sql_db(array(
-		'dbms'      => $GLOBALS['dbms'],
-		'dbhost'    => $GLOBALS['dbhost'],
-		'dbname'    => $GLOBALS['dbname'],
-		'dbuser'    => $GLOBALS['dbuser'],
-		'dbpasswd'  => $GLOBALS['dbpasswd'],
-		'charset'   => $GLOBALS['dbcharset'],
-		'collation' => $GLOBALS['dbcollation'],
-		'persist'   => $GLOBALS['pconnect'],
+		'dbms'      => DBMS,
+		'dbhost'    => DBHOST,
+		'dbname'    => DBNAME,
+		'dbuser'    => DBUSER,
+		'dbpasswd'  => DBPASSWD,
+		'charset'   => DBCHARSET,
+		'collation' => DBCOLLATION,
+		'persist'   => PCONNECT,
 		'dbg_user'  => false,
 	));
-	unset($GLOBALS['dbpasswd']);
 }
 
 ##### LOG ##### // User req (by passkey)
@@ -558,4 +557,3 @@ if ($log_passkey && isset($log_passkey[$_GET[$passkey_key]]))
 	);
 }
 ### LOG END ###
-

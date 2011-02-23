@@ -1,10 +1,10 @@
 <?php
 function run_jobs($jobs) {
-	global $db, $bb_cfg, $datastore, $phpEx;
+	global $db, $bb_cfg, $datastore;
 	
 	define('IN_CRON', true);
 
-	$dbcharset = 'latin1';
+	if (!defined('DBCHARSET')) define('DBCHARSET', 'latin1');
 	$sql = "SELECT cron_script
 			FROM " . CRON_TABLE ."
 			WHERE cron_id IN ($jobs)";

@@ -3,6 +3,7 @@
 
 #include <bt_misc.h>
 #include <socket.h>
+#include <boost/algorithm/string/predicate.hpp>
 
 // TorrentPier begin
 #ifdef WIN32
@@ -270,4 +271,77 @@ bool Ctracker_input::valid() const
 		&& m_peer_id.size() == 20
 		&& m_port >= 0
 		&& m_uploaded >= 0;
+}
+bool Ctracker_input::banned() const
+{
+	if (m_peer_id[7] == '-')
+		// standard id
+		switch (m_peer_id[0])
+		{
+		case '-':
+			switch (m_peer_id[1])
+			{
+			case 'A': // -AZ* > Azureus
+				return boost::istarts_with(m_peer_id, "-AZ2304")
+					|| boost::istarts_with(m_peer_id, "-AZ2302")
+					|| boost::istarts_with(m_peer_id, "-AZ2300")
+					|| boost::istarts_with(m_peer_id, "-AZ2206")
+					|| boost::istarts_with(m_peer_id, "-AZ2205")
+					|| boost::istarts_with(m_peer_id, "-AZ2204")
+					|| boost::istarts_with(m_peer_id, "-AZ2203")
+					|| boost::istarts_with(m_peer_id, "-AZ2202")
+					|| boost::istarts_with(m_peer_id, "-AZ2201");
+			case 'B': // -BC* > BitComet, -BB* > ?
+				return boost::istarts_with(m_peer_id, "-BB")
+					|| boost::istarts_with(m_peer_id, "-BC0060");
+			case 'F': // -FG* > FlashGet
+				return boost::istarts_with(m_peer_id, "-FG");
+			case 'U': // -UT* > uTorrent
+				return boost::istarts_with(m_peer_id, "-UT11")
+					|| boost::istarts_with(m_peer_id, "-UT11");
+			case 'T': // -TS* > TorrentStorm
+				return boost::istarts_with(m_peer_id, "-TS");
+			default:
+				return false;
+			}
+		//case 'A': // A* > ABC
+		//case 'M': // M* > Mainline
+		//case 'S': // S* > Shadow
+		//case 'T': // T* > BitTornado
+		//case 'X': // XBT* > XBT
+		//case 'O': // O* > Opera
+		default:
+			return false;
+		}
+	else
+		switch (m_peer_id[0])
+		{
+		case '-':
+			switch (m_peer_id[1])
+			{
+			//case 'G': // -G3* > G3
+			case 'S': // -SZ* > ?
+				return boost::istarts_with(m_peer_id, "-SZ");
+			default:
+				return false;
+			}
+		case 'e': // exbc* > BitComet/BitLord
+			return boost::istarts_with(m_peer_id, "exbc0L")
+				|| boost::istarts_with(m_peer_id, "exbcL")
+				|| boost::istarts_with(m_peer_id, "exbcLORD")
+				|| boost::istarts_with(m_peer_id, "exbc\08")
+				|| boost::istarts_with(m_peer_id, "exbc\09")
+				|| boost::istarts_with(m_peer_id, "exbc\0:");
+		//case 'S': // S57* > Shadow 57
+		case 'O': // O* > Opera
+			return boost::istarts_with(m_peer_id, "O");
+		case 'F': // FG* > FlashGet
+			return boost::istarts_with(m_peer_id, "FG");
+		default:
+			return boost::istarts_with(m_peer_id, "BS")
+				|| boost::istarts_with(m_peer_id, "FUTB")
+				|| boost::istarts_with(m_peer_id, "TO038")
+				|| boost::istarts_with(m_peer_id, "turbo");
+		}
+	return false;
 }

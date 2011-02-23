@@ -1,25 +1,19 @@
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/543/trunk/upload/misc/js
+/svn/!svn/ver/566/trunk/upload/misc/js
 END
 main.js
 K 25
 svn:wc:ra_dav:version-url
 V 46
-/svn/!svn/ver/543/trunk/upload/misc/js/main.js
-END
-not_in_use.jsx
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/82/trunk/upload/misc/js/not_in_use.jsx
+/svn/!svn/ver/555/trunk/upload/misc/js/main.js
 END
 jquery.pack.js
 K 25
 svn:wc:ra_dav:version-url
 V 53
-/svn/!svn/ver/543/trunk/upload/misc/js/jquery.pack.js
+/svn/!svn/ver/555/trunk/upload/misc/js/jquery.pack.js
 END
 develop.js
 K 25

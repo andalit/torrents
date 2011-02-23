@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/540/trunk/upload/includes/db
+/svn/!svn/ver/585/trunk/upload/includes/db
 END
 mysql.php
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/540/trunk/upload/includes/db/mysql.php
+/svn/!svn/ver/585/trunk/upload/includes/db/mysql.php
 END
 .htaccess
 K 25

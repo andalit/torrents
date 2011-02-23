@@ -139,5 +139,3 @@ $lang['TPL_MUSIC'] = 'Music';
 $lang['TPL_BOOKS'] = 'Books';
 $lang['TPL_AUDIOBOOKS'] = 'Audiobooks';
 $lang['TPL_SPORT'] = 'Sport';
-
-

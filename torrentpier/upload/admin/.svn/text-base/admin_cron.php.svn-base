@@ -33,9 +33,9 @@ else {
 }	
 // ACP Header - END
 
-require(LANG_DIR .'lang_admin_cron.'. PHP_EXT);
-require(INC_DIR .'functions_admin_torrent.'. PHP_EXT);
-require(INC_DIR .'functions_admin_cron.'. PHP_EXT);
+require(LANG_DIR .'lang_admin_cron.php');
+require(INC_DIR .'functions_admin_torrent.php');
+require(INC_DIR .'functions_admin_cron.php');
 
 if ($mode == 'list') {
 	$sql = "SELECT *
@@ -86,7 +86,7 @@ if ($mode == 'list') {
 	$template->assign_vars(array(
 		'TPL_CRON_LIST' => true,
 		'LIST'          => $tpl,
-		'S_CRON_ACTION' => append_sid("admin_cron.$phpEx"),
+		'S_CRON_ACTION' => append_sid("admin_cron.php"),
 		'S_MODE'        => 'list',
 		));
 		
@@ -180,7 +180,7 @@ if ($mode == 'edit' && $job_id) {
 	//
 	$template->assign_vars(array(
 		'TPL_CRON_EDIT'     => true,
-		'S_CRON_ACTION'     => append_sid("admin_cron.$phpEx"),
+		'S_CRON_ACTION'     => append_sid("admin_cron.php"),
 		'S_MODE'            => 'edit',
 		'SCHEDULE'          => $schedule_result,
 		'RUN_DAY'           => $run_day_html,
@@ -268,7 +268,7 @@ if ($mode == 'add') {
 	//
 	$template->assign_vars(array(
 		'TPL_CRON_EDIT'     => true,
-		'S_CRON_ACTION'     => append_sid("admin_cron.$phpEx"),
+		'S_CRON_ACTION'     => append_sid("admin_cron.php"),
 		'S_MODE'            => 'add',
 		'SCHEDULE'          => $schedule_result,
 		'RUN_DAY'           => $run_day_html,

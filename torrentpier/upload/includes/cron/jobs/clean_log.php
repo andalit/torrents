@@ -8,4 +8,3 @@ $db->query("
 	DELETE FROM ". LOG_TABLE ."
 	WHERE log_time < ". (TIMENOW - 86400*$log_days_keep) ."
 ");
-

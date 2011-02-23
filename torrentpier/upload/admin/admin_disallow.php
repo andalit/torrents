@@ -11,11 +11,11 @@ require('./pagestart.php');
 
 $message = '';
 
-if( isset($HTTP_POST_VARS['add_name']) )
+if( isset($_POST['add_name']) )
 {
-	include($phpbb_root_path . 'includes/functions_validate.'.$phpEx);
+	include($phpbb_root_path . 'includes/functions_validate.php');
 
-	$disallowed_user = ( isset($HTTP_POST_VARS['disallowed_user']) ) ? trim($HTTP_POST_VARS['disallowed_user']) : trim($HTTP_GET_VARS['disallowed_user']);
+	$disallowed_user = ( isset($_POST['disallowed_user']) ) ? trim($_POST['disallowed_user']) : trim($_GET['disallowed_user']);
 
 	if ($disallowed_user == '')
 	{
@@ -37,13 +37,13 @@ if( isset($HTTP_POST_VARS['add_name']) )
 		$message = $lang['DISALLOW_SUCCESSFUL'];
 	}
 
-	$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_DISALLOWADMIN'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+	$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_DISALLOWADMIN'], "<a href=\"" . append_sid("admin_disallow.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 	message_die(GENERAL_MESSAGE, $message);
 }
-else if( isset($HTTP_POST_VARS['delete_name']) )
+else if( isset($_POST['delete_name']) )
 {
-	$disallowed_id = ( isset($HTTP_POST_VARS['disallowed_id']) ) ? intval( $HTTP_POST_VARS['disallowed_id'] ) : intval( $HTTP_GET_VARS['disallowed_id'] );
+	$disallowed_id = ( isset($_POST['disallowed_id']) ) ? intval( $_POST['disallowed_id'] ) : intval( $_GET['disallowed_id'] );
 
 	$sql = "DELETE FROM " . DISALLOW_TABLE . "
 		WHERE disallow_id = $disallowed_id";
@@ -53,7 +53,7 @@ else if( isset($HTTP_POST_VARS['delete_name']) )
 		message_die(GENERAL_ERROR, "Couldn't removed disallowed user.", "",__LINE__, __FILE__, $sql);
 	}
 
-	$message .= $lang['DISALLOWED_DELETED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_DISALLOWADMIN'], "<a href=\"" . append_sid("admin_disallow.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+	$message .= $lang['DISALLOWED_DELETED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_DISALLOWADMIN'], "<a href=\"" . append_sid("admin_disallow.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 	message_die(GENERAL_MESSAGE, $message);
 
@@ -94,7 +94,7 @@ $disallow_select .= '</select>';
 
 $template->assign_vars(array(
 	"S_DISALLOW_SELECT" => $disallow_select,
-	"S_FORM_ACTION" => append_sid("admin_disallow.$phpEx"),
+	"S_FORM_ACTION" => append_sid("admin_disallow.php"),
 
 	"L_DISALLOW_TITLE" => $lang['DISALLOW_CONTROL'],
 	"L_DELETE_DISALLOW" => $lang['DELETE_DISALLOW_TITLE'],

@@ -15,5 +15,3 @@ class report_general extends report_module
 		$this->lang = $lang;
 	}
 }
-
-?>

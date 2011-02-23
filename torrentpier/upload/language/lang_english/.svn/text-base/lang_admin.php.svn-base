@@ -55,12 +55,9 @@ $lang['RELEASE_TEMPLATES'] = 'Release Templates';
 // Index
 //
 $lang['ADMIN'] = 'Administration';
-$lang['WELCOME_PHPBB'] = 'Welcome to phpBB';
-$lang['ADMIN_INTRO'] = 'Thank you for choosing phpBB as your forum solution. This screen will give you a quick overview of all the various statistics of your board. You can get back to this page by clicking on the <u>Admin Index</u> link in the left pane. To return to the index of your board, click the phpBB logo also in the left pane. The other links on the left hand side of this screen will allow you to control every aspect of your forum experience. Each screen will have instructions on how to use the tools.';
 $lang['MAIN_INDEX'] = 'Forum Index';
 $lang['FORUM_STATS'] = 'Forum Statistics';
 $lang['ADMIN_INDEX'] = 'Admin Index';
-$lang['PREVIEW_FORUM'] = 'Preview Forum';
 
 $lang['TP_VERSION']      = 'TorrenPier version';
 $lang['TP_RELEASE_DATE'] = 'Release date';
@@ -523,32 +520,6 @@ $lang['RANK_REMOVED'] = 'The rank was successfully deleted';
 $lang['NO_UPDATE_RANKS'] = 'The rank was successfully deleted. However, user accounts using this rank were not updated.  You will need to manually reset the rank on these accounts';
 
 $lang['CLICK_RETURN_RANKADMIN'] = 'Click %sHere%s to return to Rank Administration';
-// FLAGHACK-start
-//
-// Flags admin
-//
-$lang['FLAGS_TITLE'] = 'Flag Administration';
-$lang['FLAGS_EXPLAIN'] = 'Using this form you can add, edit, view and delete flags. You can also create custom flags which can be applied to a user via the user management facility';
-
-$lang['ADD_NEW_FLAG'] = 'Add new flag';
-
-$lang['FLAG_NAME'] = 'Flag Name';
-$lang['FLAG_PIC'] = 'Image';
-$lang['FLAG_IMAGE'] = 'Flag Image (in the images/flags/ directory)';
-$lang['FLAG_IMAGE_EXPLAIN'] = 'Use this to define a small image associated with the flag';
-
-$lang['MUST_SELECT_FLAG'] = 'You must select a flag';
-$lang['FLAG_UPDATED'] = 'The flag was successfully updated';
-$lang['FLAG_ADDED'] = 'The flag was successfully added';
-$lang['FLAG_REMOVED'] = 'The flag was successfully deleted';
-$lang['NO_UPDATE_FLAGS'] = 'The flag was successfully deleted. However, user accounts using this flag were not updated.  You will need to manually reset the flag on these accounts';
-
-$lang['FLAG_CONFIRM'] = 'Delete Flag' ;
-$lang['CONFIRM_DELETE_FLAG'] = 'Are you sure you want to remove the selected flag?' ;
-
-$lang['CLICK_RETURN_FLAGADMIN'] = 'Click %sHere%s to return to Flag Administration';
-// FLAGHACK-end
-
 
 //
 // Disallow Username Admin
@@ -572,45 +543,8 @@ $lang['DISALLOWED_ALREADY'] = 'The name you entered could not be disallowed. It 
 
 $lang['CLICK_RETURN_DISALLOWADMIN'] = 'Click %sHere%s to return to Disallow Username Administration';
 
-//
-// Install Process
-//
-$lang['WELCOME_INSTALL'] = 'Welcome to phpBB 2 Installation';
-$lang['INITIAL_CONFIG'] = 'Basic Configuration';
-$lang['DB_CONFIG'] = 'Database Configuration';
-$lang['ADMIN_CONFIG'] = 'Admin Configuration';
-$lang['CONTINUE_UPGRADE'] = 'Once you have downloaded your config file to your local machine you may\'Continue Upgrade\' button below to move forward with the upgrade process.  Please wait to upload the config file until the upgrade process is complete.';
-$lang['UPGRADE_SUBMIT'] = 'Continue Upgrade';
-
-$lang['INSTALLER_ERROR'] = 'An error has occurred during installation';
-$lang['PREVIOUS_INSTALL'] = 'A previous installation has been detected';
-$lang['INSTALL_DB_ERROR'] = 'An error occurred trying to update the database';
-
-$lang['RE_INSTALL'] = 'Your previous installation is still active.<br /><br />If you would like to re-install phpBB 2 you should click the Yes button below. Please be aware that doing so will destroy all existing data and no backups will be made! The administrator username and password you have used to login in to the board will be re-created after the re-installation and no other settings will be retained.<br /><br />Think carefully before pressing Yes!';
-
-$lang['INST_STEP_0'] = 'Thank you for choosing phpBB 2. In order to complete this install please fill out the details requested below. Please note that the database you install into should already exist. If you are installing to a database that uses ODBC, e.g. MS Access you should first create a DSN for it before proceeding.';
-
-$lang['START_INSTALL'] = 'Start Install';
-$lang['FINISH_INSTALL'] = 'Finish Installation';
-
-$lang['DEFAULT_LANG'] = 'Default board language';
-$lang['DB_HOST'] = 'Database Server Hostname / DSN';
-$lang['DB_NAME'] = 'Your Database Name';
-$lang['DB_USERNAME'] = 'Database Username';
-$lang['DB_PASSWORD'] = 'Database Password';
-$lang['DATABASE'] = 'Your Database';
-$lang['INSTALL_LANG'] = 'Choose Language for Installation';
-$lang['DBMS'] = 'Database Type';
-$lang['TABLE_PREFIX'] = 'Prefix for tables in database';
-$lang['ADMIN_USERNAME'] = 'Administrator Username';
-$lang['ADMIN_PASSWORD'] = 'Administrator Password';
-$lang['ADMIN_PASSWORD_CONFIRM'] = 'Administrator Password [ Confirm ]';
-
-$lang['INST_STEP_2'] = 'Your admin username has been created.  At this point your basic installation is complete. You will now be taken to a screen which will allow you to administer your new installation. Please be sure to check the General Configuration details and make any required changes. Thank you for choosing phpBB 2.';
-
-$lang['UNWRITEABLE_CONFIG'] = 'Your config file is un-writeable at present. A copy of the config file will be downloaded to your computer when you click the button below. You should upload this file to the same directory as phpBB 2. Once this is done you should log in using the administrator name and password you provided on the previous form and visit the admin control center (a link will appear at the bottom of each screen once logged in) to check the general configuration. Thank you for choosing phpBB 2.';
-$lang['DOWNLOAD_CONFIG'] = 'Download Config';
-
+// FTP
+$lang['ATTACHMENT_FTP_SETTINGS'] = 'Setting up an FTP upload for attachments';
 $lang['FTP_CHOOSE'] = 'Choose Download Method';
 $lang['FTP_OPTION'] = '<br />Since FTP extensions are enabled in this version of PHP you may also be given the option of first trying to automatically FTP the config file into place.';
 $lang['FTP_INSTRUCTS'] = 'You have chosen to FTP the file to the account containing phpBB 2 automatically.  Please enter the information below to facilitate this process. Note that the FTP path should be the exact path via FTP to your phpBB2 installation as if you were FTPing to it using any normal client.';
@@ -622,16 +556,6 @@ $lang['FTP_USERNAME'] = 'Your FTP Username';
 $lang['FTP_PASSWORD'] = 'Your FTP Password';
 $lang['TRANSFER_CONFIG'] = 'Start Transfer';
 $lang['NOFTP_CONFIG'] = 'The attempt to FTP the config file into place failed.  Please download the config file and FTP it into place manually.';
-
-$lang['INSTALL'] = 'Install';
-$lang['UPGRADE'] = 'Upgrade';
-
-
-$lang['INSTALL_METHOD'] = 'Choose your installation method';
-
-$lang['INSTALL_NO_EXT'] = 'The PHP configuration on your server doesn\'t support the database type that you chose';
-
-$lang['INSTALL_NO_PCRE'] = 'phpBB2 Requires the Perl-Compatible Regular Expressions Module for PHP which your PHP configuration doesn\'t appear to support!';
 
 //
 // Version Check

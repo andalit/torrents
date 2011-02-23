@@ -4,8 +4,8 @@ define('IN_PHPBB', TRUE);
 define('IN_AJAX', TRUE);
 define('BB_ROOT', './');
 require(BB_ROOT .'common.php');
-require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
-require(INC_DIR .'functions_torrent.'. PHP_EXT);
+require(BB_ROOT .'attach_mod/attachment_mod.php');
+require(INC_DIR .'functions_torrent.php');
 
 // Init userdata
 $user->session_start();

@@ -92,4 +92,3 @@ $faq[] = array("С кем можно связаться по вопросу не
 //
 // This ends the FAQ entries
 //
-

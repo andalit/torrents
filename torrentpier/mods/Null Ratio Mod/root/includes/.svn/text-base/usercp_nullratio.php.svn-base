@@ -8,7 +8,7 @@ if ( !defined('IN_PHPBB') )
 
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect={$_SERVER['REQUEST_URI']}", TRUE));
+	redirect(append_sid("login.php?redirect={$_SERVER['REQUEST_URI']}", TRUE));
 }
 
 $action = isset($_GET['action']) ? (string) $_GET['action'] : null;
@@ -24,22 +24,22 @@ $ratio_nulled = $btu['ratio_nulled'];
 
 if ($down_total < MIN_DL_FOR_RATIO )
 {
-	$message =  $lang['NULLRATIO1']. '<b>'. humn_size(MIN_DL_FOR_RATIO) . '</b><br /><br /><a href="' . append_sid("index.$phpEx?") . '">Go to index</a>';
+	$message =  $lang['NULLRATIO1']. '<b>'. humn_size(MIN_DL_FOR_RATIO) . '</b><br /><br /><a href="' . append_sid("index.php?") . '">Go to index</a>';
 	message_die(GENERAL_MESSAGE, $message);
 }	
 else if ($ratio_nulled)
 {
-	$message =  $lang['NULLRATIO4']. '<br /><br /><a href="' . append_sid("index.$phpEx?") . '">Go to index</a>';
+	$message =  $lang['NULLRATIO4']. '<br /><br /><a href="' . append_sid("index.php?") . '">Go to index</a>';
 	message_die(GENERAL_MESSAGE, $message);
 }
 else if (!$bb_cfg['rationull_enabled'])
 {
-	$message =  $lang['NULLRATIO9']. '<br /><br /><a href="' . append_sid("index.$phpEx?") . '">Go to index</a>';
+	$message =  $lang['NULLRATIO9']. '<br /><br /><a href="' . append_sid("index.php?") . '">Go to index</a>';
 	message_die(GENERAL_MESSAGE, $message);
 }
 else if ($ratio > $bb_cfg['ratio_to_null'])
 {
-	$message =  $lang['NULLRATIO5']. '<br /><br /><a href="' . append_sid("index.$phpEx?") . '">Go to index</a>';
+	$message =  $lang['NULLRATIO5']. '<br /><br /><a href="' . append_sid("index.php?") . '">Go to index</a>';
 	message_die(GENERAL_MESSAGE, $message);
 }
 else
@@ -56,7 +56,7 @@ if ($action == 'null' && $ok && isset($_POST['send']))
 {
 	$sql = "update ". BT_USERS_TABLE ." set u_up_total=0, u_down_total=0, u_up_release=0, u_up_bonus=0, ratio_nulled=1 WHERE user_id=". $user_id;
 	$db->sql_query($sql);
-	$message =  $lang['NULLRATIO6'] . '<br /><br /><a href="' . append_sid("index.$phpEx?") . '">Go to index</a>';
+	$message =  $lang['NULLRATIO6'] . '<br /><br /><a href="' . append_sid("index.php?") . '">Go to index</a>';
 	message_die(GENERAL_MESSAGE, $message);
 }
 

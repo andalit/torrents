@@ -23,8 +23,7 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'memberlist');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 $page_cfg['use_tablesorter'] = true;
 
@@ -34,6 +33,7 @@ $start = abs(intval(request_var('start', 0)));
 $mode  = (string) request_var('mode', 'joined');
 $sort_order = (request_var('order', 'ASC') == 'ASC') ? 'ASC' : 'DESC';
 $username   = request_var('username', '');
+$paginationusername = $username;
 
 //
 // Memberlist sorting
@@ -87,8 +87,9 @@ $select_sort_order .= '</select>';
 $template->assign_vars(array(
 	'S_MODE_SELECT' => $select_sort_mode,
 	'S_ORDER_SELECT' => $select_sort_order,
-	'S_MODE_ACTION' => append_sid("memberlist.$phpEx"))
-);
+	'S_MODE_ACTION' => append_sid("memberlist.php"),
+	'S_USERNAME' => $paginationusername,
+));
 
 switch( $mode )
 {
@@ -151,19 +152,19 @@ if ($by_letter_req)
 // ENG
 for ($i=ord('A'), $cnt=ord('Z'); $i <= $cnt; $i++)
 {
-	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
+	$select_letter .= ($by_letter == chr($i)) ? '<b>'. chr($i) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=". chr($i) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. chr($i) .'</a>&nbsp;';
 }
 // RUS
 $select_letter .= ': ';
 for ($i=224, $cnt=255; $i <= $cnt; $i++)
 {
-   $select_letter .= ($by_letter == iconv('windows-1251', 'UTF-8', chr($i))) ? '<b>'. iconv('windows-1251', 'UTF-8', chr($i-32)) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=%". strtoupper(base_convert($i, 10, 16)) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. iconv('windows-1251', 'UTF-8', chr($i-32)) .'</a>&nbsp;';
+   $select_letter .= ($by_letter == iconv('windows-1251', 'UTF-8', chr($i))) ? '<b>'. iconv('windows-1251', 'UTF-8', chr($i-32)) .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=%". strtoupper(base_convert($i, 10, 16)) ."&amp;mode=$mode&amp;order=$sort_order") .'">'. iconv('windows-1251', 'UTF-8', chr($i-32)) .'</a>&nbsp;';
 }
 
 $select_letter .= ':&nbsp;';
-$select_letter .= ($by_letter == 'others') ? '<b>'. $lang['OTHERS'] .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=others&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['OTHERS'] .'</a>&nbsp;';
+$select_letter .= ($by_letter == 'others') ? '<b>'. $lang['OTHERS'] .'</b>&nbsp;' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=others&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['OTHERS'] .'</a>&nbsp;';
 $select_letter .= ':&nbsp;';
-$select_letter .= ($by_letter == 'all') ? '<b>'. $lang['ALL'] .'</b>' : '<a class="genmed" href="'. append_sid("memberlist.$phpEx?letter=all&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['ALL'] .'</a>';
+$select_letter .= ($by_letter == 'all') ? '<b>'. $lang['ALL'] .'</b>' : '<a class="genmed" href="'. append_sid("memberlist.php?letter=all&amp;mode=$mode&amp;order=$sort_order") .'">'. $lang['ALL'] .'</a>';
 
 $template->assign_vars(array(
 	'S_LETTER_SELECT'   => $select_letter,
@@ -171,19 +172,16 @@ $template->assign_vars(array(
 ));
 
 // per-letter selection end
-$sql = "SELECT username, user_id, user_opt, user_posts, user_regdate, user_from, user_from_flag, user_website, user_email, user_icq, user_aim, user_yim, user_msnm, user_avatar, user_avatar_type, user_allowavatar
+$sql = "SELECT username, user_id, user_opt, user_posts, user_regdate, user_from, user_from_flag, user_website, user_email, user_icq, user_avatar, user_avatar_type, user_allowavatar
          FROM ". USERS_TABLE ."
 		 WHERE user_id NOT IN(". EXCLUDED_USERS_CSV .")";
-if ( $username && isset($HTTP_POST_VARS['submituser']) )
+if ( $username )
 {
 	$username = preg_replace('/\*/', '%', phpbb_clean_username($username));
-	$sql .=" AND username LIKE '". str_replace("\'", "''", $username) ."' ORDER BY username LIMIT 200";
+	$letter_sql = "username LIKE '". str_replace("\'", "''", $username) ."'";
 }
-else
-{
-    $sql .= ($letter_sql) ? " AND $letter_sql" : '';
-    $sql .= " ORDER BY $order_by";
-}
+$sql .= ($letter_sql) ? " AND $letter_sql" : '';
+$sql .= " ORDER BY $order_by";
 
 $result = $db->sql_query($sql) OR message_die(GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql);
 
@@ -219,13 +217,11 @@ if ( $row = $db->sql_fetchrow($result) )
 			}
 		}
 
-		$pm = '<a class="txtb" href="'. append_sid("privmsg.$phpEx?mode=post&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['SEND_PM_TXTB'] .'</a>';
-		$email = ($board_config['board_email_form']) ? '<a class="txtb" href="'. append_sid("profile.$phpEx?mode=email&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['SEND_EMAIL_TXTB'] .'</a>' : false;
-		$temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id");
-		$profile = '<a href="' . $temp_url . '">' . $lang['READ_PROFILE'] . '</a>';
+		$pm = '<a class="txtb" href="'. append_sid("privmsg.php?mode=post&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['SEND_PM_TXTB'] .'</a>';
+		$email = ($board_config['board_email_form']) ? '<a class="txtb" href="'. append_sid("profile.php?mode=email&amp;". POST_USERS_URL ."=$user_id") .'">'. $lang['SEND_EMAIL_TXTB'] .'</a>' : false;
 		$www = ($row['user_website']) ? '<a class="txtb" href="'. $row['user_website'] .'" target="_userwww">'. $lang['VISIT_WEBSITE_TXTB'] .'</a>' : false;
 
-		$temp_url = append_sid("search.$phpEx?search_author=1&amp;uid=$user_id");
+		$temp_url = append_sid("search.php?search_author=1&amp;uid=$user_id");
 		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['SEARCH_USER_POSTS'] . '" title="' . $lang['SEARCH_USER_POSTS'] . '" border="0" /></a>';
 		$search = '<a href="' . $temp_url . '">' . $lang['SEARCH_USER_POSTS'] . '</a>';
 
@@ -243,10 +239,10 @@ if ( $row = $db->sql_fetchrow($result) )
 			'AVATAR_IMG'    => $poster_avatar,
 			'SEARCH'        => $search,
 			'PM'            => $pm,
-			'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser"),
+			'U_SEARCH_USER' => append_sid("search.php?mode=searchuser"),
 			'EMAIL'         => $email,
 			'WWW'           => $www,
-			'U_VIEWPROFILE' => append_sid("profile.$phpEx?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id"))
+			'U_VIEWPROFILE' => append_sid("profile.php?mode=viewprofile&amp;". POST_USERS_URL ."=$user_id"))
 		);
 		$i++;
 	}
@@ -259,6 +255,8 @@ else
        'NO_USER_ID_SPECIFIED' => $lang['NO_USER_ID_SPECIFIED']   )
  	 );
 }
+$paginationurl = "memberlist.php?mode=$mode&amp;order=$sort_order&amp;letter=$by_letter";
+if ($paginationusername) $paginationurl .= "&amp;username=$paginationusername";
 if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 {
 	$sql = "SELECT COUNT(*) AS total FROM ". USERS_TABLE;
@@ -270,7 +268,7 @@ if ( $mode != 'topten' || $board_config['topics_per_page'] < 10 )
 	if ($total = $db->sql_fetchrow($result))
 	{
 		$total_members = $total['total'];
-		$pagination = generate_pagination("memberlist.$phpEx?mode=$mode&amp;order=$sort_order&amp;letter=$by_letter", $total_members, $board_config['topics_per_page'], $start). '&nbsp;';
+		$pagination = generate_pagination($paginationurl, $total_members, $board_config['topics_per_page'], $start). '&nbsp;';
 	}
 	$db->sql_freeresult($result);
 }

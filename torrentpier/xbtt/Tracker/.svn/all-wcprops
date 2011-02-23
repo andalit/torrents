@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 36
-/svn/!svn/ver/483/trunk/xbtt/Tracker
+/svn/!svn/ver/593/trunk/xbtt/Tracker
 END
 stdafx.h
 K 25
@@ -13,7 +13,7 @@ connection.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 51
-/svn/!svn/ver/467/trunk/xbtt/Tracker/connection.cpp
+/svn/!svn/ver/591/trunk/xbtt/Tracker/connection.cpp
 END
 stats.h
 K 25
@@ -25,13 +25,13 @@ make.sh
 K 25
 svn:wc:ra_dav:version-url
 V 44
-/svn/!svn/ver/468/trunk/xbtt/Tracker/make.sh
+/svn/!svn/ver/579/trunk/xbtt/Tracker/make.sh
 END
 server.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 47
-/svn/!svn/ver/483/trunk/xbtt/Tracker/server.cpp
+/svn/!svn/ver/591/trunk/xbtt/Tracker/server.cpp
 END
 XBT Tracker.cpp
 K 25
@@ -61,7 +61,7 @@ tracker_input.h
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/467/trunk/xbtt/Tracker/tracker_input.h
+/svn/!svn/ver/591/trunk/xbtt/Tracker/tracker_input.h
 END
 XBT Tracker.vcxproj
 K 25
@@ -139,13 +139,13 @@ tracker_input.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 54
-/svn/!svn/ver/467/trunk/xbtt/Tracker/tracker_input.cpp
+/svn/!svn/ver/593/trunk/xbtt/Tracker/tracker_input.cpp
 END
 server.h
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/467/trunk/xbtt/Tracker/server.h
+/svn/!svn/ver/591/trunk/xbtt/Tracker/server.h
 END
 udp_listen_socket.cpp
 K 25
@@ -175,7 +175,7 @@ md5.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 44
-/svn/!svn/ver/467/trunk/xbtt/Tracker/md5.cpp
+/svn/!svn/ver/591/trunk/xbtt/Tracker/md5.cpp
 END
 XBT Tracker.vcproj
 K 25

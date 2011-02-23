@@ -22,8 +22,7 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'online');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 // Start session management
 $user->session_start(array('req_login' => true));
@@ -104,10 +103,14 @@ while ( $row = $db->sql_fetchrow($result) )
 			{
 				$username = '<b class="colorMod">' . $username . '</b>';
 			}
+			else if ( $row['user_level'] == GROUP_MEMBER ) 
+			{ 
+				$username = '<b class="colorGroup">' . $username . '</b>'; 
+			}			
 
 			if ( !$row['user_allow_viewonline'] )
 			{
-				$view_online = (IS_ADMIN || IS_MOD);
+				$view_online = IS_AM;
 				$hidden_users++;
 
 				$username = '<i>' . $username . '</i>';
@@ -147,7 +150,7 @@ while ( $row = $db->sql_fetchrow($result) )
 			'USERNAME' => $username,
 			'LASTUPDATE' => bb_date($row['session_time']),
 
-			'U_USER_PROFILE' => ((isset($user_id)) ? append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id) : ''),
+			'U_USER_PROFILE' => ((isset($user_id)) ? append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $user_id) : ''),
 		));
 
 		$$which_counter++;

@@ -78,7 +78,7 @@ class bb_error_handler
 
 		if ($critical_error)
 		{
-			require(DEV_DIR .'error_report.'. PHP_EXT);
+			require(DEV_DIR .'error_report.php');
 			exit;
 		}
 	}
@@ -102,4 +102,3 @@ class bb_error_handler
 
 $errHandler = new bb_error_handler;
 set_error_handler(array(&$errHandler, 'bb_error_handler'));
-

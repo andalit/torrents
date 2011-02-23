@@ -35,7 +35,6 @@ require_once VAR_DUMP_DIR .'Var_Dump/Renderer/Table.php';
 
 class Var_Dump_Renderer_HTML4_Table extends Var_Dump_Renderer_Table
 {
-
     /**
      * Class constructor.
      *
@@ -70,6 +69,4 @@ class Var_Dump_Renderer_HTML4_Table extends Var_Dump_Renderer_Table
         );
         $this->setOptions($options);
     }
-
 }
-

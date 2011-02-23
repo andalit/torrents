@@ -27,7 +27,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['TEST_SETTINGS_SUCCESSFUL']))
@@ -42,9 +42,9 @@ $sort_order = get_var('order', 'ASC');
 $sort_order = ($sort_order == 'ASC') ? 'ASC' : 'DESC';
 $mode = get_var('mode', '');
 $view = get_var('view', '');
-$uid = (isset($HTTP_POST_VARS['u_id'])) ? get_var('u_id', 0) : get_var('uid', 0);
+$uid = (isset($_POST['u_id'])) ? get_var('u_id', 0) : get_var('uid', 0);
 
-$view = (isset($HTTP_POST_VARS['search']) && $HTTP_POST_VARS['search']) ? 'attachments' : $view;
+$view = (isset($_POST['search']) && $_POST['search']) ? 'attachments' : $view;
 
 // process modes based on view
 if ($view == 'username')
@@ -61,7 +61,7 @@ if ($view == 'username')
 else if ($view == 'attachments')
 {
 	$mode_types_text = array($lang['SORT_FILENAME'], $lang['SORT_COMMENT'], $lang['SORT_EXTENSION'], $lang['SORT_SIZE'], $lang['SORT_DOWNLOADS'], $lang['SORT_POSTTIME'], /*$lang['SORT_POSTS']*/);
-	$mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);
+	$mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time');
 
 	if (!$mode)
 	{
@@ -72,7 +72,7 @@ else if ($view == 'attachments')
 else if ($view == 'search')
 {
 	$mode_types_text = array($lang['SORT_FILENAME'], $lang['SORT_COMMENT'], $lang['SORT_EXTENSION'], $lang['SORT_SIZE'], $lang['SORT_DOWNLOADS'], $lang['SORT_POSTTIME'], /*$lang['SORT_POSTS']*/);
-	$mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time'/*, 'posts'*/);
+	$mode_types = array('real_filename', 'comment', 'extension', 'filesize', 'downloads', 'post_time');
 
 	$sort_order = 'DESC';
 }
@@ -141,8 +141,8 @@ else if ($view == 'attachments')
 }
 
 // Set select fields
-$view_types_text = array($lang['VIEW_STATISTIC'], $lang['VIEW_SEARCH'], $lang['VIEW_USERNAME'], $lang['VIEW_ATTACHMENTS']);
-$view_types = array('stats', 'search', 'username', 'attachments');
+$view_types_text = array($lang['VIEW_STATISTIC'], $lang['VIEW_SEARCH']);
+$view_types = array('stats', 'search');
 
 $select_view = '<select name="view">';
 
@@ -176,11 +176,11 @@ else
 }
 $select_sort_order .= '</select>';
 
-$submit_change = ( isset($HTTP_POST_VARS['submit_change']) ) ? TRUE : FALSE;
-$delete = ( isset($HTTP_POST_VARS['delete']) ) ? TRUE : FALSE;
+$submit_change = ( isset($_POST['submit_change']) ) ? TRUE : FALSE;
+$delete = ( isset($_POST['delete']) ) ? TRUE : FALSE;
 $delete_id_list = get_var('delete_id_list', array(0));
 
-$confirm = isset($HTTP_POST_VARS['confirm']);
+$confirm = isset($_POST['confirm']);
 
 if ($confirm && sizeof($delete_id_list) > 0)
 {
@@ -203,7 +203,7 @@ else if ($delete && sizeof($delete_id_list) > 0)
 	}
 
 	print_confirmation(array(
-		'FORM_ACTION'   => "admin_attach_cp.$phpEx",
+		'FORM_ACTION'   => "admin_attach_cp.php",
 		'HIDDEN_FIELDS' => $hidden_fields,
 	));
 }
@@ -211,7 +211,7 @@ else if ($delete && sizeof($delete_id_list) > 0)
 // Assign Default Template Vars
 $template->assign_vars(array(
 	'S_VIEW_SELECT' => $select_view,
-	'S_MODE_ACTION' => append_sid('admin_attach_cp.' . $phpEx))
+	'S_MODE_ACTION' => append_sid('admin_attach_cp.php'))
 );
 
 if ($submit_change && $view == 'attachments')
@@ -380,7 +380,7 @@ if ($view == 'username')
 if ($view == 'attachments')
 {
 	$user_based = ($uid) ? TRUE : FALSE;
-	$search_based = (isset($HTTP_POST_VARS['search']) && $HTTP_POST_VARS['search']) ? TRUE : FALSE;
+	$search_based = (isset($_POST['search']) && $_POST['search']) ? TRUE : FALSE;
 
 	$hidden_fields = '';
 
@@ -457,10 +457,6 @@ if ($view == 'attachments')
 		// we are called from search
 		$attachments = search_attachments($order_by, $total_rows);
 	}
-	else
-	{
-		bb_die('removed');
-	}
 
 	if (!$search_based)
 	{
@@ -531,7 +527,7 @@ if ($view == 'attachments')
 						$post_title = substr($post_title, 0, 30) . '...';
 					}
 
-					$view_topic = append_sid($phpbb_root_path . 'viewtopic.' . $phpEx . '?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
+					$view_topic = append_sid($phpbb_root_path . 'viewtopic.php?' . POST_POST_URL . '=' . $ids[$j]['post_id'] . '#' . $ids[$j]['post_id']);
 
 					$post_titles[] = '<a href="' . $view_topic . '" class="gen" target="_blank">' . $post_title . '</a>';
 				}
@@ -546,7 +542,7 @@ if ($view == 'attachments')
 			$hidden_field = '<input type="hidden" name="attach_id_list[]" value="' . intval($attachments[$i]['attach_id']) . '" />';
 
 			$template->assign_block_vars('attachrow', array(
-				'ROW_NUMBER' => $i + ( @$HTTP_GET_VARS['start'] + 1 ),
+				'ROW_NUMBER' => $i + ( @$_GET['start'] + 1 ),
 				'ROW_CLASS' => $row_class,
 
 				'FILENAME'		=> htmlspecialchars($attachments[$i]['real_filename']),
@@ -559,8 +555,7 @@ if ($view == 'attachments')
 
 				'S_DELETE_BOX' => $delete_box,
 				'S_HIDDEN' => $hidden_field,
-				'U_VIEW_ATTACHMENT'	=> append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $attachments[$i]['attach_id']))
-//				'U_VIEW_POST' => ($attachments[$i]['post_id'] != 0) ? append_sid("../viewtopic." . $phpEx . "?" . POST_POST_URL . "=" . $attachments[$i]['post_id'] . "#" . $attachments[$i]['post_id']) : '')
+				'U_VIEW_ATTACHMENT'	=> append_sid($phpbb_root_path . 'download.php?id=' . $attachments[$i]['attach_id']))
 			);
 
 		}
@@ -586,7 +581,7 @@ if ($view == 'attachments')
 // Generate Pagination
 if ($do_pagination && $total_rows > $board_config['topics_per_page'])
 {
-	$pagination = generate_pagination('admin_attach_cp.' . $phpEx . '?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
+	$pagination = generate_pagination('admin_attach_cp.php?view=' . $view . '&amp;mode=' . $mode . '&amp;order=' . $sort_order . '&amp;uid=' . $uid, $total_rows, $board_config['topics_per_page'], $start).'&nbsp;';
 
 	$template->assign_vars(array(
 		'PAGINATION' => $pagination,
@@ -595,4 +590,3 @@ if ($do_pagination && $total_rows > $board_config['topics_per_page'])
 }
 
 print_page('admin_attach_cp.tpl', 'admin');
-

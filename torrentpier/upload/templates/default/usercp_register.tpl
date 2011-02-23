@@ -88,18 +88,6 @@
 	<td><input type="text" name="icq" size="30" maxlength="15" value="{ICQ}" /></td>
 </tr>
 <tr>
-	<td>{L_AIM}:</td>
-	<td><input type="text" name="aim" size="30" value="{AIM}" /></td>
-</tr>
-<tr>
-	<td>{L_MSNM}:</td>
-	<td><input type="text" name="msn" size="30" value="{MSN}" /></td>
-</tr>
-<tr>
-	<td>{L_YIM}:</td>
-	<td><input type="text" name="yim" size="30" value="{YIM}" /></td>
-</tr>
-<tr>
 	<td>{L_WEBSITE}:</td>
 	<td><input type="text" name="website" size="50" value="{WEBSITE}" /></td>
 </tr>

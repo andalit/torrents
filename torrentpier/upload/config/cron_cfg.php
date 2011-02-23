@@ -10,4 +10,3 @@ define('CRON_DIR',      INC_DIR  .'cron/');
 define('CRON_JOB_DIR',  CRON_DIR .'jobs/');
 define('CRON_LOG_DIR',  'cron/');            // inside LOG_DIR
 define('CRON_LOG_FILE', 'cron');             // without ext
-

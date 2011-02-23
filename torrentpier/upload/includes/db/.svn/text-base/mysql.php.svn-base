@@ -83,7 +83,7 @@ class sql_db
 
 		$connect_type = ($this->pconnect) ? 'mysql_pconnect' : 'mysql_connect';
 
-		if (!$link = @$connect_type($this->cfg['dbhost'], $this->cfg['dbuser'], $this->cfg['dbpasswd']))
+		if (!$link = @$connect_type($this->cfg['dbhost'], $this->cfg['dbuser'], $this->cfg['dbpasswd'], false, $this->cfg['flags']))
 		{
 			$server = (DBG_USER) ? $this->cfg['dbhost'] : '';
 			header("HTTP/1.0 503 Service Unavailable");
@@ -991,4 +991,3 @@ function sql_log_query_short ($sql, $max_len = 6000)
 
 	return htmlCHR($sql);
 }
-

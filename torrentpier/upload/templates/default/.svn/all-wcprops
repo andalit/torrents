@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/546/trunk/upload/templates/default
+/svn/!svn/ver/590/trunk/upload/templates/default
 END
 medal.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 58
-/svn/!svn/ver/499/trunk/upload/templates/default/medal.tpl
+/svn/!svn/ver/555/trunk/upload/templates/default/medal.tpl
 END
 report_list_body.tpl
 K 25
@@ -79,7 +79,7 @@ usercp_register.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 68
-/svn/!svn/ver/534/trunk/upload/templates/default/usercp_register.tpl
+/svn/!svn/ver/554/trunk/upload/templates/default/usercp_register.tpl
 END
 agreement.tpl
 K 25
@@ -109,7 +109,7 @@ viewtopic.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 62
-/svn/!svn/ver/407/trunk/upload/templates/default/viewtopic.tpl
+/svn/!svn/ver/555/trunk/upload/templates/default/viewtopic.tpl
 END
 report_open_body.tpl
 K 25
@@ -120,8 +120,8 @@ END
 privmsgs.tpl
 K 25
 svn:wc:ra_dav:version-url
-V 60
-/svn/!svn/ver/82/trunk/upload/templates/default/privmsgs.tpl
+V 61
+/svn/!svn/ver/555/trunk/upload/templates/default/privmsgs.tpl
 END
 confirm_body.tpl
 K 25
@@ -139,7 +139,7 @@ tpl_config.php
 K 25
 svn:wc:ra_dav:version-url
 V 63
-/svn/!svn/ver/521/trunk/upload/templates/default/tpl_config.php
+/svn/!svn/ver/580/trunk/upload/templates/default/tpl_config.php
 END
 usercp_viewprofile.tpl
 K 25
@@ -193,7 +193,7 @@ page_header.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 64
-/svn/!svn/ver/526/trunk/upload/templates/default/page_header.tpl
+/svn/!svn/ver/590/trunk/upload/templates/default/page_header.tpl
 END
 search_results.tpl
 K 25
@@ -253,7 +253,7 @@ memberlist.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 63
-/svn/!svn/ver/137/trunk/upload/templates/default/memberlist.tpl
+/svn/!svn/ver/555/trunk/upload/templates/default/memberlist.tpl
 END
 report_reason_edit_body.tpl
 K 25
@@ -319,7 +319,7 @@ groupcp.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 60
-/svn/!svn/ver/479/trunk/upload/templates/default/groupcp.tpl
+/svn/!svn/ver/570/trunk/upload/templates/default/groupcp.tpl
 END
 viewonline.tpl
 K 25

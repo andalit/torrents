@@ -8,4 +8,3 @@ $db->query("
 	DELETE FROM ". SEARCH_TABLE ."
 	WHERE search_time < $search_results_expire
 ");
-

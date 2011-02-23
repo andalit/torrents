@@ -16,9 +16,9 @@ require('./pagestart.php');
 //
 // Check to see what mode we should operate in.
 //
-if( isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']) )
+if( isset($_POST['mode']) || isset($_GET['mode']) )
 {
-	$mode = ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+	$mode = ( isset($_POST['mode']) ) ? $_POST['mode'] : $_GET['mode'];
 	$mode = htmlspecialchars($mode);
 }
 else
@@ -55,14 +55,14 @@ while($file = @readdir($dir))
 //
 // Select main mode
 //
-if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']) )
+if( isset($_GET['import_pack']) || isset($_POST['import_pack']) )
 {
 	//
 	// Import a list a "Smiley Pack"
 	//
-	$smile_pak = ( isset($HTTP_POST_VARS['smile_pak']) ) ? $HTTP_POST_VARS['smile_pak'] : $HTTP_GET_VARS['smile_pak'];
-	$clear_current = ( isset($HTTP_POST_VARS['clear_current']) ) ? $HTTP_POST_VARS['clear_current'] : $HTTP_GET_VARS['clear_current'];
-	$replace_existing = ( isset($HTTP_POST_VARS['replace']) ) ? $HTTP_POST_VARS['replace'] : $HTTP_GET_VARS['replace'];
+	$smile_pak = ( isset($_POST['smile_pak']) ) ? $_POST['smile_pak'] : $_GET['smile_pak'];
+	$clear_current = ( isset($_POST['clear_current']) ) ? $_POST['clear_current'] : $_GET['clear_current'];
+	$replace_existing = ( isset($_POST['replace']) ) ? $_POST['replace'] : $_GET['replace'];
 
 	if ( !empty($smile_pak) )
 	{
@@ -146,7 +146,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
 			}
 		}
 
-		$message = $lang['SMILEY_IMPORT_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message = $lang['SMILEY_IMPORT_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 
@@ -176,18 +176,18 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
 			"L_CONFLICTS" => $lang['SMILE_CONFLICTS'],
 			"L_DEL_EXISTING" => $lang['DEL_EXISTING_SMILEYS'],
 
-			"S_SMILEY_ACTION" => append_sid("admin_smilies.$phpEx"),
+			"S_SMILEY_ACTION" => append_sid("admin_smilies.php"),
 			"S_SMILE_SELECT" => $smile_paks_select,
 			"S_HIDDEN_FIELDS" => $hidden_vars)
 		);
 	}
 }
-else if( isset($HTTP_POST_VARS['export_pack']) || isset($HTTP_GET_VARS['export_pack']) )
+else if( isset($_POST['export_pack']) || isset($_GET['export_pack']) )
 {
 	//
 	// Export our smiley config as a smiley pak...
 	//
-	if ( $HTTP_GET_VARS['export_pack'] == "send" )
+	if ( $_GET['export_pack'] == "send" )
 	{
 		$sql = "SELECT *
 			FROM " . SMILIES_TABLE;
@@ -214,12 +214,12 @@ else if( isset($HTTP_POST_VARS['export_pack']) || isset($HTTP_GET_VARS['export_p
 		exit;
 	}
 
-	$message = sprintf($lang['EXPORT_SMILES'], "<a href=\"" . append_sid("admin_smilies.$phpEx?export_pack=send", true) . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+	$message = sprintf($lang['EXPORT_SMILES'], "<a href=\"" . append_sid("admin_smilies.php?export_pack=send", true) . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 	message_die(GENERAL_MESSAGE, $message);
 
 }
-else if( isset($HTTP_POST_VARS['add']) || isset($HTTP_GET_VARS['add']) )
+else if( isset($_POST['add']) || isset($_GET['add']) )
 {
 	//
 	// Admin has selected to add a smiley.
@@ -240,7 +240,7 @@ else if( isset($HTTP_POST_VARS['add']) || isset($HTTP_GET_VARS['add']) )
 
 		"SMILEY_IMG" => $phpbb_root_path . $board_config['smilies_path'] . '/' . $smiley_images[0],
 
-		"S_SMILEY_ACTION" => append_sid("admin_smilies.$phpEx"),
+		"S_SMILEY_ACTION" => append_sid("admin_smilies.php"),
 		"S_HIDDEN_FIELDS" => $s_hidden_fields,
 		"S_FILENAME_OPTIONS" => $filename_list,
 		"S_SMILEY_BASEDIR" => $phpbb_root_path . $board_config['smilies_path'])
@@ -255,7 +255,7 @@ else if ( $mode != "" )
 			// Admin has selected to delete a smiley.
 			//
 
-			$smiley_id = ( !empty($HTTP_POST_VARS['id']) ) ? $HTTP_POST_VARS['id'] : $HTTP_GET_VARS['id'];
+			$smiley_id = ( !empty($_POST['id']) ) ? $_POST['id'] : $_GET['id'];
 			$smiley_id = intval($smiley_id);
 
 			$sql = "DELETE FROM " . SMILIES_TABLE . "
@@ -266,7 +266,7 @@ else if ( $mode != "" )
 				message_die(GENERAL_ERROR, "Couldn't delete smiley", "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['SMILEY_DEL_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['SMILEY_DEL_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 			break;
@@ -276,7 +276,7 @@ else if ( $mode != "" )
 			// Admin has selected to edit a smiley.
 			//
 
-			$smiley_id = ( !empty($HTTP_POST_VARS['id']) ) ? $HTTP_POST_VARS['id'] : $HTTP_GET_VARS['id'];
+			$smiley_id = ( !empty($_POST['id']) ) ? $_POST['id'] : $_GET['id'];
 			$smiley_id = intval($smiley_id);
 
 			$sql = "SELECT *
@@ -318,7 +318,7 @@ else if ( $mode != "" )
 
 				"SMILEY_IMG" => $phpbb_root_path . $board_config['smilies_path'] . '/' . $smiley_edit_img,
 
-				"S_SMILEY_ACTION" => append_sid("admin_smilies.$phpEx"),
+				"S_SMILEY_ACTION" => append_sid("admin_smilies.php"),
 				"S_HIDDEN_FIELDS" => $s_hidden_fields,
 				"S_FILENAME_OPTIONS" => $filename_list,
 				"S_SMILEY_BASEDIR" => $phpbb_root_path . $board_config['smilies_path'])
@@ -335,11 +335,11 @@ else if ( $mode != "" )
 			// Get the submitted data, being careful to ensure that we only
 			// accept the data we are looking for.
 			//
-			$smile_code = ( isset($HTTP_POST_VARS['smile_code']) ) ? trim($HTTP_POST_VARS['smile_code']) : trim($HTTP_GET_VARS['smile_code']);
-			$smile_url = ( isset($HTTP_POST_VARS['smile_url']) ) ? trim($HTTP_POST_VARS['smile_url']) : trim($HTTP_GET_VARS['smile_url']);
+			$smile_code = ( isset($_POST['smile_code']) ) ? trim($_POST['smile_code']) : trim($_GET['smile_code']);
+			$smile_url = ( isset($_POST['smile_url']) ) ? trim($_POST['smile_url']) : trim($_GET['smile_url']);
 			$smile_url = phpbb_ltrim(basename($smile_url), "'");
-			$smile_emotion = ( isset($HTTP_POST_VARS['smile_emotion']) ) ? trim($HTTP_POST_VARS['smile_emotion']) : trim($HTTP_GET_VARS['smile_emotion']);
-			$smile_id = ( isset($HTTP_POST_VARS['smile_id']) ) ? intval($HTTP_POST_VARS['smile_id']) : intval($HTTP_GET_VARS['smile_id']);
+			$smile_emotion = ( isset($_POST['smile_emotion']) ) ? trim($_POST['smile_emotion']) : trim($_GET['smile_emotion']);
+			$smile_id = ( isset($_POST['smile_id']) ) ? intval($_POST['smile_id']) : intval($_GET['smile_id']);
 
 			// If no code was entered complain ...
 			if ($smile_code == '' || $smile_url == '')
@@ -364,7 +364,7 @@ else if ( $mode != "" )
 				message_die(GENERAL_ERROR, "Couldn't update smilies info", "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['SMILEY_EDIT_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['SMILEY_EDIT_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 			break;
@@ -378,10 +378,10 @@ else if ( $mode != "" )
 			// Get the submitted data being careful to ensure the the data
 			// we recieve and process is only the data we are looking for.
 			//
-			$smile_code = ( isset($HTTP_POST_VARS['smile_code']) ) ? $HTTP_POST_VARS['smile_code'] : $HTTP_GET_VARS['smile_code'];
-			$smile_url = ( isset($HTTP_POST_VARS['smile_url']) ) ? $HTTP_POST_VARS['smile_url'] : $HTTP_GET_VARS['smile_url'];
+			$smile_code = ( isset($_POST['smile_code']) ) ? $_POST['smile_code'] : $_GET['smile_code'];
+			$smile_url = ( isset($_POST['smile_url']) ) ? $_POST['smile_url'] : $_GET['smile_url'];
 			$smile_url = phpbb_ltrim(basename($smile_url), "'");
-			$smile_emotion = ( isset($HTTP_POST_VARS['smile_emotion']) ) ? $HTTP_POST_VARS['smile_emotion'] : $HTTP_GET_VARS['smile_emotion'];
+			$smile_emotion = ( isset($_POST['smile_emotion']) ) ? $_POST['smile_emotion'] : $_GET['smile_emotion'];
 			$smile_code = trim($smile_code);
 			$smile_url = trim($smile_url);
 			$smile_emotion = trim($smile_emotion);
@@ -409,7 +409,7 @@ else if ( $mode != "" )
 				message_die(GENERAL_ERROR, "Couldn't insert new smiley", "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['SMILEY_ADD_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['SMILEY_ADD_SUCCESS'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_SMILEADMIN'], "<a href=\"" . append_sid("admin_smilies.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 			break;
@@ -442,7 +442,7 @@ else
 		"L_EXPORT_PACK" => $lang['EXPORT_SMILE_PACK'],
 
 		"S_HIDDEN_FIELDS" => @$s_hidden_fields,
-		"S_SMILEY_ACTION" => append_sid("admin_smilies.$phpEx"))
+		"S_SMILEY_ACTION" => append_sid("admin_smilies.php"))
 	);
 
 	//
@@ -465,8 +465,8 @@ else
 			"CODE" => $smilies[$i]['code'],
 			"EMOT" => $smilies[$i]['emoticon'],
 
-			"U_SMILEY_EDIT" => append_sid("admin_smilies.$phpEx?mode=edit&amp;id=" . $smilies[$i]['smilies_id']),
-			"U_SMILEY_DELETE" => append_sid("admin_smilies.$phpEx?mode=delete&amp;id=" . $smilies[$i]['smilies_id']))
+			"U_SMILEY_EDIT" => append_sid("admin_smilies.php?mode=edit&amp;id=" . $smilies[$i]['smilies_id']),
+			"U_SMILEY_DELETE" => append_sid("admin_smilies.php?mode=delete&amp;id=" . $smilies[$i]['smilies_id']))
 		);
 	}
 }

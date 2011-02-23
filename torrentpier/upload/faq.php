@@ -22,8 +22,7 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'faq');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 // Start session management
 $user->session_start();
@@ -53,8 +52,8 @@ else
 	$lang_file = 'lang_faq';
 	$l_title = $lang['FAQ'];
 }
-include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
-include("{$phpbb_root_path}language/lang_{$board_config['default_lang']}/lang_faq_attach.$phpEx");
+include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
+include("{$phpbb_root_path}language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
 
 
 //
@@ -129,5 +128,3 @@ for($i = 0; $i < count($faq_block); $i++)
 }
 
 print_page('faq.tpl');
-
-

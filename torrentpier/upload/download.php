@@ -25,82 +25,12 @@ define('BB_SCRIPT', 'download');
 define('IN_SERVICE', true);
 define('NO_GZIP', true);
 define('BB_ROOT',  './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(BB_ROOT ."attach_mod/attachment_mod.$phpEx");
+require(BB_ROOT ."common.php");
+require(BB_ROOT ."attach_mod/attachment_mod.php");
 
 $datastore->enqueue(array(
 	'attach_extensions',
 ));
-
-//
-// Delete the / * to uncomment the block, and edit the values (read the comments) to
-// enable additional security to your board (preventing third site linkage)
-//
-/*
-define('ALLOWED_DENIED', 0);
-define('DENIED_ALLOWED', 1);
-
-//
-// From this line on you are able to edit the stuff
-//
-
-// Possible Values:
-// ALLOWED_DENIED <- First allow the listed sites, and then deny all others
-// DENIED_ALLOWED <- First deny the listed sites, and then allow all others
-$allow_deny_order = ALLOWED_DENIED;
-
-//
-// Allowed Syntax:
-// Full Domain Name -> www.opentools.de
-// Partial Domain Names -> opentools.de
-//
-$sites = array(
-	$board_config['server_name'],	// This is your domain
-	'opentools.de',
-	'phpbb.com',
-	'phpbbhacks.com',
-	'phpbb.de'
-);
-
-// This is the message displayed, if someone links to this site...
-$lang['DENIED_MESSAGE'] = 'You are not authorized to view, download or link to this Site.';
-
-// End of editable area
-
-//
-// Parse the order and evaluate the array
-//
-
-$site = explode('?', $HTTP_SERVER_VARS['HTTP_REFERER']);
-$url = trim($site[0]);
-//$url = $HTTP_HOST;
-
-if ($url != '')
-{
-	$allowed = ($allow_deny_order == ALLOWED_DENIED) ? FALSE : TRUE;
-
-	for ($i = 0; $i < count($sites); $i++)
-	{
-		if (strstr($url, $sites[$i]))
-		{
-			$allowed = ($allow_deny_order == ALLOWED_DENIED) ? TRUE : FALSE;
-			break;
-		}
-	}
-}
-else
-{
-	$allowed = TRUE;
-}
-
-if ($allowed == FALSE)
-{
-	message_die(GENERAL_MESSAGE, $lang['DENIED_MESSAGE']);
-}
-
-// Delete the following line, to uncomment this block
-*/
 
 $download_id = request_var('id', 0);
 $thumbnail = request_var('thumb', 0);
@@ -108,7 +38,7 @@ $thumbnail = request_var('thumb', 0);
 // Send file to browser
 function send_file_to_browser($attachment, $upload_dir)
 {
-	global $_SERVER, $HTTP_USER_AGENT, $HTTP_SERVER_VARS, $lang, $db, $attach_config;
+	global $lang, $db, $attach_config;
 
 	$filename = ($upload_dir == '') ? $attachment['physical_filename'] : $upload_dir . '/' . $attachment['physical_filename'];
 
@@ -133,10 +63,6 @@ function send_file_to_browser($attachment, $upload_dir)
 	if (!empty($_SERVER['HTTP_USER_AGENT']))
 	{
 		$HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
-	}
-	else if (!empty($HTTP_SERVER_VARS['HTTP_USER_AGENT']))
-	{
-		$HTTP_USER_AGENT = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
 	}
 	else if (!isset($HTTP_USER_AGENT))
 	{
@@ -187,11 +113,11 @@ function send_file_to_browser($attachment, $upload_dir)
 	}
 
 	//bt
-	global $phpbb_root_path, $phpEx, $userdata;
+	global $phpbb_root_path, $userdata;
 
 	if (!(isset($_GET['original']) && !IS_USER))
 	{
-		include($phpbb_root_path .'includes/functions_torrent.'. $phpEx);
+		include($phpbb_root_path .'includes/functions_torrent.php');
 		send_torrent_with_passkey($filename);
 	}
 	//bt end
@@ -449,4 +375,3 @@ else
 		exit;
 	}
 }
-

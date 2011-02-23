@@ -17,7 +17,7 @@
 */
 function attach_faq_include($lang_file)
 {
-	global $phpbb_root_path, $board_config, $phpEx, $faq, $attach_config;
+	global $phpbb_root_path, $board_config, $faq, $attach_config;
 
 	if (intval($attach_config['disable_mod']))
 	{
@@ -27,7 +27,7 @@ function attach_faq_include($lang_file)
 	if ($lang_file == 'lang_faq')
 	{
 		$language = attach_mod_get_lang('lang_faq_attach');
-		include($phpbb_root_path . 'language/lang_' . $language . '/lang_faq_attach.'.$phpEx);
+		include($phpbb_root_path . 'language/lang_' . $language . '/lang_faq_attach.php');
 	}
 }
 
@@ -52,7 +52,7 @@ function attach_faq_include($lang_file)
 */
 function attach_build_auth_levels($is_auth, &$s_auth_can)
 {
-	global $lang, $attach_config, $phpEx, $forum_id;
+	global $lang, $attach_config, $forum_id;
 
 	if (intval($attach_config['disable_mod']))
 	{
@@ -60,7 +60,7 @@ function attach_build_auth_levels($is_auth, &$s_auth_can)
 	}
 
 	// If you want to have the rules window link within the forum view too, comment out the two lines, and comment the third line
-//	$rules_link = '(<a href="' . $phpbb_root_path . 'attach_rules.' . $phpEx . '?f=' . $forum_id . '" target="_blank">Rules</a>)';
+//	$rules_link = '(<a href="' . $phpbb_root_path . 'attach_rules.php?f=' . $forum_id . '" target="_blank">Rules</a>)';
 //	$s_auth_can .= ( ( $is_auth['auth_attachments'] ) ? $rules_link . ' ' . $lang['RULES_ATTACH_CAN'] : $lang['RULES_ATTACH_CANNOT'] ) . '<br />';
 	$s_auth_can .= (($is_auth['auth_attachments']) ? $lang['RULES_ATTACH_CAN'] : $lang['RULES_ATTACH_CANNOT'] ) . '<br />';
 
@@ -72,7 +72,7 @@ function attach_build_auth_levels($is_auth, &$s_auth_can)
 */
 function attachment_quota_settings($admin_mode, $submit = false, $mode)
 {
-	global $template, $db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang, $lang, $phpbb_root_path, $phpEx, $attach_config;
+	global $template, $db, $lang, $phpbb_root_path, $attach_config;
 
 	if (!intval($attach_config['allow_ftp_upload']))
 	{
@@ -90,16 +90,16 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		$upload_dir = $attach_config['download_path'];
 	}
 
-	include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);	
+	include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');	
 	if (!function_exists("process_quota_settings"))
-		include($phpbb_root_path . 'attach_mod/includes/functions_admin.' . $phpEx);
+		include($phpbb_root_path . 'attach_mod/includes/functions_admin.php');
 
 	$user_id = 0;
 
 	if ($admin_mode == 'user')
 	{
 		// We overwrite submit here... to be sure
-		$submit = (isset($HTTP_POST_VARS['submit'])) ? true : false;
+		$submit = (isset($_POST['submit'])) ? true : false;
 
 		if (!$submit && $mode != 'save')
 		{
@@ -118,7 +118,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 			else
 			{
 				// Get userdata is handling the sanitizing of username
-				$this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
+				$this_userdata = get_userdata($_POST['username'], true);
 			}
 
 			$user_id = (int) $this_userdata['user_id'];
@@ -177,7 +177,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		));
 	}
 
-	if ($admin_mode == 'user' && $submit && @$HTTP_POST_VARS['deleteuser'])
+	if ($admin_mode == 'user' && $submit && @$_POST['deleteuser'])
 	{
 		process_quota_settings($admin_mode, $user_id, QUOTA_UPLOAD_LIMIT, 0);
 		process_quota_settings($admin_mode, $user_id, QUOTA_PM_LIMIT, 0);
@@ -197,7 +197,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		return;
 	}
 
-	if ($admin_mode == 'group' && !$submit && isset($HTTP_POST_VARS['edit']))
+	if ($admin_mode == 'group' && !$submit && isset($_POST['edit']))
 	{
 		// Get group id again, we do not trust phpBB here, Mods may be installed ;)
 		$group_id = get_var(POST_GROUPS_URL, 0);
@@ -242,7 +242,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 		));
 	}
 
-	if ($admin_mode == 'group' && $submit && isset($HTTP_POST_VARS['group_delete']))
+	if ($admin_mode == 'group' && $submit && isset($_POST['group_delete']))
 	{
 		$group_id = get_var(POST_GROUPS_URL, 0);
 
@@ -270,7 +270,7 @@ function attachment_quota_settings($admin_mode, $submit = false, $mode)
 */
 function display_upload_attach_box_limits($user_id, $group_id = 0)
 {
-	global $attach_config, $board_config, $phpbb_root_path, $lang, $db, $template, $phpEx, $userdata, $profiledata;
+	global $attach_config, $board_config, $phpbb_root_path, $lang, $db, $template, $userdata, $profiledata;
 
 	if (intval($attach_config['disable_mod']))
 	{
@@ -454,7 +454,7 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 
 	$template->assign_vars(array(
 		'L_UACP'			=> $lang['UACP'],
-		'U_UACP'			=> "{$phpbb_root_path}profile.$phpEx?mode=attachcp&amp;u=$user_id&amp;sid={$userdata['session_id']}",
+		'U_UACP'			=> "{$phpbb_root_path}profile.php?mode=attachcp&amp;u=$user_id&amp;sid={$userdata['session_id']}",
 		'UPLOADED' 			=> sprintf($lang['USER_UPLOADED_PROFILE'], $user_uploaded),
 		'QUOTA' 			=> sprintf($lang['USER_QUOTA_PROFILE'], $user_quota),
 		'UPLOAD_LIMIT_IMG_WIDTH' 	=> $upload_limit_img_length,
@@ -468,8 +468,5 @@ function display_upload_attach_box_limits($user_id, $group_id = 0)
 */
 function prune_attachments($sql_post)
 {
-	// prune it.
 	delete_attachment($sql_post);
 }
-
-

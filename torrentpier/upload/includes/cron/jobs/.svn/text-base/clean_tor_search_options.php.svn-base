@@ -9,4 +9,3 @@ if ($bb_cfg['tr_settings_days_keep'])
 		WHERE last_modified < ". (TIMENOW - 86400*$bb_cfg['tr_settings_days_keep']) ."
 	");
 }
-

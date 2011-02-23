@@ -31,6 +31,7 @@ $lang['TIME'] = 'Time';
 $lang['HOURS'] = 'Hours';
 $lang['MESSAGE'] = 'Message';
 $lang['TORRENT'] = 'Torrent';
+$lang['MANAGE'] = 'Profile';
 $lang['PERMISSIONS'] = 'Permissions';
 
 $lang['1_DAY'] = '1 Day';
@@ -49,7 +50,6 @@ $lang['RESET'] = 'Reset';
 $lang['CANCEL'] = 'Cancel';
 $lang['PREVIEW'] = 'Preview';
 $lang['CONFIRM'] = 'Confirm';
-$lang['SPELLCHECK'] = 'Spellcheck';
 $lang['YES'] = 'Yes';
 $lang['NO'] = 'No';
 $lang['ENABLED'] = 'Enabled';
@@ -72,9 +72,6 @@ $lang['VIEW_NEWEST_POST'] = 'View newest post';
 $lang['PAGE_OF'] = 'Page <b>%d</b> of <b>%s</b>';
 
 $lang['ICQ'] = 'ICQ Number';
-$lang['AIM'] = 'AIM Address';
-$lang['MSNM'] = 'MSN Messenger';
-$lang['YIM'] = 'Yahoo Messenger';
 
 $lang['FORUM_INDEX'] = '%s Forum Index';  // eg. sitename Forum Index, %s can be removed if you prefer
 
@@ -237,8 +234,6 @@ $lang['VIEW_TOPIC'] = 'View topic';
 
 $lang['GUEST'] = 'Guest';
 $lang['POST_SUBJECT'] = 'Post subject';
-$lang['VIEW_NEXT_TOPIC'] = 'View next topic';
-$lang['VIEW_PREVIOUS_TOPIC'] = 'View previous topic';
 $lang['SUBMIT_VOTE'] = 'Submit Vote';
 $lang['VIEW_RESULTS'] = 'View Results';
 
@@ -256,7 +251,6 @@ $lang['BACK_TO_TOP'] = 'Back to top';
 
 $lang['READ_PROFILE'] = 'View user\'s profile';
 $lang['VISIT_WEBSITE'] = 'Visit poster\'s website';
-$lang['ICQ_STATUS'] = 'ICQ Status';
 $lang['VIEW_IP'] = 'View IP address of poster';
 $lang['MODERATE_POST'] = 'Moderate posts';
 $lang['DELETE_POST'] = 'Delete this post';
@@ -412,7 +406,6 @@ $lang['FONT_NORMAL'] = 'Normal';
 $lang['FONT_LARGE'] = 'Large';
 $lang['FONT_HUGE'] = 'Huge';
 
-$lang['CLOSE_TAGS'] = 'Close Tags';
 $lang['STYLES_TIP'] = 'Tip: Styles can be applied quickly to selected text.';
 
 $lang['NEW_POSTS_PREVIEW'] = 'Topic has new, edited or unread posts';
@@ -631,9 +624,6 @@ $lang['REACTIVATE'] = 'Reactivate your account!';
 $lang['ALREADY_ACTIVATED'] = 'You have already activated your account';
 
 $lang['REGISTRATION'] = 'Registration Agreement Terms';
-
-$lang['AGREE_OVER_13'] = 'I Agree to these terms';
-$lang['AGREE_NOT'] = 'I do not agree to these terms';
 
 $lang['WRONG_ACTIVATION'] = 'The activation key you supplied does not match any in the database.';
 $lang['SEND_PASSWORD'] = 'Send me a new password';
@@ -1018,7 +1008,6 @@ $lang['A_CRITICAL_ERROR'] = 'A Critical Error Occurred';
 
 $lang['ADMIN_REAUTHENTICATE'] = 'To administer/moderate the board you must re-authenticate yourself.';
 $lang['LOGIN_ATTEMPTS_EXCEEDED'] = 'The maximum number of %s login attempts has been exceeded. You are not allowed to login for the next %s minutes.';
-$lang['PLEASE_REMOVE_INSTALL_CONTRIB'] = 'Please ensure both the install/ and contrib/ directories are deleted';
 
 //
 // Attachment Mod Main Language Variables
@@ -1136,7 +1125,7 @@ $lang['BT_REG_ON_TRACKER'] = 'Register on tracker';
 $lang['BT_REG_FAIL'] = 'Could not register torrent on tracker';
 $lang['BT_REG_FAIL_SAME_HASH'] = 'Another torrent with same info_hash already <a href="%s"><b>registered</b></a>';
 $lang['BT_UNREG_FROM_TRACKER'] = 'Remove from tracker';
-$lang['BT_DELETED'] = 'Torrent removed from tracker';
+$lang['BT_UNREGISTERED'] = 'Torrent unregistered';
 $lang['BT_REGISTERED'] = 'Torrent registered on tracker<br /><br />Now you need to <a href="%s"><b>download your torrent</b></a> and run it using your BitTorrent client choosing the folder with the original files you\'re sharing as the download path';
 $lang['INVALID_ANN_URL'] = 'Invalid Announce URL [%s]<br /><br />must be <b>%s</b>';
 $lang['PASSKEY_ERR_TOR_NOT_REG'] = 'Could not add passkey<br /><br />Torrent not registered on tracker';

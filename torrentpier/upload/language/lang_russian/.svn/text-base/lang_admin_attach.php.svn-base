@@ -232,5 +232,3 @@ $lang['EXTENSION'] = 'Расширение';
 // Auth pages
 $lang['AUTH_ATTACH'] = 'Добавить файлы';
 $lang['AUTH_DOWNLOAD'] = 'Скачать файлы';
-
-?>

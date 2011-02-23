@@ -93,24 +93,6 @@
 	  </td>
 	</tr>
 	<tr>
-	  <td class="row1"><span class="gen">{L_AIM}</span></td>
-	  <td class="row2">
-		<input class="post" type="text" name="aim" size="20" maxlength="255" value="{AIM}" />
-	  </td>
-	</tr>
-	<tr>
-	  <td class="row1"><span class="gen">{L_MSNM}</span></td>
-	  <td class="row2">
-		<input class="post" type="text" name="msn" size="20" maxlength="255" value="{MSN}" />
-	  </td>
-	</tr>
-	<tr>
-	  <td class="row1"><span class="gen">{L_YIM}</span></td>
-	  <td class="row2">
-		<input class="post" type="text" name="yim" size="20" maxlength="255" value="{YIM}" />
-	  </td>
-	</tr>
-	<tr>
 	  <td class="row1"><span class="gen">{L_WEBSITE}</span></td>
 	  <td class="row2">
 		<input class="post" type="text" name="website" size="35" maxlength="255" value="{WEBSITE}" />

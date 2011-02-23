@@ -107,4 +107,3 @@ foreach ($db->fetch_rowset($sql) as $row)
 }
 
 $this->store('moderators', $data);
-

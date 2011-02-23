@@ -2,7 +2,7 @@
 
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 
-require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+require_once(INC_DIR .'functions_admin.php');
 
 if ($bb_cfg['prune_enable'])
 {
@@ -13,4 +13,3 @@ if ($bb_cfg['prune_enable'])
 		topic_delete('prune', $row['forum_id'], (TIMENOW - 86400*$row['prune_days']));
 	}
 }
-

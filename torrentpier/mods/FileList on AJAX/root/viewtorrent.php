@@ -3,14 +3,14 @@ define('IN_PHPBB', TRUE);
 //define('IN_AJAX', TRUE);
 define('BB_ROOT', './');
 require(BB_ROOT .'common.php');
-require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
-require(INC_DIR .'functions_torrent.'. PHP_EXT);
-require(INC_DIR .'base32.'. PHP_EXT);
-require(INC_DIR .'links_build.'. PHP_EXT);
+require(BB_ROOT .'attach_mod/attachment_mod.php');
+require(INC_DIR .'functions_torrent.php');
+require(INC_DIR .'base32.php');
+require(INC_DIR .'links_build.php');
 
 $user->session_start();
 
-require(LANG_DIR.'lang_main.'. PHP_EXT);
+require(LANG_DIR.'lang_main.php');
 
 $attach_id = isset($_GET['a']) ? (int) $_GET['a'] : 0;
 

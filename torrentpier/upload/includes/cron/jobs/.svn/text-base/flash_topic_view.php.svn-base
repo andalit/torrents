@@ -24,4 +24,3 @@ $db->query("DELETE buf FROM ". BUF_TOPIC_VIEW_TABLE ." buf");
 
 // Unlock tables
 $db->unlock();
-

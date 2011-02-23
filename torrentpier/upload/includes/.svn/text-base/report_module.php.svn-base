@@ -187,5 +187,3 @@ class report_module
 		return ($subjects_count == count($report_subjects));
 	}
 }
-
-?>

@@ -371,7 +371,3 @@ class profiler_dbg extends profiler
 		return ($a['time'] > $b['time']) ? -1 : 1;
 	}
 }
-
-
-
-

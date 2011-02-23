@@ -23,8 +23,7 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'gallery');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 if (!$bb_cfg['gallery_enabled'])
 {
@@ -34,7 +33,7 @@ if (!$bb_cfg['gallery_enabled'])
 // Start session management
 $user->session_start(array('req_login' => true));
 
-require(LANG_DIR ."lang_gallery.$phpEx");
+require(LANG_DIR ."lang_gallery.php");
 
 $go = isset($_GET['go']) ? $_GET['go'] : '';
 $max_size = $bb_cfg['pic_max_size'];
@@ -175,12 +174,12 @@ if ($go == 'upload')
 
 	$create_thumb = (isset($_POST['create_thumb'])) ? true : false;
 
-	for ($i = 0; $i < count($HTTP_POST_FILES['imgfile']['name']); $i++)
+	for ($i = 0; $i < count($_FILES['imgfile']['name']); $i++)
 	{
-		$msg .= upload_file ($HTTP_POST_FILES['imgfile'], $i);
+		$msg .= upload_file ($_FILES['imgfile'], $i);
 	}
 
-	if (count($HTTP_POST_FILES['imgfile']['name']) > 1)
+	if (count($_FILES['imgfile']['name']) > 1)
 	{
 		$msg .= '<hr />'. paste_links ($links_all, $thumbs_all);
 	}
@@ -215,5 +214,3 @@ $template->assign_vars(array(
 ));
 
 print_page('gallery.tpl');
-
-?> 

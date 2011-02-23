@@ -33,7 +33,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['TEST_SETTINGS_SUCCESSFUL']))
@@ -53,7 +53,7 @@ $size = get_var('size', '');
 $mode = get_var('mode', '');
 $e_mode = get_var('e_mode', '');
 
-$submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
+$submit = (isset($_POST['submit'])) ? TRUE : FALSE;
 
 // Get Attachment Config
 $attach_config = array();
@@ -145,7 +145,7 @@ if ($submit && $mode == 'extensions')
 	$extension = get_var('add_extension', '');
 	$extension_explain = get_var('add_extension_explain', '');
 	$extension_group = get_var('add_group_select', 0);
-	$add = ( isset($HTTP_POST_VARS['add_extension_check']) ) ? TRUE : FALSE;
+	$add = ( isset($_POST['add_extension_check']) ) ? TRUE : FALSE;
 
 	if ($extension != '' && $add)
 	{
@@ -206,7 +206,7 @@ if ($submit && $mode == 'extensions')
 
 	if (!@$error)
 	{
-		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_extensions.php?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -221,8 +221,8 @@ if ($mode == 'extensions')
 		'L_EXTENSIONS_TITLE' => $lang['MANAGE_EXTENSIONS'],
 		'L_EXTENSIONS_EXPLAIN' => $lang['MANAGE_EXTENSIONS_EXPLAIN'],
 
-		'S_CANCEL_ACTION' => append_sid("admin_extensions.$phpEx?mode=extensions"),
-		'S_ATTACH_ACTION' => append_sid("admin_extensions.$phpEx?mode=extensions"))
+		'S_CANCEL_ACTION' => append_sid("admin_extensions.php?mode=extensions"),
+		'S_ATTACH_ACTION' => append_sid("admin_extensions.php?mode=extensions"))
 	);
 
 	if ($submit)
@@ -365,8 +365,8 @@ if ($submit && $mode == 'groups')
 	$filesize = get_var('add_max_filesize', 0);
 	$size_select = get_var('add_size_select', '');
 
-	$is_allowed = (isset($HTTP_POST_VARS['add_allowed'])) ? 1 : 0;
-	$add = ( isset($HTTP_POST_VARS['add_extension_group_check']) ) ? TRUE : FALSE;
+	$is_allowed = (isset($_POST['add_allowed'])) ? 1 : 0;
+	$add = ( isset($_POST['add_extension_group_check']) ) ? TRUE : FALSE;
 
 	if ($extension_group != '' && $add)
 	{
@@ -425,7 +425,7 @@ if ($submit && $mode == 'groups')
 
 	if (!@$error)
 	{
-		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_extensions.php?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -466,8 +466,8 @@ if ($mode == 'groups')
 		'S_FILESIZE' => size_select('add_size_select', $size),
 		'S_ADD_DOWNLOAD_MODE' => download_select('add_download_mode'),
 		'S_SELECT_CAT' => category_select('add_category'),
-		'S_CANCEL_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups"),
-		'S_ATTACH_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups"))
+		'S_CANCEL_ACTION' => append_sid("admin_extensions.php?mode=groups"),
+		'S_ATTACH_ACTION' => append_sid("admin_extensions.php?mode=groups"))
 	);
 
 	$sql = 'SELECT *
@@ -515,8 +515,8 @@ if ($mode == 'groups')
 
 			'MAX_FILESIZE' => $extension_group[$i]['max_filesize'],
 			'CAT_BOX' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? $lang['DECOLLAPSE'] : $lang['COLLAPSE'],
-			'U_VIEWGROUP' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? append_sid("admin_extensions.$phpEx?mode=groups") : append_sid("admin_extensions.$phpEx?mode=groups&" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
-			'U_FORUM_PERMISSIONS' => append_sid("admin_extensions.$phpEx?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
+			'U_VIEWGROUP' => ( $viewgroup == $extension_group[$i]['group_id'] ) ? append_sid("admin_extensions.php?mode=groups") : append_sid("admin_extensions.php?mode=groups&" . POST_GROUPS_URL . "=" . $extension_group[$i]['group_id']),
+			'U_FORUM_PERMISSIONS' => append_sid("admin_extensions.php?mode=$mode&amp;e_mode=perm&amp;e_group=" . $extension_group[$i]['group_id']))
 		);
 
 		if ($viewgroup && $viewgroup == $extension_group[$i]['group_id'])
@@ -549,10 +549,10 @@ if ($e_mode == 'perm')
 {
 	$group = get_var('e_group', 0);
 
-	$add_forum = (isset($HTTP_POST_VARS['add_forum'])) ? TRUE : FALSE;
-	$delete_forum = (isset($HTTP_POST_VARS['del_forum'])) ? TRUE : FALSE;
+	$add_forum = (isset($_POST['add_forum'])) ? TRUE : FALSE;
+	$delete_forum = (isset($_POST['del_forum'])) ? TRUE : FALSE;
 
-	if (isset($HTTP_POST_VARS['close_perm']))
+	if (isset($_POST['close_perm']))
 	{
 		$e_mode = '';
 	}
@@ -726,7 +726,7 @@ if ($e_mode == 'perm' && $group)
 		'TPL_ATTACH_EXTENSION_GROUPS_PERMISSIONS' => true,
 
 		'L_GROUP_PERMISSIONS_TITLE' => sprintf($lang['GROUP_PERMISSIONS_TITLE_ADMIN'], trim($group_name)),
-		'A_PERM_ACTION' => append_sid("admin_extensions.$phpEx?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
+		'A_PERM_ACTION' => append_sid("admin_extensions.php?mode=groups&amp;e_mode=perm&amp;e_group=$group"))
 	);
 
 	$forum_option_values = array(GPERM_ALL => $lang['PERM_ALL_FORUMS']);
@@ -753,7 +753,6 @@ if ($e_mode == 'perm' && $group)
 	}
 
 	$empty_perm_forums = array();
-
 
 	$sql = "SELECT forum_id, forum_name FROM " . FORUMS_TABLE . " WHERE auth_attachments < " . AUTH_ADMIN;
 
@@ -818,5 +817,3 @@ if (@$error)
 }
 
 print_page('admin_extensions.tpl', 'admin');
-
-

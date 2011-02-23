@@ -30,7 +30,7 @@ else
 	$upload_dir = $attach_config['download_path'];
 }
 
-include($phpbb_root_path . 'attach_mod/includes/functions_selects.' . $phpEx);
+include($phpbb_root_path . 'attach_mod/includes/functions_selects.php');
 
 // Check if the language got included
 if (!isset($lang['TEST_SETTINGS_SUCCESSFUL']))
@@ -46,10 +46,10 @@ $size       = request_var('size', '');
 $quota_size = request_var('quota_size', '');
 $pm_size    = request_var('pm_size', '');
 
-$submit = (isset($HTTP_POST_VARS['submit'])) ? TRUE : FALSE;
-$check_upload = (isset($HTTP_POST_VARS['settings'])) ? TRUE : FALSE;
-$check_image_cat = (isset($HTTP_POST_VARS['cat_settings'])) ? TRUE : FALSE;
-$search_imagick = (isset($HTTP_POST_VARS['search_imagick'])) ? TRUE : FALSE;
+$submit = (isset($_POST['submit'])) ? TRUE : FALSE;
+$check_upload = (isset($_POST['settings'])) ? TRUE : FALSE;
+$check_image_cat = (isset($_POST['cat_settings'])) ? TRUE : FALSE;
+$search_imagick = (isset($_POST['search_imagick'])) ? TRUE : FALSE;
 
 // Re-evaluate the Attachment Configuration
 $sql = 'SELECT *
@@ -366,7 +366,7 @@ if ($check_upload)
 
 	if (!$error)
 	{
-		message_die(GENERAL_MESSAGE, $lang['TEST_SETTINGS_SUCCESSFUL'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['TEST_SETTINGS_SUCCESSFUL'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.php?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -375,7 +375,7 @@ if ($submit && $mode == 'manage')
 {
 	if (!$error)
 	{
-		message_die(GENERAL_MESSAGE, $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.php?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -430,7 +430,7 @@ if ($mode == 'manage')
 		'L_DOWNLOAD_PATH' => $lang['FTP_DOWNLOAD_PATH'],
 		'L_DOWNLOAD_PATH_EXPLAIN' => $lang['FTP_DOWNLOAD_PATH_EXPLAIN'],
 
-		'S_ATTACH_ACTION' => append_sid('admin_attachments.' . $phpEx . '?mode=manage'),
+		'S_ATTACH_ACTION' => append_sid('admin_attachments.php?mode=manage'),
 		'S_FILESIZE' => $select_size_mode,
 		'S_FILESIZE_QUOTA' => $select_quota_size_mode,
 		'S_FILESIZE_PM' => $select_pm_size_mode,
@@ -467,7 +467,7 @@ if ($submit && $mode == 'cats')
 {
 	if (!$error)
 	{
-		message_die(GENERAL_MESSAGE, $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.php?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -561,7 +561,7 @@ if ($mode == 'cats')
 		'USE_GD2_NO' => $use_gd2_no,
 
 		'S_ASSIGNED_GROUP_IMAGES' => implode(', ', $s_assigned_group_images),
-		'S_ATTACH_ACTION' => append_sid('admin_attachments.' . $phpEx . '?mode=cats'))
+		'S_ATTACH_ACTION' => append_sid('admin_attachments.php?mode=cats'))
 	);
 }
 
@@ -721,7 +721,7 @@ if ($check_image_cat)
 
 	if (!$error)
 	{
-		message_die(GENERAL_MESSAGE, $lang['TEST_SETTINGS_SUCCESSFUL'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['TEST_SETTINGS_SUCCESSFUL'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.php?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 }
 
@@ -781,7 +781,7 @@ if ($submit && $mode == 'quota')
 	$quota_desc = get_var('quota_description', '');
 	$filesize = get_var('add_max_filesize', 0);
 	$size_select = get_var('add_size_select', '');
-	$add = ( isset($HTTP_POST_VARS['add_quota_check']) ) ? TRUE : FALSE;
+	$add = ( isset($_POST['add_quota_check']) ) ? TRUE : FALSE;
 
 	if ($quota_desc != '' && $add)
 	{
@@ -831,7 +831,7 @@ if ($submit && $mode == 'quota')
 
 	if (!$error)
 	{
-		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=quota") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
+		$message = $lang['ATTACH_CONFIG_UPDATED'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_ATTACH_CONFIG'], '<a href="' . append_sid("admin_attachments.php?mode=quota") . '">', '</a>') . '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>');
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -861,7 +861,7 @@ if ($mode == 'quota')
 
 		'S_FILESIZE' => size_select('add_size_select', $size),
 
-		'S_ATTACH_ACTION' => append_sid('admin_attachments.' . $phpEx . '?mode=quota'))
+		'S_ATTACH_ACTION' => append_sid('admin_attachments.php?mode=quota'))
 	);
 
 	$sql = "SELECT * FROM " . QUOTA_LIMITS_TABLE . " ORDER BY quota_limit DESC";
@@ -891,7 +891,7 @@ if ($mode == 'quota')
 			'QUOTA_NAME'		=> $rows[$i]['quota_desc'],
 			'QUOTA_ID' => $rows[$i]['quota_limit_id'],
 			'S_FILESIZE' => size_select('size_select_list[]', $size_format),
-			'U_VIEW' => append_sid("admin_attachments.$phpEx?mode=$mode&amp;e_mode=view_quota&amp;quota_id=" . $rows[$i]['quota_limit_id']),
+			'U_VIEW' => append_sid("admin_attachments.php?mode=$mode&amp;e_mode=view_quota&amp;quota_id=" . $rows[$i]['quota_limit_id']),
 			'MAX_FILESIZE' => $rows[$i]['quota_limit'])
 		);
 	}
@@ -995,4 +995,3 @@ if ($error)
 }
 
 print_page('admin_attachments.tpl', 'admin');
-

@@ -189,7 +189,6 @@ function msg_die ($msg)
 
 // Start announcer
 define('TR_ROOT', './');
-require(TR_ROOT .'includes/init_tr.'. PHP_EXT);
-require(TR_ROOT .'includes/tr_announcer.'. PHP_EXT);
-
+require(TR_ROOT .'includes/init_tr.php');
+require(TR_ROOT .'includes/tr_announcer.php');
 exit;

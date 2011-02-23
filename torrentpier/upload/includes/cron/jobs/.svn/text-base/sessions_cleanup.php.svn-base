@@ -45,4 +45,3 @@ $db->query("
 		OR
 		(s.session_time < $admin_session_gc_time AND s.session_admin != 0)
 ");
-

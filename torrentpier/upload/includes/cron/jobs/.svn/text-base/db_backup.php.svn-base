@@ -15,7 +15,7 @@ if ($bb_cfg['db_backup_shell_cmd'])
 
 if ($exec_return_status && !$bb_cfg['emailer_disabled'] && $bb_cfg['tech_admin_email'])
 {
-	require_once(INC_DIR .'emailer.'. PHP_EXT);
+	require_once(INC_DIR .'emailer.php');
 	$emailer = new emailer($bb_cfg['smtp_delivery']);
 
 	$emailer->from($bb_cfg['board_email']);

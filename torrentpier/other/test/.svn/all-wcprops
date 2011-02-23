@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 34
-/svn/!svn/ver/363/trunk/other/test
+/svn/!svn/ver/578/trunk/other/test
 END
 $_SERVER.php
 K 25
@@ -25,7 +25,7 @@ time.php
 K 25
 svn:wc:ra_dav:version-url
 V 43
-/svn/!svn/ver/363/trunk/other/test/time.php
+/svn/!svn/ver/578/trunk/other/test/time.php
 END
 umlaut.txt
 K 25

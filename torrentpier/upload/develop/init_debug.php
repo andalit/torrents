@@ -2,13 +2,13 @@
 
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 
-require(DEV_DIR .'dbg_config.'.      PHP_EXT);
-require(DEV_DIR .'functions_debug.'. PHP_EXT);
+require(DEV_DIR .'dbg_config.php');
+require(DEV_DIR .'functions_debug.php');
 
 //
 // Timer
 //
-require(DEV_DIR .'benchmark/timer.'. PHP_EXT);
+require(DEV_DIR .'benchmark/timer.php');
 $timer_markers = 0;
 $timer = new Benchmark_Timer();
 $GLOBALS['timer']->start();
@@ -21,7 +21,7 @@ $GLOBALS['timer']->start();
 //
 // HackerConsole
 //
-require(DEV_DIR .'HackerConsole/Main.'. PHP_EXT);
+require(DEV_DIR .'HackerConsole/Main.php');
 $dbgCons = new Debug_HackerConsole_Main();
 #	hc($var, $title);
 #	new Debug_HackerConsole_Main();
@@ -37,7 +37,7 @@ function hc ($var, $title = '')
 //
 // Error handler
 //
-require(DEV_DIR .'error_handler.'. PHP_EXT);
+require(DEV_DIR .'error_handler.php');
 
 //
 // OB conveyer
@@ -51,7 +51,7 @@ function prepend_debug_info ($contents)
 	}
 	if ($errors = $GLOBALS['errHandler']->get_clean_errors())
 	{
-		$contents = file_get_contents(DEV_DIR .'dbg_header.'. PHP_EXT) . $errors . $contents;
+		$contents = file_get_contents(DEV_DIR .'dbg_header.php') . $errors . $contents;
 	}
 
 	return $contents;
@@ -62,7 +62,7 @@ ob_start('prepend_debug_info');
 //
 // Var_Dump
 //
-require(DEV_DIR .'Var_Dump.'. PHP_EXT);
+require(DEV_DIR .'Var_Dump.php');
 
 Var_Dump::displayInit(
 	array(
@@ -78,4 +78,3 @@ function dump ($var, $title = '')
 	if ($title) echo "<h4>$title</h4>\n";
 	Var_Dump::display($var);
 }
-

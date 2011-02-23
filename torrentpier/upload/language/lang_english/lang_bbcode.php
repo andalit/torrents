@@ -71,4 +71,3 @@ $faq[] = array("Can I add my own tags?", "No, I am afraid not directly in phpBB 
 //
 // This ends the BBCode guide entries
 //
-

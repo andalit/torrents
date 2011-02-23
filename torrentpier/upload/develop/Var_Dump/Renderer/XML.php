@@ -33,7 +33,6 @@ require_once VAR_DUMP_DIR .'Var_Dump/Renderer/Common.php';
 
 class Var_Dump_Renderer_XML extends Var_Dump_Renderer_Common
 {
-
     /**
      * Class constructor.
      *
@@ -142,6 +141,4 @@ class Var_Dump_Renderer_XML extends Var_Dump_Renderer_Common
     function _spacer($depth) {
         return str_repeat(' ', $depth << 1);
     }
-
 }
-

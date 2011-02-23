@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 39
-/svn/!svn/ver/525/trunk/SphinX%20config
+/svn/!svn/ver/578/trunk/SphinX%20config
 END
 sphinx_custom_logo.jpg
 K 25
@@ -19,5 +19,5 @@ sphinx.conf
 K 25
 svn:wc:ra_dav:version-url
 V 51
-/svn/!svn/ver/525/trunk/SphinX%20config/sphinx.conf
+/svn/!svn/ver/578/trunk/SphinX%20config/sphinx.conf
 END

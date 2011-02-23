@@ -111,3 +111,4 @@ const std::string bts_upload_slots = "upload slots";
 const std::string bts_user_agent = "user agent";
 const std::string bts_version = "version";
 const std::string bts_wait_time = "access denied, wait time in effect";
+const std::string bts_disabled = "access denied, account disabled";

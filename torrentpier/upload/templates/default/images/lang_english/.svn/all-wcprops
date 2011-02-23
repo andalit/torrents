@@ -1,49 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 67
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english
-END
-icon_search.gif
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_search.gif
-END
-icon_aim.gif
-K 25
-svn:wc:ra_dav:version-url
-V 80
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_aim.gif
-END
-icon_ip.gif
-K 25
-svn:wc:ra_dav:version-url
-V 79
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_ip.gif
-END
-icon_msnm.gif
-K 25
-svn:wc:ra_dav:version-url
-V 81
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_msnm.gif
-END
-icon_pm.gif
-K 25
-svn:wc:ra_dav:version-url
-V 79
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_pm.gif
-END
-post.gif
-K 25
-svn:wc:ra_dav:version-url
-V 76
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/post.gif
-END
-reply-locked.gif
-K 25
-svn:wc:ra_dav:version-url
-V 84
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/reply-locked.gif
+V 68
+/svn/!svn/ver/554/trunk/upload/templates/default/images/lang_english
 END
 reply.gif
 K 25
@@ -69,11 +27,29 @@ svn:wc:ra_dav:version-url
 V 81
 /svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_edit.gif
 END
+icon_search.gif
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_search.gif
+END
 icon_email.gif
 K 25
 svn:wc:ra_dav:version-url
 V 82
 /svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_email.gif
+END
+icon_ip.gif
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_ip.gif
+END
+icon_pm.gif
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_pm.gif
 END
 msg_newpost.gif
 K 25
@@ -87,11 +63,11 @@ svn:wc:ra_dav:version-url
 V 82
 /svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_quote.gif
 END
-icon_yim.gif
+post.gif
 K 25
 svn:wc:ra_dav:version-url
-V 80
-/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_yim.gif
+V 76
+/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/post.gif
 END
 index.html
 K 25
@@ -104,4 +80,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 84
 /svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/icon_profile.gif
+END
+reply-locked.gif
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/82/trunk/upload/templates/default/images/lang_english/reply-locked.gif
 END

@@ -255,7 +255,7 @@ function get_formatted_dirsize()
 */
 function search_attachments($order_by, &$total_rows)
 {
-	global $db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang;
+	global $db, $lang;
 
 	$where_sql = array();
 
@@ -415,4 +415,3 @@ function limit_array($array, $start, $pagelimit)
 
 	return $limit_array;
 }
-

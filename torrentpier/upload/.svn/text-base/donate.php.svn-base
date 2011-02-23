@@ -23,16 +23,15 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'donate');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 // Start session management
 $user->session_start();
 
 $l_title = 'Помощь трекеру';
 
-//include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.' . $phpEx);
-//include("{$phpbb_root_path}language/lang_{$board_config['default_lang']}/lang_faq_attach.$phpEx");
+//include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/' . $lang_file . '.php');
+//include("{$phpbb_root_path}language/lang_{$board_config['default_lang']}/lang_faq_attach.php");
 
 //
 // Lets build a page ...
@@ -43,5 +42,3 @@ $template->assign_vars(array(
 ));
 
 print_page('donate.tpl');
-
-

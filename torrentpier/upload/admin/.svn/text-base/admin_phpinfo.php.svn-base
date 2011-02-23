@@ -10,5 +10,3 @@ require('./pagestart.php');
 // ACP Header - END
 
 phpinfo();
-
-

@@ -30,12 +30,12 @@ if ( !defined('IN_PHPBB') )
 // Is send through board enabled? No, return to index
 if (!$board_config['board_email_form'])
 {
-	redirect(append_sid("index.$phpEx", true));
+	redirect(append_sid("index.php", true));
 }
 
-if ( !empty($HTTP_GET_VARS[POST_USERS_URL]) || !empty($HTTP_POST_VARS[POST_USERS_URL]) )
+if ( !empty($_GET[POST_USERS_URL]) || !empty($_POST[POST_USERS_URL]) )
 {
-	$user_id = ( !empty($HTTP_GET_VARS[POST_USERS_URL]) ) ? intval($HTTP_GET_VARS[POST_USERS_URL]) : intval($HTTP_POST_VARS[POST_USERS_URL]);
+	$user_id = ( !empty($_GET[POST_USERS_URL]) ) ? intval($_GET[POST_USERS_URL]) : intval($_POST[POST_USERS_URL]);
 }
 else
 {
@@ -44,7 +44,7 @@ else
 
 if ( !$userdata['session_logged_in'] )
 {
-	redirect(append_sid("login.$phpEx?redirect=profile.$phpEx&mode=email&" . POST_USERS_URL . "=$user_id", true));
+	redirect(append_sid("login.php?redirect=profile.php&mode=email&" . POST_USERS_URL . "=$user_id", true));
 }
 
 $sql = "SELECT username, user_email, user_lang
@@ -58,13 +58,13 @@ if ( $row = $db->fetch_row($sql) )
 
 	if ( true || IS_ADMIN )  //  TRUE instead of missing user_opt "prevent_email"
 	{
-		if ( isset($HTTP_POST_VARS['submit']) )
+		if ( isset($_POST['submit']) )
 		{
 			$error = FALSE;
 
-			if ( !empty($HTTP_POST_VARS['subject']) )
+			if ( !empty($_POST['subject']) )
 			{
-				$subject = trim(stripslashes($HTTP_POST_VARS['subject']));
+				$subject = trim(stripslashes($_POST['subject']));
 			}
 			else
 			{
@@ -72,9 +72,9 @@ if ( $row = $db->fetch_row($sql) )
 				$error_msg = ( !empty($error_msg) ) ? $error_msg . '<br />' . $lang['EMPTY_SUBJECT_EMAIL'] : $lang['EMPTY_SUBJECT_EMAIL'];
 			}
 
-			if ( !empty($HTTP_POST_VARS['message']) )
+			if ( !empty($_POST['message']) )
 			{
-				$message = trim(stripslashes($HTTP_POST_VARS['message']));
+				$message = trim(stripslashes($_POST['message']));
 			}
 			else
 			{
@@ -84,7 +84,7 @@ if ( $row = $db->fetch_row($sql) )
 
 			if ( !$error )
 			{
-				require(INC_DIR . 'emailer.'.$phpEx);
+				require(INC_DIR . 'emailer.php');
 				$emailer = new emailer($board_config['smtp_delivery']);
 
 				$emailer->from($userdata['user_email']);
@@ -110,7 +110,7 @@ if ( $row = $db->fetch_row($sql) )
 				$emailer->send();
 				$emailer->reset();
 
-				if ( !empty($HTTP_POST_VARS['cc_email']) )
+				if ( !empty($_POST['cc_email']) )
 				{
 					$emailer->from($userdata['user_email']);
 					$emailer->replyto($userdata['user_email']);
@@ -130,7 +130,7 @@ if ( $row = $db->fetch_row($sql) )
 				}
 
 				sleep(7);
-				$message = $lang['EMAIL_SENT'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'],  '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+				$message = $lang['EMAIL_SENT'] . '<br /><br />' . sprintf($lang['CLICK_RETURN_INDEX'],  '<a href="' . append_sid("index.php") . '">', '</a>');
 				message_die(GENERAL_MESSAGE, $message);
 			}
 		}
@@ -144,7 +144,7 @@ if ( $row = $db->fetch_row($sql) )
 			'USERNAME' => $username,
 
 			'S_HIDDEN_FIELDS' => '',
-			'S_POST_ACTION' => append_sid("profile.$phpEx?mode=email&amp;" . POST_USERS_URL . "=$user_id"),
+			'S_POST_ACTION' => append_sid("profile.php?mode=email&amp;" . POST_USERS_URL . "=$user_id"),
 
 			'L_MESSAGE_BODY_DESC' => $lang['EMAIL_MESSAGE_DESC'],
 		));
@@ -160,4 +160,3 @@ else
 {
 	message_die(GENERAL_MESSAGE, $lang['USER_NOT_EXIST']);
 }
-

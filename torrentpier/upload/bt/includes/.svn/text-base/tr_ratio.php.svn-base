@@ -74,4 +74,3 @@ if ($tr_cfg['limit_concurrent_ips'] && (($tr_cfg['limit_seed_ips'] && $seeder) |
 		}
 	}
 }
-

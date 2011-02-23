@@ -19,11 +19,11 @@ $mode = htmlspecialchars($mode);
 //
 // These could be entered via a form button
 //
-if( isset($HTTP_POST_VARS['add']) )
+if( isset($_POST['add']) )
 {
 	$mode = "add";
 }
-else if( isset($HTTP_POST_VARS['save']) )
+else if( isset($_POST['save']) )
 {
 	$mode = "save";
 }
@@ -68,7 +68,7 @@ if( $mode != "" )
 			"L_WORDS_TEXT"  => $lang['WORDS_EXPLAIN'],
 			"L_WORD_CENSOR" => $lang['EDIT_WORD_CENSOR'],
 
-			"S_WORDS_ACTION"  => append_sid("admin_words.$phpEx"),
+			"S_WORDS_ACTION"  => append_sid("admin_words.php"),
 			"S_HIDDEN_FIELDS" => $s_hidden_fields)
 		);
 	}
@@ -102,7 +102,7 @@ if( $mode != "" )
 			message_die(GENERAL_ERROR, "Could not insert data into words table", $lang['ERROR'], __LINE__, __FILE__, $sql);
 		}
 
-		$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_WORDADMIN'], "<a href=\"" . append_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_WORDADMIN'], "<a href=\"" . append_sid("admin_words.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 	}
@@ -120,7 +120,7 @@ if( $mode != "" )
 				message_die(GENERAL_ERROR, "Could not remove data from words table", $lang['ERROR'], __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['WORD_REMOVED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_WORDADMIN'], "<a href=\"" . append_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['WORD_REMOVED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_WORDADMIN'], "<a href=\"" . append_sid("admin_words.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 		}
@@ -149,7 +149,7 @@ else
 		"L_WORDS_TEXT" => $lang['WORDS_EXPLAIN'],
 		"L_ADD_WORD" => $lang['ADD_NEW_WORD'],
 
-		"S_WORDS_ACTION" => append_sid("admin_words.$phpEx"),
+		"S_WORDS_ACTION" => append_sid("admin_words.php"),
 		"S_HIDDEN_FIELDS" => '')
 	);
 
@@ -166,8 +166,8 @@ else
 			"WORD" => $word,
 			"REPLACEMENT" => $replacement,
 
-			"U_WORD_EDIT" => append_sid("admin_words.$phpEx?mode=edit&amp;id=$word_id"),
-			"U_WORD_DELETE" => append_sid("admin_words.$phpEx?mode=delete&amp;id=$word_id"))
+			"U_WORD_EDIT" => append_sid("admin_words.php?mode=edit&amp;id=$word_id"),
+			"U_WORD_DELETE" => append_sid("admin_words.php?mode=delete&amp;id=$word_id"))
 		);
 	}
 }

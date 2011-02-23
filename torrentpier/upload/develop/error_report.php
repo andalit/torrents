@@ -16,7 +16,7 @@ $c['comment'] = '#808080';
 require(DEV_DIR .'dbg_header.php');
 echo $this->get_clean_errors();
 
-$showSourceUri = BB_ROOT .'develop/show_source.'. PHP_EXT;
+$showSourceUri = BB_ROOT .'develop/show_source.php';
 $showSourcePrev = 15;
 $showSourceNext = 15;
 ?>

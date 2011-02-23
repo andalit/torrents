@@ -24,9 +24,9 @@ function FormatLanguage($lng)
 }
 function RSSTimeFormat($utime,$uoffset=0)
 {
-	global $HTTP_GET_VARS,$user_id,$useragent;
-	if(CACHE_TO_FILE && ($user_id==ANONYMOUS) && empty($HTTP_GET_VARS))$uoffset=0;
-	if((isset($HTTP_GET_VARS['time']) && $HTTP_GET_VARS['time']=='local')|| (strpos($useragent,'Abilon')!==false)|| (strpos($useragent,'ActiveRefresh')!==false))
+	global $_GET,$user_id,$useragent;
+	if(CACHE_TO_FILE && ($user_id==ANONYMOUS) && empty($_GET))$uoffset=0;
+	if((isset($_GET['time']) && $_GET['time']=='local')|| (strpos($useragent,'Abilon')!==false)|| (strpos($useragent,'ActiveRefresh')!==false))
 	{
 		$uoffset=intval($uoffset);
 	}
@@ -43,15 +43,15 @@ function GetHTTPPasswd()
 }
 function ExitWithHeader($output,$message='')
 {
-	global $db, $HTTP_SERVER_VARS;
+	global $db;
 	$db->sql_close();
 	if(function_exists("getallheaders")) header("HTTP/1.1 $output");
 	else header('Status: '.$output);
 	$code=intval(substr($output,0,3));
 	if(($code==200)||($code==304))
 	{
-	if(isset($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE'])) header("Last-Modified: ".$HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']);
-	if(isset($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH'])) header("Etag: ".$HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']);
+	if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) header("Last-Modified: ".$_SERVER['HTTP_IF_MODIFIED_SINCE']);
+	if(isset($_SERVER['HTTP_IF_NONE_MATCH'])) header("Etag: ".$_SERVER['HTTP_IF_NONE_MATCH']);
 	}
 	if(!empty($message)) {
 		header ('Content-Type: text/plain');
@@ -61,10 +61,10 @@ function ExitWithHeader($output,$message='')
 }
 function rss_session_begin($user_id, $user_ip, $page_id)
 {
-	global $db, $bb_cfg, $HTTP_SERVER_VARS;
+	global $db, $bb_cfg;
 	$page_id = (int) $page_id;
 	$user_id= (int) $user_id;
-	$password=md5($HTTP_SERVER_VARS['PHP_AUTH_PW']);
+	$password=md5($_SERVER['PHP_AUTH_PW']);
 	$last_visit = 0;
 	$current_time = time();
 	$expiry_time = $current_time - $bb_cfg['user_session_duration'];
@@ -156,18 +156,18 @@ function rss_session_end()
 }
 function rss_get_user()
 {
-	global $db, $HTTP_SERVER_VARS, $HTTP_GET_VARS;
-	if((!isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) || !isset($HTTP_SERVER_VARS['PHP_AUTH_PW']))
-		&& isset($HTTP_SERVER_VARS['REMOTE_USER']) && preg_match('/Basic\s+(.*)$/i', $HTTP_SERVER_VARS['REMOTE_USER'], $matches)) {
+	global $db;
+	if((!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']))
+		&& isset($_SERVER['REMOTE_USER']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REMOTE_USER'], $matches)) {
 		list($name, $password) = explode(':', base64_decode($matches[1]), 2);
-		$HTTP_SERVER_VARS['PHP_AUTH_USER'] = strip_tags($name);
-		$HTTP_SERVER_VARS['PHP_AUTH_PW']	= strip_tags($password);
+		$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+		$_SERVER['PHP_AUTH_PW']	= strip_tags($password);
 	}
-	if (isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
-		$username=phpbb_clean_username($HTTP_SERVER_VARS['PHP_AUTH_USER']);
-		$password=md5($HTTP_SERVER_VARS['PHP_AUTH_PW']);
-		if(isset($HTTP_GET_VARS['uid'])){
-			$uid=intval($HTTP_GET_VARS['uid']);
+	if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+		$username=phpbb_clean_username($_SERVER['PHP_AUTH_USER']);
+		$password=md5($_SERVER['PHP_AUTH_PW']);
+		if(isset($_GET['uid'])){
+			$uid=intval($_GET['uid']);
 			$sql = "SELECT * FROM " . USERS_TABLE . " WHERE user_id = $uid";
 		}
 		else
@@ -192,4 +192,3 @@ function rss_get_user()
 	else GetHTTPPasswd();
 	return ANONYMOUS;
 }
-?>

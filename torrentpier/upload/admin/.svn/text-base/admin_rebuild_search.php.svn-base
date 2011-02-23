@@ -11,8 +11,8 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require(INC_DIR .'bbcode.'. PHP_EXT);
-require(DEFAULT_LANG_DIR .'lang_admin_rebuild_search.'. PHP_EXT);
+require(INC_DIR .'bbcode.php');
+require(DEFAULT_LANG_DIR .'lang_admin_rebuild_search.php');
 
 define('REBUILD_SEARCH_ABORTED',   0);  // when the user aborted the processing
 define('REBUILD_SEARCH_PROCESSED', 1);  // when a batch of posts has been processed
@@ -45,7 +45,7 @@ if (isset($_REQUEST['cancel_button']))
 		");
 	}
 
-	$message = sprintf($lang['REBUILD_SEARCH_ABORTED'], $last_session_data['end_post_id']) .'<br /><br />'. sprintf($lang['CLICK_RETURN_REBUILD_SEARCH'], '<a href="'.append_sid("admin_rebuild_search.$phpEx").'">', '</a>');
+	$message = sprintf($lang['REBUILD_SEARCH_ABORTED'], $last_session_data['end_post_id']) .'<br /><br />'. sprintf($lang['CLICK_RETURN_REBUILD_SEARCH'], '<a href="'.append_sid("admin_rebuild_search.php").'">', '</a>');
 	message_die(GENERAL_MESSAGE, $message);
 }
 
@@ -139,7 +139,7 @@ if ($mode == 'submit')
 {
 	if ($session_posts_processing <= 0 || $post_limit <= 0 || $refresh_rate <= 0 || $time_limit <=0)
 	{
-		$message = $lang['WRONG_INPUT'] .'<br /><br />'. sprintf($lang['CLICK_RETURN_REBUILD_SEARCH'], '<a href="'.append_sid("admin_rebuild_search.$phpEx").'">', '</a>');
+		$message = $lang['WRONG_INPUT'] .'<br /><br />'. sprintf($lang['CLICK_RETURN_REBUILD_SEARCH'], '<a href="'.append_sid("admin_rebuild_search.php").'">', '</a>');
 		message_die(GENERAL_MESSAGE, $message);
 	}
 }
@@ -269,7 +269,7 @@ if ($mode == 'submit' || $mode == 'refresh')
 		$form_parameters .= '&time_limit='.$time_limit;
 		$form_parameters .= '&refresh_rate='.$refresh_rate;
 
-		$form_action = append_sid('admin_rebuild_search.'.$phpEx.'?mode=refresh'.$form_parameters);
+		$form_action = append_sid('admin_rebuild_search.php'.'?mode=refresh'.$form_parameters);
 		$next_button = $lang['NEXT'];
 		$progress_bar_img = $images['progress_bar'];
 
@@ -283,7 +283,7 @@ if ($mode == 'submit' || $mode == 'refresh')
 	}
 	else  // end of processing
 	{
-		$form_action = append_sid("admin_rebuild_search.$phpEx");
+		$form_action = append_sid("admin_rebuild_search.php");
 		$next_button = $lang['FINISHED'];
 		$progress_bar_img = $images['progress_bar_full'];
 
@@ -451,7 +451,7 @@ else  // show the input page
 		'SESSION_ID'               => $userdata['session_id'],
 
 		'S_HIDDEN_FIELDS'          => $s_hidden_fields,
-		'S_REBUILD_SEARCH_ACTION'  => append_sid("admin_rebuild_search.$phpEx?mode=submit"),
+		'S_REBUILD_SEARCH_ACTION'  => append_sid("admin_rebuild_search.php?mode=submit"),
 	));
 }
 

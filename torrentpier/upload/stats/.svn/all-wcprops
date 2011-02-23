@@ -1,11 +1,17 @@
 K 25
 svn:wc:ra_dav:version-url
-V 35
-/svn/!svn/ver/82/trunk/upload/stats
+V 36
+/svn/!svn/ver/562/trunk/upload/stats
 END
 tracker.php
 K 25
 svn:wc:ra_dav:version-url
 V 47
 /svn/!svn/ver/82/trunk/upload/stats/tracker.php
+END
+tr_stats.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/562/trunk/upload/stats/tr_stats.php
 END

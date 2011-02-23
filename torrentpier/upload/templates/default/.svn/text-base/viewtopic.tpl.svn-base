@@ -224,7 +224,7 @@ function set_hid_chbox (id)
 
 		<div class="post_wrap">
 			<div class="post_body">{postrow.MESSAGE}{postrow.ATTACHMENTS}</div><!--/post_body-->
-			<!-- IF postrow.SIGNATURE --><div class="signature">{postrow.SIGNATURE}</div><!-- ENDIF -->
+			<!-- IF postrow.SIGNATURE --><span class="signature">{postrow.SIGNATURE}</span><!-- ENDIF -->
 			<!-- IF postrow.EDITED_MESSAGE --><div class="last_edited">{postrow.EDITED_MESSAGE}</div><!-- ENDIF -->
 		</div><!--/post_wrap-->
 

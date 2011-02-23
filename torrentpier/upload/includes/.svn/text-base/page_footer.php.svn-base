@@ -2,71 +2,29 @@
 
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 
-global $bb_cfg, $lang, $userdata, $gen_simple_header, $template, $db, $phpEx;
+global $bb_cfg, $lang, $userdata, $gen_simple_header, $template, $db;
 global $datastore, $bb_cache, $session_cache;
 
 $logged_in = !empty($userdata['session_logged_in']);
-$is_admin  = (IS_ADMIN === true);
-$is_mod    = (IS_MOD === true);
 
 if (!empty($template))
 {
-	/*
-	# mainlink
-	include($_SERVER['DOCUMENT_ROOT'] . '/putslinkshere/ML.php');
-	$ml->Set_Config(array(
-						'charset'=>'utf',
-						'splitter'=>'|',
-	)); //, 'debugmode'=>true
-	$template->assign_vars(array(
-		'MAINLINK' => $ml->Get_Links(),
-	));
-	unset($ml);
-	# !mainlink
-	*/
-
-	/*
-	# SAPE.RU
-	if (!defined('_SAPE_USER')){
-		define('_SAPE_USER', 'Your_SAPE_CODE'); 
-	}
-	include($_SERVER['DOCUMENT_ROOT'] . '/' . _SAPE_USER . '/sape.php');
-
-	# Sape option's
-	$o = array(
-		'host'              => $_SERVER['HTTP_HOST'],
-		'request_uri'       => $_SERVER['REQUEST_URI'],
-		'fetch_remote_type' => 'socket',
-		'force_show_code'   => true,
-		'verbose'           =>  true,
-		'charset'           => 'UTF-8',
-		'sape_charset'      => 'UTF-8',
-	);
-	unset($o);
-	$sape_links = $sape->return_links();
-	$template->assign_vars(array(
-		'SAPE'	=>	(!empty($sape_links) ? $sape_links : ''),
-	));
-	unset($sape);
-	# !SAPE.RU
-	*/
-
 	$template->assign_vars(array(
 		'SIMPLE_FOOTER'    => !empty($gen_simple_header),
 
 		'TRANSLATION_INFO' => isset($lang['TRANSLATION_INFO']) ? $lang['TRANSLATION_INFO'] : '',
-		'SHOW_ADMIN_LINK'  => ($is_admin && !defined('IN_ADMIN')),
-		'ADMIN_LINK_HREF'  => "admin/index.$phpEx",
+		'SHOW_ADMIN_LINK'  => (IS_ADMIN && !defined('IN_ADMIN')),
+		'ADMIN_LINK_HREF'  => "admin/index.php",
 		'L_GOTO_ADMINCP'   => $lang['ADMIN_PANEL'],
-	#!#
-		'SHOW_BANNERS'     => (!DEBUG && (!($is_admin || $is_mod) || $userdata['user_id'] == 2)),
+
+		'SHOW_BANNERS'     => (!DEBUG && (!(IS_AM) || $userdata['user_id'] == 2)),
 	));
 
 	$template->set_filenames(array('page_footer' => 'page_footer.tpl'));
 	$template->pparse('page_footer');
 }
 
-if (IS_ADMIN) # (DEBUG || @$_GET['dbg']);
+if (IS_ADMIN)
 {
 	$show_dbg_info = true;
 } else {
@@ -77,8 +35,6 @@ flush();
 
 if ($show_dbg_info)
 {
-#	echo '</textarea></form></title></comment></a></div></span></ilayer></layer></iframe></noframes></style></noscript></table></script></applet></font>';
-
 	$gen_time = utime() - TIMESTART;
 	$gen_time_txt = sprintf('%.3f', $gen_time);
 	$gzip_text = (UA_GZIP_SUPPORTED) ? 'GZIP' : '<s>GZIP</s>';
@@ -109,7 +65,7 @@ if ($show_dbg_info)
 		for ($i=0; $i < 3; $i++)
 		{
 			$l[$i] = round($l[$i], 1);
-			$l[$i] = ($is_admin && $bb_cfg['max_srv_load'] && $l[$i] > ($bb_cfg['max_srv_load'] + 4)) ? "<span style='color: red'><b>$l[$i]</b></span>" : $l[$i];
+			$l[$i] = (IS_ADMIN && $bb_cfg['max_srv_load'] && $l[$i] > ($bb_cfg['max_srv_load'] + 4)) ? "<span style='color: red'><b>$l[$i]</b></span>" : $l[$i];
 		}
 		$stat .= " &nbsp;|&nbsp; Load: $l[0] $l[1] $l[2]";
 	}
@@ -125,18 +81,8 @@ echo '
 
 if (DBG_USER && (SQL_DEBUG || PROFILER))
 {
-	require(INC_DIR . 'page_footer_dev.'. PHP_EXT);
+	require(INC_DIR . 'page_footer_dev.php');
 }
-/*
-$search = $replace = array();
-
-function wbr_callback ($matches)
-{
-	$max_word_length = ($matches[3]) ? (int) $matches[3] : HTML_WBR_LENGTH;
-	return wbr($matches[4], $max_word_length);
-}
-$contents = preg_replace_callback("#(<\!-- WBR(\[(\d+)\])? -->)(.*?)(<\!-- WBR_END -->)#s", 'wbr_callback', $contents);
-*/
 
 ##### LOG #####
 global $log_ip_resp;

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 46
-/svn/!svn/ver/534/trunk/upload/templates/admin
+/svn/!svn/ver/585/trunk/upload/templates/admin
 END
 admin_mass_email.tpl
 K 25
@@ -75,35 +75,29 @@ svn:wc:ra_dav:version-url
 V 72
 /svn/!svn/ver/210/trunk/upload/templates/admin/admin_topic_templates.tpl
 END
-admin_bt_forum_cfg.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 69
-/svn/!svn/ver/530/trunk/upload/templates/admin/admin_bt_forum_cfg.tpl
-END
-admin_flags.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/210/trunk/upload/templates/admin/admin_flags.tpl
-END
 admin_ug_auth.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/210/trunk/upload/templates/admin/admin_ug_auth.tpl
 END
-admin_words.tpl
+admin_bt_forum_cfg.tpl
 K 25
 svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/210/trunk/upload/templates/admin/admin_words.tpl
+V 69
+/svn/!svn/ver/530/trunk/upload/templates/admin/admin_bt_forum_cfg.tpl
 END
 admin_user_ban.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/210/trunk/upload/templates/admin/admin_user_ban.tpl
+END
+admin_words.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/210/trunk/upload/templates/admin/admin_words.tpl
 END
 admin_bt_tracker_cfg.tpl
 K 25
@@ -127,13 +121,13 @@ admin_cron.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 61
-/svn/!svn/ver/196/trunk/upload/templates/admin/admin_cron.tpl
+/svn/!svn/ver/555/trunk/upload/templates/admin/admin_cron.tpl
 END
 admin_users.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 62
-/svn/!svn/ver/210/trunk/upload/templates/admin/admin_users.tpl
+/svn/!svn/ver/554/trunk/upload/templates/admin/admin_users.tpl
 END
 admin_forum_prune.tpl
 K 25
@@ -145,7 +139,7 @@ admin_user_search.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 68
-/svn/!svn/ver/210/trunk/upload/templates/admin/admin_user_search.tpl
+/svn/!svn/ver/585/trunk/upload/templates/admin/admin_user_search.tpl
 END
 admin_smilies.tpl
 K 25

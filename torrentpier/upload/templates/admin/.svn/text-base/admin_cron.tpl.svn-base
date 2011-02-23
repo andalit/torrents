@@ -51,7 +51,7 @@ if(document.getElementById) {
 <table class="forumline">
 <tr>
 <td colspan="10" class="catTitle">
-  {L_CRON__LIST}
+  {L_CRON_LIST}
 </td>
 </tr>
 <tr>
@@ -60,47 +60,47 @@ if(document.getElementById) {
 </th>
 <th width="5%" nowrap="nowrap" align="center">
 
-  {L_CRON__ID}
+  {L_CRON_ID}
 
 </th>
 <th width="5%" nowrap="nowrap" align="center">
 
-  {L_CRON__ACTIVE}
+  {L_CRON_ACTIVE}
 
 </th>
 <th width="30%" nowrap="nowrap" align="center">
 
-  {L_CRON__TITLE}
+  {L_CRON_TITLE}
 
 </th>
 <th width="20%" nowrap="nowrap" align="center">
 
-  {L_CRON__SCRIPT}
+  {L_CRON_SCRIPT}
 
 </th>
 <th width="5%" nowrap="nowrap" align="center">
 
-  {L_CRON__SCHEDULE}
+  {L_CRON_SCHEDULE}
 
 </th>
 <th width="5%" nowrap="nowrap" align="center">
 
-  {L_CRON__LAST_RUN}
+  {L_CRON_LAST_RUN}
 
 </th>
 <th width="5%" nowrap="nowrap" align="center">
 
-  {L_CRON__NEXT_RUN}
+  {L_CRON_NEXT_RUN}
 
 </th>
 <th width="1%" nowrap="nowrap" align="center">
 
-  {L_CRON__RUN_COUNT}
+  {L_CRON_RUN_COUNT}
 
 </th>
 <th width="10%" nowrap="nowrap" align="center">
 
-  {L_CRON__MANAGE}
+  {L_CRON_MANAGE}
 
 </th>
 </tr>
@@ -111,7 +111,7 @@ if(document.getElementById) {
 <table class="forumline">
 <tr>
 <td colspan="2" class="catTitle">
-  {L_CRON__OPTIONS}
+  {L_CRON_OPTIONS}
 </td>
 </tr>
 <tr>
@@ -131,8 +131,8 @@ if(document.getElementById) {
 				<option value="delete">{L_CRON_DEL}</option>
 				<option value="disable">{L_CRON_DISABLE}</option>
 				<option value="enable">{L_CRON_ENABLE}</option>
-	</select><br />
-	<label for="confirm">{L_CONFIRM}&nbsp;<input onclick="toggle_disabled('send', this.checked)" id="confirm" type="checkbox" name="confirm" value="1" /></label>
+	</select>
+	<label for="confirm">&nbsp;<input onclick="toggle_disabled('send', this.checked)" id="confirm" type="checkbox" name="confirm" value="1" /></label>
 	<input type="submit" name="submit" id="send" value="{L_SUBMIT}" class="mainoption" disabled="disabled" />&nbsp;&nbsp;	
 </td>
 </tr>

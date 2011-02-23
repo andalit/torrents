@@ -10,25 +10,24 @@ if (!empty($setmodules))
 
 define('IN_PHPBB', true);
 $phpbb_root_path = './../';
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
 $no_page_header = true;
-require("./pagestart.$phpEx");
-require($phpbb_root_path . "includes/functions_report.$phpEx");
-require($phpbb_root_path . "includes/functions_report_admin.$phpEx");
+require("./pagestart.php");
+require($phpbb_root_path . "includes/functions_report.php");
+require($phpbb_root_path . "includes/functions_report_admin.php");
 
 $return_links = array(
-	'index' => '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'),
-	'config' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_CONFIG'], '<a href="' . append_sid("admin_reports.$phpEx?mode=config") . '">', '</a>'),
-	'admin' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_ADMIN'], '<a href="' . append_sid("admin_reports.$phpEx") . '">', '</a>')
+	'index' => '<br /><br />' . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'),
+	'config' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_CONFIG'], '<a href="' . append_sid("admin_reports.php?mode=config") . '">', '</a>'),
+	'admin' => '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_ADMIN'], '<a href="' . append_sid("admin_reports.php") . '">', '</a>')
 );
 
-$redirect_url = append_sid("admin/admin_reports.$phpEx", true);
+$redirect_url = append_sid("admin/admin_reports.php", true);
 
-$template->assign_var('S_REPORT_ACTION', append_sid("admin_reports.$phpEx"));
+$template->assign_var('S_REPORT_ACTION', append_sid("admin_reports.php"));
 
-if (isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
+if (isset($_POST['mode']) || isset($_GET['mode']))
 {
-	$mode = (isset($HTTP_POST_VARS['mode'])) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : $_GET['mode'];
 	
 	//
 	// allow multiple modes (we need this for sub-modes, e.g. the report reasons)
@@ -54,9 +53,9 @@ else
 //
 if ($mode == 'config')
 {
-	if (isset($HTTP_POST_VARS['submit']))
+	if (isset($_POST['submit']))
 	{
-		$config_update = (isset($HTTP_POST_VARS['bb_cfg'])) ? $HTTP_POST_VARS['bb_cfg'] : array();
+		$config_update = (isset($_POST['bb_cfg'])) ? $_POST['bb_cfg'] : array();
 		
 		bb_update_config($config_update);
 		report_modules_cache_clean();
@@ -87,9 +86,9 @@ if ($mode == 'config')
 		print_page('report_config_body.tpl');
 	}
 }
-else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_URL]))
+else if (isset($_POST[POST_CAT_URL]) || isset($_GET[POST_CAT_URL]))
 {
-	$module_id = (isset($HTTP_POST_VARS[POST_CAT_URL])) ? (int) $HTTP_POST_VARS[POST_CAT_URL] : (int) $HTTP_GET_VARS[POST_CAT_URL];
+	$module_id = (isset($_POST[POST_CAT_URL])) ? (int) $_POST[POST_CAT_URL] : (int) $_GET[POST_CAT_URL];
 	
 	if (!$report_module = report_modules('id', $module_id))
 	{
@@ -102,21 +101,21 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 		// Edit module
 		//
 		case 'edit':
-			if (isset($HTTP_POST_VARS['submit']))
+			if (isset($_POST['submit']))
 			{
-				$module_notify = (isset($HTTP_POST_VARS['report_module_notify']) && $HTTP_POST_VARS['report_module_notify'] == 1) ? 1 : 0;
-				$module_prune = (isset($HTTP_POST_VARS['report_module_prune'])) ? (int) $HTTP_POST_VARS['report_module_prune'] : $report_module->data['report_module_prune'];
+				$module_notify = (isset($_POST['report_module_notify']) && $_POST['report_module_notify'] == 1) ? 1 : 0;
+				$module_prune = (isset($_POST['report_module_prune'])) ? (int) $_POST['report_module_prune'] : $report_module->data['report_module_prune'];
 				
-				$auth_write = (isset($HTTP_POST_VARS['auth_write'])) ? (int) $HTTP_POST_VARS['auth_write'] : $report_module->data['auth_write'];
-				$auth_view = (isset($HTTP_POST_VARS['auth_view'])) ? (int) $HTTP_POST_VARS['auth_view'] : $report_module->data['auth_view'];
-				$auth_notify = (isset($HTTP_POST_VARS['auth_notify'])) ? (int) $HTTP_POST_VARS['auth_notify'] : $report_module->data['auth_notify'];
-				$auth_delete = (isset($HTTP_POST_VARS['auth_delete'])) ? (int) $HTTP_POST_VARS['auth_delete'] : $report_module->data['auth_delete'];
+				$auth_write = (isset($_POST['auth_write'])) ? (int) $_POST['auth_write'] : $report_module->data['auth_write'];
+				$auth_view = (isset($_POST['auth_view'])) ? (int) $_POST['auth_view'] : $report_module->data['auth_view'];
+				$auth_notify = (isset($_POST['auth_notify'])) ? (int) $_POST['auth_notify'] : $report_module->data['auth_notify'];
+				$auth_delete = (isset($_POST['auth_delete'])) ? (int) $_POST['auth_delete'] : $report_module->data['auth_delete'];
 				
 				report_module_edit($module_id, $module_notify, $module_prune, $auth_write, $auth_view, $auth_notify, $auth_delete);
 				
 				message_die(GENERAL_MESSAGE, $lang['REPORT_MODULE_EDITED'] . $return_links['admin'] . $return_links['index']);
 			}
-			else if (isset($HTTP_POST_VARS['cancel']))
+			else if (isset($_POST['cancel']))
 			{
 				redirect($redirect_url);
 			}
@@ -160,14 +159,14 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 		case 'reasons':
 			$reason_mode = (isset($modes[1])) ? $modes[1] : '';
 			
-			$temp_url = append_sid("admin_reports.$phpEx?mode=reasons&amp;" . POST_CAT_URL . "=$module_id");
+			$temp_url = append_sid("admin_reports.php?mode=reasons&amp;" . POST_CAT_URL . "=$module_id");
 			$return_links['reasons'] = '<br /><br />' . sprintf($lang['CLICK_RETURN_REPORT_REASONS'], '<a href="' . $temp_url . '">', '</a>');
 			
-			$redirect_url = append_sid("admin/admin_reports.$phpEx?mode=reasons&" . POST_CAT_URL . "=$module_id", true);
+			$redirect_url = append_sid("admin/admin_reports.php?mode=reasons&" . POST_CAT_URL . "=$module_id", true);
 			
-			if (isset($HTTP_POST_VARS[POST_REPORT_REASON_URL]) || isset($HTTP_GET_VARS[POST_REPORT_REASON_URL]))
+			if (isset($_POST[POST_REPORT_REASON_URL]) || isset($_GET[POST_REPORT_REASON_URL]))
 			{
-				$reason_id = (isset($HTTP_POST_VARS[POST_REPORT_REASON_URL])) ? (int) $HTTP_POST_VARS[POST_REPORT_REASON_URL] : (int) $HTTP_GET_VARS[POST_REPORT_REASON_URL];
+				$reason_id = (isset($_POST[POST_REPORT_REASON_URL])) ? (int) $_POST[POST_REPORT_REASON_URL] : (int) $_GET[POST_REPORT_REASON_URL];
 				
 				switch ($reason_mode)
 				{	
@@ -177,9 +176,9 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 					case 'edit':
 						$errors = array();
 						
-						if (isset($HTTP_POST_VARS['submit']))
+						if (isset($_POST['submit']))
 						{
-							$reason_desc = (isset($HTTP_POST_VARS['report_reason_desc'])) ? htmlspecialchars($HTTP_POST_VARS['report_reason_desc']) : '';
+							$reason_desc = (isset($_POST['report_reason_desc'])) ? htmlspecialchars($_POST['report_reason_desc']) : '';
 							
 							//
 							// Validate reason desc
@@ -198,7 +197,7 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 								message_die(GENERAL_MESSAGE, $lang['REPORT_REASON_EDITED'] . $return_links['reasons'] . $return_links['admin'] . $return_links['index']);
 							}
 						}
-						else if (isset($HTTP_POST_VARS['cancel']))
+						else if (isset($_POST['cancel']))
 						{
 							redirect($redirect_url);
 						}
@@ -259,13 +258,13 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 					// Delete reason
 					//
 					case 'delete':
-						if (isset($HTTP_POST_VARS['confirm']))
+						if (isset($_POST['confirm']))
 						{
 							report_reason_delete($reason_id);
 							
 							message_die(GENERAL_MESSAGE, $lang['REPORT_REASON_DELETED'] . $return_links['reasons'] . $return_links['admin'] . $return_links['index']);
 						}
-						else if (isset($HTTP_POST_VARS['cancel']))
+						else if (isset($_POST['cancel']))
 						{
 							redirect($redirect_url);
 						}
@@ -274,7 +273,7 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 						$hidden_fields .= '<input type="hidden" name="mode[]" value="delete" /><input type="hidden" name="' . POST_REPORT_REASON_URL . '" value="' . $reason_id . '" />';
 						
 						$template->assign_vars(array(
-							'S_CONFIRM_ACTION' => append_sid("admin_reports.$phpEx"),
+							'S_CONFIRM_ACTION' => append_sid("admin_reports.php"),
 							'S_HIDDEN_FIELDS' => $hidden_fields,
 							
 							'MESSAGE_TITLE' => $lang['DELETE_REASON'],
@@ -302,9 +301,9 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 					case 'add':
 						$errors = array();
 						
-						if (isset($HTTP_POST_VARS['submit']))
+						if (isset($_POST['submit']))
 						{
-							$reason_desc = (isset($HTTP_POST_VARS['report_reason_desc'])) ? htmlspecialchars($HTTP_POST_VARS['report_reason_desc']) : '';
+							$reason_desc = (isset($_POST['report_reason_desc'])) ? htmlspecialchars($_POST['report_reason_desc']) : '';
 							
 							//
 							// Validate reason desc
@@ -323,7 +322,7 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 								message_die(GENERAL_MESSAGE, $lang['REPORT_REASON_ADDED'] . $return_links['reasons'] . $return_links['admin'] . $return_links['index']);
 							}
 						}
-						else if (isset($HTTP_POST_VARS['cancel']))
+						else if (isset($_POST['cancel']))
 						{
 							redirect($redirect_url);
 						}
@@ -366,10 +365,10 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 								$template->assign_block_vars('report_reasons', array(
 									'DESC' => $reason_desc,
 									
-									'U_EDIT' => append_sid("admin_reports.$phpEx?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=edit&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
-									'U_MOVE_UP' => append_sid("admin_reports.$phpEx?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=up&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
-									'U_MOVE_DOWN' => append_sid("admin_reports.$phpEx?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=down&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
-									'U_DELETE' => append_sid("admin_reports.$phpEx?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=delete&amp;" . POST_REPORT_REASON_URL . "=$reason_id"))
+									'U_EDIT' => append_sid("admin_reports.php?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=edit&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
+									'U_MOVE_UP' => append_sid("admin_reports.php?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=up&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
+									'U_MOVE_DOWN' => append_sid("admin_reports.php?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=down&amp;" . POST_REPORT_REASON_URL . "=$reason_id"),
+									'U_DELETE' => append_sid("admin_reports.php?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=delete&amp;" . POST_REPORT_REASON_URL . "=$reason_id"))
 								);
 							}
 						}
@@ -379,8 +378,8 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 						}
 						
 						$template->assign_vars(array(
-							'U_ADD_REASON' => append_sid("admin_reports.$phpEx?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=add"),
-							'U_MODULES' => append_sid("admin_reports.$phpEx"))
+							'U_ADD_REASON' => append_sid("admin_reports.php?mode[]=reasons&amp;" . POST_CAT_URL . "=$module_id&amp;mode[]=add"),
+							'U_MODULES' => append_sid("admin_reports.php"))
 						);
 
 						print_page('report_module_reasons_body.tpl');
@@ -421,13 +420,13 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 		// Uninstall module
 		//
 		case 'uninstall':
-			if (isset($HTTP_POST_VARS['confirm']))
+			if (isset($_POST['confirm']))
 			{
 				report_module_uninstall($module_id);
 				
 				message_die(GENERAL_MESSAGE, $lang['REPORT_MODULE_UNINSTALLED'] . $return_links['admin'] . $return_links['index']);
 			}
-			else if (isset($HTTP_POST_VARS['cancel']))
+			else if (isset($_POST['cancel']))
 			{
 				redirect($redirect_url);
 			}
@@ -435,7 +434,7 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 			$hidden_fields = '<input type="hidden" name="mode" value="uninstall" /><input type="hidden" name="' . POST_CAT_URL . '" value="' . $module_id . '" />';
 			
 			$template->assign_vars(array(
-				'S_CONFIRM_ACTION' => append_sid("admin_reports.$phpEx"),
+				'S_CONFIRM_ACTION' => append_sid("admin_reports.php"),
 				'S_HIDDEN_FIELDS' => $hidden_fields,
 				
 				'MESSAGE_TITLE' => $lang['UNINSTALL_REPORT_MODULE'],
@@ -450,9 +449,9 @@ else if (isset($HTTP_POST_VARS[POST_CAT_URL]) || isset($HTTP_GET_VARS[POST_CAT_U
 		break;
 	}
 }
-else if (isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']))
+else if (isset($_POST['module']) || isset($_GET['module']))
 {
-	$module_name = (isset($HTTP_POST_VARS['module'])) ? stripslashes($HTTP_POST_VARS['module']) : stripslashes($HTTP_GET_VARS['module']);
+	$module_name = (isset($_POST['module'])) ? stripslashes($_POST['module']) : stripslashes($_GET['module']);
 	
 	if (!$report_module = report_modules_inactive('name', $module_name))
 	{
@@ -465,21 +464,21 @@ else if (isset($HTTP_POST_VARS['module']) || isset($HTTP_GET_VARS['module']))
 		// Install module
 		//
 		case 'install':
-			if (isset($HTTP_POST_VARS['submit']))
+			if (isset($_POST['submit']))
 			{
-				$module_notify = (isset($HTTP_POST_VARS['report_module_notify']) && $HTTP_POST_VARS['report_module_notify'] == 1) ? 1 : 0;
-				$module_prune = (isset($HTTP_POST_VARS['report_module_prune'])) ? (int) $HTTP_POST_VARS['report_module_prune'] : 0;
+				$module_notify = (isset($_POST['report_module_notify']) && $_POST['report_module_notify'] == 1) ? 1 : 0;
+				$module_prune = (isset($_POST['report_module_prune'])) ? (int) $_POST['report_module_prune'] : 0;
 				
-				$auth_write = (isset($HTTP_POST_VARS['auth_write'])) ? (int) $HTTP_POST_VARS['auth_write'] : REPORT_AUTH_USER;
-				$auth_view = (isset($HTTP_POST_VARS['auth_view'])) ? (int) $HTTP_POST_VARS['auth_view'] : REPORT_AUTH_MOD;
-				$auth_notify = (isset($HTTP_POST_VARS['auth_notify'])) ? (int) $HTTP_POST_VARS['auth_notify'] : REPORT_AUTH_MOD;
-				$auth_delete = (isset($HTTP_POST_VARS['auth_delete'])) ? (int) $HTTP_POST_VARS['auth_delete'] : REPORT_AUTH_ADMIN;
+				$auth_write = (isset($_POST['auth_write'])) ? (int) $_POST['auth_write'] : REPORT_AUTH_USER;
+				$auth_view = (isset($_POST['auth_view'])) ? (int) $_POST['auth_view'] : REPORT_AUTH_MOD;
+				$auth_notify = (isset($_POST['auth_notify'])) ? (int) $_POST['auth_notify'] : REPORT_AUTH_MOD;
+				$auth_delete = (isset($_POST['auth_delete'])) ? (int) $_POST['auth_delete'] : REPORT_AUTH_ADMIN;
 				
 				report_module_install($module_notify, $module_prune, $module_name, $auth_write, $auth_view, $auth_notify, $auth_delete, false);
 				
 				message_die(GENERAL_MESSAGE, $lang['REPORT_MODULE_INSTALLED'] . $return_links['admin'] . $return_links['index']);
 			}
-			else if (isset($HTTP_POST_VARS['cancel']))
+			else if (isset($_POST['cancel']))
 			{
 				redirect($redirect_url);
 			}
@@ -556,12 +555,12 @@ else
 					'MODULE_EXPLAIN' => $module_info['explain'],
 					'REPORT_COUNT' => $report_counts[$report_module->id],
 					
-					'U_EDIT' => append_sid("admin_reports.$phpEx?mode=edit&amp;" . POST_CAT_URL . '=' . $report_module->id),
-					'U_REASONS' => append_sid("admin_reports.$phpEx?mode=reasons&amp;" . POST_CAT_URL . '=' . $report_module->id),
-					'U_MOVE_UP' => append_sid("admin_reports.$phpEx?mode=up&amp;" . POST_CAT_URL . '=' . $report_module->id),
-					'U_MOVE_DOWN' => append_sid("admin_reports.$phpEx?mode=down&amp;" . POST_CAT_URL . '=' . $report_module->id),
-					'U_SYNC' => append_sid("admin_reports.$phpEx?mode=sync&amp;" . POST_CAT_URL . '=' . $report_module->id),
-					'U_UNINSTALL' => append_sid("admin_reports.$phpEx?mode=uninstall&amp;" . POST_CAT_URL . '=' . $report_module->id))
+					'U_EDIT' => append_sid("admin_reports.php?mode=edit&amp;" . POST_CAT_URL . '=' . $report_module->id),
+					'U_REASONS' => append_sid("admin_reports.php?mode=reasons&amp;" . POST_CAT_URL . '=' . $report_module->id),
+					'U_MOVE_UP' => append_sid("admin_reports.php?mode=up&amp;" . POST_CAT_URL . '=' . $report_module->id),
+					'U_MOVE_DOWN' => append_sid("admin_reports.php?mode=down&amp;" . POST_CAT_URL . '=' . $report_module->id),
+					'U_SYNC' => append_sid("admin_reports.php?mode=sync&amp;" . POST_CAT_URL . '=' . $report_module->id),
+					'U_UNINSTALL' => append_sid("admin_reports.php?mode=uninstall&amp;" . POST_CAT_URL . '=' . $report_module->id))
 				);
 				
 				//
@@ -594,7 +593,7 @@ else
 					'MODULE_EXPLAIN' => $module_info['explain'],
 					'REPORT_COUNT' => '-',
 					
-					'U_INSTALL' => append_sid("admin_reports.$phpEx?mode=install&amp;module=" . $report_module->data['module_name']))
+					'U_INSTALL' => append_sid("admin_reports.php?mode=install&amp;module=" . $report_module->data['module_name']))
 				);
 			}
 			
@@ -611,5 +610,3 @@ else
 		break;
 	}
 }
-
-?>

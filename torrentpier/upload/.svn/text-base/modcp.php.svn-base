@@ -30,11 +30,10 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'modcp');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
-require(INC_DIR .'bbcode.'. PHP_EXT);
-require(INC_DIR .'functions_post.'. PHP_EXT);
-require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+require(BB_ROOT ."common.php");
+require(INC_DIR .'bbcode.php');
+require(INC_DIR .'functions_post.php');
+require_once(INC_DIR .'functions_admin.php');
 
 //
 // Functions
@@ -165,7 +164,7 @@ $user->session_start(array('req_login' => true));
 // Check if user did or did not confirm. If they did not, forward them to the last page they were on
 if (isset($_POST['cancel']) || IS_GUEST)
 {
-	$redirect = "index.$phpEx";
+	$redirect = "index.php";
 
 	if ($topic_id || $forum_id)
 	{
@@ -206,7 +205,7 @@ if (!$is_auth['auth_mod'])
 if ($is_moderator && !$userdata['session_admin'])
 {
 	$redirect = isset($_POST['redirect']) ? $_POST['redirect'] : $_SERVER['REQUEST_URI'];
-	redirect("login.$phpEx?redirect=$redirect&admin=1");
+	redirect("login.php?redirect=$redirect&admin=1");
 }
 
 //
@@ -274,7 +273,7 @@ switch ($mode)
 			print_confirmation(array(
 				'QUESTION'      => $lang['CONFIRM_DELETE_TOPIC'],
 				'ITEMS_LIST'    => join("\n</li>\n<li>\n", $topic_titles),
-				'FORM_ACTION'   => "modcp.$phpEx",
+				'FORM_ACTION'   => "modcp.php",
 				'HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 			));
 		}
@@ -316,7 +315,7 @@ switch ($mode)
 				'L_LEAVESHADOW'   => $lang['LEAVE_SHADOW_TOPIC'],
 
 				'S_FORUM_SELECT'  => $forum_select,
-				'S_MODCP_ACTION'  => "modcp.$phpEx",
+				'S_MODCP_ACTION'  => "modcp.php",
 				'S_HIDDEN_FIELDS' => build_hidden_fields($hidden_fields),
 			));
 
@@ -468,13 +467,13 @@ switch ($mode)
 				}
 				while ($row = $db->sql_fetchrow($result));
 
-				$post_subject = trim(htmlspecialchars($HTTP_POST_VARS['subject']));
+				$post_subject = trim(htmlspecialchars($_POST['subject']));
 				if (empty($post_subject))
 				{
 					message_die(GENERAL_MESSAGE, $lang['EMPTY_SUBJECT']);
 				}
 
-				$new_forum_id = intval($HTTP_POST_VARS['new_forum_id']);
+				$new_forum_id = intval($_POST['new_forum_id']);
 				$topic_time = time();
 
 				$sql = 'SELECT forum_id FROM ' . FORUMS_TABLE . '
@@ -511,7 +510,7 @@ switch ($mode)
 					message_die(GENERAL_ERROR, 'Could not update topics watch table', '', __LINE__, __FILE__, $sql);
 				}
 
-				$sql_where = (!empty($HTTP_POST_VARS['split_type_beyond'])) ? " post_time >= $post_time AND topic_id = $topic_id" : "post_id IN ($post_id_sql)";
+				$sql_where = (!empty($_POST['split_type_beyond'])) ? " post_time >= $post_time AND topic_id = $topic_id" : "post_id IN ($post_id_sql)";
 
 				$sql = 	"UPDATE " . POSTS_TABLE . "
 					SET topic_id = $new_topic_id, forum_id = $new_forum_id
@@ -536,8 +535,8 @@ switch ($mode)
 				sync('forum', array($forum_id, $new_forum_id));
 
 				//bot
-				$message = $lang['TOPIC_SPLIT'] .'<br /><br /><a href="' . "viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['TOPIC_SPLIT_OLD'] .'</a>';
-				$message .= ' &nbsp;::&nbsp; <a href="' . "viewtopic.$phpEx?". POST_TOPIC_URL ."=$new_topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['TOPIC_SPLIT_NEW'] .'</a>';
+				$message = $lang['TOPIC_SPLIT'] .'<br /><br /><a href="' . "viewtopic.php?". POST_TOPIC_URL ."=$topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['TOPIC_SPLIT_OLD'] .'</a>';
+				$message .= ' &nbsp;::&nbsp; <a href="' . "viewtopic.php?". POST_TOPIC_URL ."=$new_topic_id&amp;sid=". $userdata['session_id'] .'">'. $lang['TOPIC_SPLIT_NEW'] .'</a>';
 				//bot end
 
 				// Log action
@@ -590,7 +589,7 @@ switch ($mode)
 				$template->assign_vars(array(
 					'FORUM_NAME' => htmlCHR($forum_name),
 					'U_VIEW_FORUM' => FORUM_URL . $forum_id,
-					'S_SPLIT_ACTION' => "modcp.$phpEx",
+					'S_SPLIT_ACTION' => "modcp.php",
 					'S_HIDDEN_FIELDS' => $s_hidden_fields,
 					'S_FORUM_SELECT' => get_forum_select('admin', 'new_forum_id', $forum_id),
 				));
@@ -653,7 +652,7 @@ switch ($mode)
 	case 'ip':
 		$anon = ANONYMOUS;
 
-		$rdns_ip_num = ( isset($HTTP_GET_VARS['rdns']) ) ? $HTTP_GET_VARS['rdns'] : "";
+		$rdns_ip_num = ( isset($_GET['rdns']) ) ? $_GET['rdns'] : "";
 
 		if ( !$post_id )
 		{
@@ -686,7 +685,7 @@ switch ($mode)
 			'L_OTHER_IPS'    => $lang['OTHER_IP_THIS_USER'],
 			'L_OTHER_USERS'  => $lang['USERS_THIS_IP'],
 			'IP'             => $ip_this_post,
-			'U_LOOKUP_IP'    => "modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=$ip_this_post&amp;sid=" . $userdata['session_id'])
+			'U_LOOKUP_IP'    => "modcp.php?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=$ip_this_post&amp;sid=" . $userdata['session_id'])
 		);
 
 		//
@@ -725,7 +724,7 @@ switch ($mode)
 					'ROW_CLASS'   => !($i % 2) ? 'row4' : 'row5',
 					'IP'          => $ip,
 					'POSTS'       => $row['postings'],
-					'U_LOOKUP_IP' => "modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip'] . "&amp;sid=" . $userdata['session_id'],
+					'U_LOOKUP_IP' => "modcp.php?mode=ip&amp;" . POST_POST_URL . "=$post_id&amp;" . POST_TOPIC_URL . "=$topic_id&amp;rdns=" . $row['poster_ip'] . "&amp;sid=" . $userdata['session_id'],
 				));
 
 				$i++;
@@ -764,8 +763,8 @@ switch ($mode)
 					'USERNAME'       => wbr($username),
 					'POSTS'          => $row['postings'],
 					'L_SEARCH_POSTS' => $lang['SEARCH_USER_POSTS_SHORT'],
-					'U_PROFILE'      => ($id == ANONYMOUS) ? "modcp.$phpEx?mode=ip&amp;p=$post_id&amp;t=$topic_id" : PROFILE_URL . $id,
-					'U_SEARCHPOSTS'  => "search.$phpEx?search_author=1&amp;uid=$id",
+					'U_PROFILE'      => ($id == ANONYMOUS) ? "modcp.php?mode=ip&amp;p=$post_id&amp;t=$topic_id" : PROFILE_URL . $id,
+					'U_SEARCHPOSTS'  => "search.php?search_author=1&amp;uid=$id",
 				));
 
 				$i++;
@@ -788,4 +787,3 @@ require(PAGE_HEADER);
 $template->pparse('body');
 
 require(PAGE_FOOTER);
-

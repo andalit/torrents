@@ -1,16 +1,16 @@
 <?php
 
-$lang['CRON__LIST'] = 'Cron list';
-$lang['CRON__ID'] = 'Id';
-$lang['CRON__ACTIVE'] = 'Active';
-$lang['CRON__TITLE'] = 'Title';
-$lang['CRON__SCRIPT'] = 'Script';
-$lang['CRON__SCHEDULE'] = 'Schedule';
-$lang['CRON__LAST_RUN'] = 'Last Run';
-$lang['CRON__NEXT_RUN'] = 'Next Run';
-$lang['CRON__RUN_COUNT'] = 'Runs';
-$lang['CRON__MANAGE'] = 'Manage';
-$lang['CRON__OPTIONS'] = 'Cron options';
+$lang['CRON_LIST'] = 'Cron list';
+$lang['CRON_ID'] = 'ID';
+$lang['CRON_ACTIVE'] = 'Active';
+$lang['CRON_TITLE'] = 'Title';
+$lang['CRON_SCRIPT'] = 'Script';
+$lang['CRON_SCHEDULE'] = 'Schedule';
+$lang['CRON_LAST_RUN'] = 'Last Run';
+$lang['CRON_NEXT_RUN'] = 'Next Run';
+$lang['CRON_RUN_COUNT'] = 'Runs';
+$lang['CRON_MANAGE'] = 'Manage';
+$lang['CRON_OPTIONS'] = 'Cron options';
 
 $lang['CRON_ENABLED'] = 'Cron enabled';
 $lang['CRON_CHECK_INTERVAL'] = 'Cron check interval (sec)';
@@ -59,4 +59,3 @@ $lang['LOG_SQL_QUERIES'] = 'Log SQL queries';
 $lang['DISABLE_BOARD'] = 'Disable board';
 $lang['DISABLE_BOARD_EXPL'] = 'disable board when this job is run';
 $lang['RUN_COUNTER'] = 'Run counter';
-

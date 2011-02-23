@@ -28,7 +28,6 @@
 
 class Var_Dump_Renderer_Common
 {
-
     /**
      * Run-time configuration options.
      *
@@ -127,6 +126,4 @@ class Var_Dump_Renderer_Common
     function toString()
     {
     }
-
 }
-

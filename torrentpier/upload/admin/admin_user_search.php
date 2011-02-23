@@ -9,13 +9,13 @@ if (!empty($setmodules))
 require('./pagestart.php');
 // ACP Header - END
 
-require($phpbb_root_path . 'includes/functions_selects.' . $phpEx);
+require($phpbb_root_path . 'includes/functions_selects.php');
 
-include($phpbb_root_path.'language/lang_' . $board_config['default_lang'] . '/lang_user_search.'.$phpEx);
+include($phpbb_root_path.'language/lang_' . $board_config['default_lang'] . '/lang_user_search.php');
 
 $total_sql = '';
 
-if(!isset($HTTP_POST_VARS['dosearch'])&&!isset($HTTP_GET_VARS['dosearch']))
+if(!isset($_POST['dosearch'])&&!isset($_GET['dosearch']))
 {
 	$sql = "SELECT group_id, group_name
 				FROM ".GROUPS_TABLE."
@@ -38,6 +38,27 @@ if(!isset($HTTP_POST_VARS['dosearch'])&&!isset($HTTP_GET_VARS['dosearch']))
 			$group_list .= '<option value="'.$row['group_id'].'">'.strip_tags(htmlspecialchars($row['group_name'])).'</option>';
 		}
 	}
+
+
+	$sql = "SELECT * FROM " . RANKS_TABLE . "
+		WHERE rank_special = 1
+		ORDER BY rank_title";
+	if ( !($result = $db->sql_query($sql)) )
+	{
+		message_die(GENERAL_ERROR, 'Could not obtain ranks data', '', __LINE__, __FILE__, $sql);
+	}
+	$rank_select_box = '';
+	if($db->sql_numrows($result) != 0)
+	{
+		$template->assign_block_vars('ranks_exist', array());
+		while( $row = $db->sql_fetchrow($result) )
+		{
+			$rank = $row['rank_title'];
+			$rank_id = $row['rank_id'];
+			$rank_select_box .= '<option value="' . $rank_id . '">' . $rank . '</option>';
+		}
+	}
+
 
 	$language_list = language_select('', 'language_type');
 	$timezone_list = tz_select('', 'timezone_type');
@@ -116,13 +137,14 @@ if(!isset($HTTP_POST_VARS['dosearch'])&&!isset($HTTP_GET_VARS['dosearch']))
 		'MONTH' => date("m"),
 		'DAY' => date("d"),
 		'GROUP_LIST' => $group_list,
+		'RANK_SELECT_BOX' => $rank_select_box,
 		'LANGUAGE_LIST' => $language_list,
 		'TIMEZONE_LIST' => $timezone_list,
 		'FORUMS_LIST' => $forums_list,
 		'STYLE_LIST' => $styles_list,
 		'LASTVISITED_LIST' => $lastvisited_list,
 
-		'S_SEARCH_ACTION' => append_sid("admin_user_search.$phpEx")
+		'S_SEARCH_ACTION' => append_sid("admin_user_search.php")
 	));
 }
 else
@@ -130,55 +152,59 @@ else
 	$mode = '';
 
 	// validate mode
-	if(isset($HTTP_POST_VARS['search_username'])||isset($HTTP_GET_VARS['search_username']))
+	if(isset($_POST['search_username'])||isset($_GET['search_username']))
 	{
 		$mode = 'search_username';
 	}
-	else if(isset($HTTP_POST_VARS['search_email'])||isset($HTTP_GET_VARS['search_email']))
+	else if(isset($_POST['search_email'])||isset($_GET['search_email']))
 	{
 		$mode = 'search_email';
 	}
-	else if(isset($HTTP_POST_VARS['search_ip'])||isset($HTTP_GET_VARS['search_ip']))
+	else if(isset($_POST['search_ip'])||isset($_GET['search_ip']))
 	{
 		$mode = 'search_ip';
 	}
-	else if(isset($HTTP_POST_VARS['search_joindate'])||isset($HTTP_GET_VARS['search_joindate']))
+	else if(isset($_POST['search_joindate'])||isset($_GET['search_joindate']))
 	{
 		$mode = 'search_joindate';
 	}
-	else if(isset($HTTP_POST_VARS['search_group'])||isset($HTTP_GET_VARS['search_group']))
+	else if(isset($_POST['search_group'])||isset($_GET['search_group']))
 	{
 		$mode = 'search_group';
 	}
-	else if(isset($HTTP_POST_VARS['search_postcount'])||isset($HTTP_GET_VARS['search_postcount']))
+	else if(isset($_POST['search_rank'])||isset($_GET['search_rank']))
+	{
+		$mode = 'search_rank';
+	}
+	else if(isset($_POST['search_postcount'])||isset($_GET['search_postcount']))
 	{
 		$mode = 'search_postcount';
 	}
-	else if(isset($HTTP_POST_VARS['search_userfield'])||isset($HTTP_GET_VARS['search_userfield']))
+	else if(isset($_POST['search_userfield'])||isset($_GET['search_userfield']))
 	{
 		$mode = 'search_userfield';
 	}
-	else if(isset($HTTP_POST_VARS['search_lastvisited'])||isset($HTTP_GET_VARS['search_lastvisited']))
+	else if(isset($_POST['search_lastvisited'])||isset($_GET['search_lastvisited']))
 	{
 		$mode = 'search_lastvisited';
 	}
-	else if(isset($HTTP_POST_VARS['search_language'])||isset($HTTP_GET_VARS['search_language']))
+	else if(isset($_POST['search_language'])||isset($_GET['search_language']))
 	{
 		$mode = 'search_language';
 	}
-	else if(isset($HTTP_POST_VARS['search_timezone'])||isset($HTTP_GET_VARS['search_timezone']))
+	else if(isset($_POST['search_timezone'])||isset($_GET['search_timezone']))
 	{
 		$mode = 'search_timezone';
 	}
-	else if(isset($HTTP_POST_VARS['search_style'])||isset($HTTP_GET_VARS['search_style']))
+	else if(isset($_POST['search_style'])||isset($_GET['search_style']))
 	{
 		$mode = 'search_style';
 	}
-	else if(isset($HTTP_POST_VARS['search_moderators'])||isset($HTTP_GET_VARS['search_moderators']))
+	else if(isset($_POST['search_moderators'])||isset($_GET['search_moderators']))
 	{
 		$mode = 'search_moderators';
 	}
-	else if(isset($HTTP_POST_VARS['search_misc'])||isset($HTTP_GET_VARS['search_misc']))
+	else if(isset($_POST['search_misc'])||isset($_GET['search_misc']))
 	{
 		$mode = 'search_misc';
 	}
@@ -187,8 +213,8 @@ else
 	switch($mode)
 	{
 		case 'search_username':
-			$username = ( isset($HTTP_GET_VARS['username']) ) ? $HTTP_GET_VARS['username'] : $HTTP_POST_VARS['username'];
-			$regex = ( @$HTTP_POST_VARS['search_username_regex'] ) ? true : ( @$HTTP_GET_VARS['regex'] ) ? true : false;
+			$username = ( isset($_GET['username']) ) ? $_GET['username'] : $_POST['username'];
+			$regex = ( @$_POST['search_username_regex'] ) ? true : ( @$_GET['regex'] ) ? true : false;
 
 			if(!$username)
 			{
@@ -197,8 +223,8 @@ else
 
 			break;
 		case 'search_email':
-			$email = ( isset($HTTP_GET_VARS['email']) ) ? $HTTP_GET_VARS['email'] : $HTTP_POST_VARS['email'];
-			$regex = ( @$HTTP_POST_VARS['search_email_regex'] ) ? true : ( @$HTTP_GET_VARS['regex'] ) ? true : false;
+			$email = ( isset($_GET['email']) ) ? $_GET['email'] : $_POST['email'];
+			$regex = ( @$_POST['search_email_regex'] ) ? true : ( @$_GET['regex'] ) ? true : false;
 
 			if(!$email)
 			{
@@ -207,7 +233,7 @@ else
 
 			break;
 		case 'search_ip':
-			$ip_address = ( isset($HTTP_POST_VARS['ip_address'] ) ) ? $HTTP_POST_VARS['ip_address'] : $HTTP_GET_VARS['ip_address'];
+			$ip_address = ( isset($_POST['ip_address'] ) ) ? $_POST['ip_address'] : $_GET['ip_address'];
 
 			if(!$ip_address)
 			{
@@ -215,10 +241,10 @@ else
 			}
 			break;
 		case 'search_joindate':
-			$date_type = ( isset($HTTP_POST_VARS['date_type'] ) ) ? $HTTP_POST_VARS['date_type'] : $HTTP_GET_VARS['date_type'];
-			$date_day = ( isset($HTTP_POST_VARS['date_day'] ) ) ? $HTTP_POST_VARS['date_day'] : $HTTP_GET_VARS['date_day'];
-			$date_month = ( isset($HTTP_POST_VARS['date_month'] ) ) ? $HTTP_POST_VARS['date_month'] : $HTTP_GET_VARS['date_month'];
-			$date_year = ( isset($HTTP_POST_VARS['date_year'] ) ) ? $HTTP_POST_VARS['date_year'] : $HTTP_GET_VARS['date_year'];
+			$date_type = ( isset($_POST['date_type'] ) ) ? $_POST['date_type'] : $_GET['date_type'];
+			$date_day = ( isset($_POST['date_day'] ) ) ? $_POST['date_day'] : $_GET['date_day'];
+			$date_month = ( isset($_POST['date_month'] ) ) ? $_POST['date_month'] : $_GET['date_month'];
+			$date_year = ( isset($_POST['date_year'] ) ) ? $_POST['date_year'] : $_GET['date_year'];
 
 			if(!$date_type || !$date_day || !$date_month || !$date_year)
 			{
@@ -226,15 +252,22 @@ else
 			}
 			break;
 		case 'search_group':
-			$group_id = ( isset($HTTP_POST_VARS['group_id'] ) ) ? $HTTP_POST_VARS['group_id'] : $HTTP_GET_VARS['group_id'];
+			$group_id = ( isset($_POST['group_id'] ) ) ? $_POST['group_id'] : $_GET['group_id'];
 			if(!$group_id)
 			{
 				message_die(GENERAL_MESSAGE, $lang['SEARCH_INVALID_GROUP']);
 			}
 			break;
+		case 'search_rank':
+			$rank_id = ( isset($_POST['rank_id'] ) ) ? $_POST['rank_id'] : $_GET['rank_id'];
+			if(!$rank_id)
+			{
+				message_die(GENERAL_MESSAGE, $lang['SEARCH_INVALID_RANK']);
+			}
+			break;
 		case 'search_postcount':
-			$postcount_type = ( isset($HTTP_POST_VARS['postcount_type'] ) ) ? $HTTP_POST_VARS['postcount_type'] : $HTTP_GET_VARS['postcount_type'];
-			$postcount_value = ( isset($HTTP_POST_VARS['postcount_value'] ) ) ? $HTTP_POST_VARS['postcount_value'] : $HTTP_GET_VARS['postcount_value'];
+			$postcount_type = ( isset($_POST['postcount_type'] ) ) ? $_POST['postcount_type'] : $_GET['postcount_type'];
+			$postcount_value = ( isset($_POST['postcount_value'] ) ) ? $_POST['postcount_value'] : $_GET['postcount_value'];
 
 			if(!$postcount_type || ( !$postcount_value && $postcount_value != 0))
 			{
@@ -242,9 +275,9 @@ else
 			}
 			break;
 		case 'search_userfield':
-			$userfield_type = ( isset($HTTP_POST_VARS['userfield_type'] ) ) ? $HTTP_POST_VARS['userfield_type'] : $HTTP_GET_VARS['userfield_type'];
-			$userfield_value = ( isset($HTTP_POST_VARS['userfield_value'] ) ) ? $HTTP_POST_VARS['userfield_value'] : $HTTP_GET_VARS['userfield_value'];
-			$regex = ( @$HTTP_POST_VARS['search_userfield_regex'] ) ? true : ( @$HTTP_GET_VARS['regex'] ) ? true : false;
+			$userfield_type = ( isset($_POST['userfield_type'] ) ) ? $_POST['userfield_type'] : $_GET['userfield_type'];
+			$userfield_value = ( isset($_POST['userfield_value'] ) ) ? $_POST['userfield_value'] : $_GET['userfield_value'];
+			$regex = ( @$_POST['search_userfield_regex'] ) ? true : ( @$_GET['regex'] ) ? true : false;
 
 			if(!$userfield_type || !$userfield_value)
 			{
@@ -253,8 +286,8 @@ else
 
 			break;
 		case 'search_lastvisited':
-			$lastvisited_days = ( isset($HTTP_POST_VARS['lastvisited_days'] ) ) ? $HTTP_POST_VARS['lastvisited_days'] : $HTTP_GET_VARS['lastvisited_days'];
-			$lastvisited_type = ( isset($HTTP_POST_VARS['lastvisited_type'] ) ) ? $HTTP_POST_VARS['lastvisited_type'] : $HTTP_GET_VARS['lastvisited_type'];
+			$lastvisited_days = ( isset($_POST['lastvisited_days'] ) ) ? $_POST['lastvisited_days'] : $_GET['lastvisited_days'];
+			$lastvisited_type = ( isset($_POST['lastvisited_type'] ) ) ? $_POST['lastvisited_type'] : $_GET['lastvisited_type'];
 
 			if(!$lastvisited_days || !$lastvisited_type)
 			{
@@ -263,7 +296,7 @@ else
 
 			break;
 		case 'search_language':
-			$language_type = ( isset($HTTP_POST_VARS['language_type'] ) ) ? $HTTP_POST_VARS['language_type'] : $HTTP_GET_VARS['language_type'];
+			$language_type = ( isset($_POST['language_type'] ) ) ? $_POST['language_type'] : $_GET['language_type'];
 
 			if(!$language_type)
 			{
@@ -272,7 +305,7 @@ else
 
 			break;
 		case 'search_timezone':
-			$timezone_type = ( isset($HTTP_POST_VARS['timezone_type'] ) ) ? $HTTP_POST_VARS['timezone_type'] : $HTTP_GET_VARS['timezone_type'];
+			$timezone_type = ( isset($_POST['timezone_type'] ) ) ? $_POST['timezone_type'] : $_GET['timezone_type'];
 
 			if(!$timezone_type && $timezone_type != 0)
 			{
@@ -281,7 +314,7 @@ else
 
 			break;
 		case 'search_style':
-			$style_type = ( isset($HTTP_POST_VARS['style_type'] ) ) ? $HTTP_POST_VARS['style_type'] : $HTTP_GET_VARS['style_type'];
+			$style_type = ( isset($_POST['style_type'] ) ) ? $_POST['style_type'] : $_GET['style_type'];
 
 			if(!$style_type)
 			{
@@ -290,7 +323,7 @@ else
 
 			break;
 		case 'search_moderators':
-			$moderators_forum = ( isset($HTTP_POST_VARS['moderators_forum'] ) ) ? $HTTP_POST_VARS['moderators_forum'] : $HTTP_GET_VARS['moderators_forum'];
+			$moderators_forum = ( isset($_POST['moderators_forum'] ) ) ? $_POST['moderators_forum'] : $_GET['moderators_forum'];
 
 			if(!$moderators_forum)
 			{
@@ -300,14 +333,14 @@ else
 			break;
 		case 'search_misc':
 		default:
-			$misc = ( isset($HTTP_POST_VARS['misc'] ) ) ? $HTTP_POST_VARS['misc'] : $HTTP_GET_VARS['misc'];
+			$misc = ( isset($_POST['misc'] ) ) ? $_POST['misc'] : $_GET['misc'];
 			if(!$misc)
 			{
 				message_die(GENERAL_MESSAGE, $lang['SEARCH_INVALID']);
 			}
 	}
 
-	$base_url = "admin_user_search.$phpEx?dosearch=true";
+	$base_url = "admin_user_search.php?dosearch=true";
 
 	$select_sql = "SELECT u.user_id, u.username, u.user_email, u.user_posts, u.user_regdate, u.user_level, u.user_active, u.user_lastvisit
 						FROM ".USERS_TABLE." AS u";
@@ -520,6 +553,8 @@ else
 
 			$ip_in_sql = '';
 			$ip_like_sql = '';
+			$ip_like_sql_flylast = '';
+			$ip_like_sql_flyreg = '';
 
 			foreach($users as $address)
 			{
@@ -543,6 +578,8 @@ else
 						$ip_start = substr($address, 0, 6);
 					}
 
+					$ip_like_sql_flylast = $ip_like_sql . ( $ip_like_sql != '' ) ? " OR user_last_ip LIKE '".$ip_start."%'" : "user_last_ip LIKE '".$ip_start."%'";
+					$ip_like_sql_flyreg = $ip_like_sql . ( $ip_like_sql != '' ) ? " OR user_reg_ip LIKE '".$ip_start."%'" : "user_reg_ip LIKE '".$ip_start."%'";
 					$ip_like_sql .= ( $ip_like_sql != '' ) ? " OR poster_ip LIKE '".$ip_start."%'" : "poster_ip LIKE '".$ip_start."%'";
 				}
 				else
@@ -552,13 +589,14 @@ else
 			}
 
 			$where_sql = '';
-
 			$where_sql .= ( $ip_in_sql != '' ) ? "poster_ip IN ($ip_in_sql)": "";
-
 			$where_sql .= ( $ip_like_sql != '' ) ? ( $where_sql != "" ) ? " OR $ip_like_sql" : "$ip_like_sql": "";
 
 			if (!$where_sql) bb_die('invalid request');
 
+			// start search
+			$no_result_search = false;
+			$ip_users_sql = '';
 			$sql = "SELECT poster_id
 						FROM ".POSTS_TABLE."
 							WHERE poster_id <> ".ANONYMOUS."
@@ -572,7 +610,8 @@ else
 
 			if($db->sql_numrows($result)==0)
 			{
-				message_die(GENERAL_MESSAGE, $lang['SEARCH_NO_RESULTS']);
+				$no_result_search = true;
+				// message_die(GENERAL_MESSAGE, $lang['SEARCH_NO_RESULTS']);
 			}
 			else
 			{
@@ -587,6 +626,59 @@ else
 					$ip_users_sql .= ( $ip_users_sql == '' ) ? $row['poster_id'] : ', '.$row['poster_id'];
 				}
 			}
+
+			// fly_indiz addon [START]
+			// user last ip
+			$where_sql = '';
+			$where_sql .= ( $ip_in_sql != '' ) ? "user_last_ip IN ($ip_in_sql)": "";
+			$where_sql .= ( $ip_like_sql_flylast != '' ) ? ( $where_sql != "" ) ? " OR $ip_like_sql_flylast" : "$ip_like_sql_flylast": "";
+			$sql = "SELECT user_id
+						FROM ".USERS_TABLE."
+							WHERE user_id <> ".ANONYMOUS."
+								AND ($where_sql)
+							GROUP BY user_id";
+			if(!$result = $db->sql_query($sql))
+			{
+				message_die(GENERAL_ERROR, "Could not count users", '', __LINE__, __FILE__, $sql);
+			}
+			if($db->sql_numrows($result)!=0)
+			{
+				if ($no_result_search == true) $no_result_search = false;
+				$total_pages['total'] = $db->sql_numrows($result);
+				$total_sql = NULL;
+				while($row = $db->sql_fetchrow($result))
+				{
+					$ip_users_sql .= ( $ip_users_sql == '' ) ? $row['user_id'] : ', '.$row['user_id'];
+				}
+			}
+			// user reg ip
+			$where_sql = '';
+			$where_sql .= ( $ip_in_sql != '' ) ? "user_reg_ip IN ($ip_in_sql)": "";
+			$where_sql .= ( $ip_like_sql_flyreg != '' ) ? ( $where_sql != "" ) ? " OR $ip_like_sql_flyreg" : "$ip_like_sql_flyreg": "";
+			$sql = "SELECT user_id
+						FROM ".USERS_TABLE."
+							WHERE user_id <> ".ANONYMOUS."
+								AND ($where_sql)
+							GROUP BY user_id";
+			if(!$result = $db->sql_query($sql))
+			{
+				message_die(GENERAL_ERROR, "Could not count users", '', __LINE__, __FILE__, $sql);
+			}
+			if($db->sql_numrows($result)!=0)
+			{
+				if ($no_result_search == true) $no_result_search = false;
+				$total_pages['total'] = $db->sql_numrows($result);
+				$total_sql = NULL;
+				while($row = $db->sql_fetchrow($result))
+				{
+					$ip_users_sql .= ( $ip_users_sql == '' ) ? $row['user_id'] : ', '.$row['user_id'];
+				}
+			}
+			if ($no_result_search == true)
+			{
+				message_die(GENERAL_MESSAGE, $lang['SEARCH_NO_RESULTS']);
+			}
+			// fly_indiz addon [END]
 
 			$select_sql .= "	WHERE u.user_id IN ($ip_users_sql)";
 
@@ -683,6 +775,44 @@ else
 								WHERE u.user_id = ug.user_id
 										AND ug.group_id = $group_id
 										AND u.user_id <> ".ANONYMOUS;
+
+			break;
+		case 'search_rank':
+			$rank_id = intval($rank_id);
+
+			$base_url .= "&search_rank=true&rank_id=".rawurlencode($rank_id);
+
+			if(!$rank_id)
+			{
+				message_die(GENERAL_MESSAGE, $lang['SEARCH_INVALID_RANK']);
+			}
+
+			$sql = "SELECT rank_title
+						FROM ".RANKS_TABLE."
+							WHERE rank_id = $rank_id
+								AND rank_special = 1";
+
+			if(!$result = $db->sql_query($sql))
+			{
+				message_die(GENERAL_ERROR, 'Could not select rank data', '', __LINE__, __FILE__, $sql);
+			}
+
+			if($db->sql_numrows($result)==0)
+			{
+				message_die(GENERAL_MESSAGE, $lang['SEARCH_INVALID_RANK']);
+			}
+
+			$rank_title = $db->sql_fetchrow($result);
+
+			$text = sprintf($lang['SEARCH_FOR_RANK'], strip_tags(htmlspecialchars($rank_title['rank_title'])));
+
+			$total_sql .= "SELECT COUNT(user_id) AS total
+							FROM ".USERS_TABLE."
+								WHERE user_rank = $rank_id
+									AND user_id <> ".ANONYMOUS;
+
+			$select_sql .= "	WHERE u.user_rank = $rank_id
+									AND u.user_id <> ".ANONYMOUS;
 
 			break;
 		case 'search_postcount':
@@ -800,18 +930,6 @@ else
 				case 'icq':
 					$text = sprintf($lang['SEARCH_FOR_USERFIELD_ICQ'],$text);
 					$field = 'user_icq';
-					break;
-				case 'aim':
-					$text = sprintf($lang['SEARCH_FOR_USERFIELD_AIM'],$text);
-					$field = 'user_aim';
-					break;
-				case 'msn':
-					$text = sprintf($lang['SEARCH_FOR_USERFIELD_MSN'],$text);
-					$field = 'user_msnm';
-					break;
-				case 'yahoo':
-					$text = sprintf($lang['SEARCH_FOR_USERFIELD_YAHOO'],$text);
-					$field = 'user_yahoo';
 					break;
 				case 'website':
 					$text = sprintf($lang['SEARCH_FOR_USERFIELD_WEBSITE'],$text);
@@ -1052,7 +1170,7 @@ else
 
 	$select_sql .= "	ORDER BY ";
 
-	switch(strtolower(@$HTTP_GET_VARS['sort']))
+	switch(strtolower(@$_GET['sort']))
 	{
 		case 'regdate':
 			$sort = 'regdate';
@@ -1081,7 +1199,7 @@ else
 			$select_sql .= "u.username";
 	}
 
-	switch(@$HTTP_GET_VARS['order'])
+	switch(@$_GET['order'])
 	{
 		case 'DESC':
 			$order = "DESC";
@@ -1095,7 +1213,7 @@ else
 
 	$select_sql .= " $order";
 
-	$page = ( isset($HTTP_GET_VARS['page']) ) ? intval($HTTP_GET_VARS['page']) : intval(trim(@$HTTP_POST_VARS['page']));
+	$page = ( isset($_GET['page']) ) ? intval($_GET['page']) : intval(trim(@$_POST['page']));
 
 	if($page < 1)
 	{
@@ -1158,7 +1276,7 @@ else
 
 		'PAGE_NUMBER' => sprintf($lang['PAGE_OF'], $page, $num_pages),
 		'PAGINATION' => $pagination,
-		'NEW_SEARCH' => sprintf($lang['SEARCH_USERS_NEW'],$text, $total_pages['total'],append_sid("admin_user_search.$phpEx")),
+		'NEW_SEARCH' => sprintf($lang['SEARCH_USERS_NEW'],$text, $total_pages['total'],append_sid("admin_user_search.php")),
 
 		'U_USERNAME' => ( ( $sort == 'username' ) ? append_sid("$base_url&sort=$sort&order=$o_order") : append_sid("$base_url&sort=username&order=$order") ),
 		'U_EMAIL' => ( ( $sort == 'user_email' ) ? append_sid("$base_url&sort=$sort&order=$o_order") : append_sid("$base_url&sort=user_email&order=$order") ),
@@ -1215,10 +1333,10 @@ else
 			'BAN' => ( ( !isset($banned[$rowset[$i]['user_id']]) ) ? $lang['NOT_BANNED'] : $lang['BANNED'] ),
 			'ABLED' => ( ( $rowset[$i]['user_active'] ) ? $lang['ENABLED'] : $lang['DISABLED'] ),
 
-			'U_VIEWPROFILE' => append_sid("../profile.$phpEx?mode=viewprofile&".POST_USERS_URL."=".$rowset[$i]['user_id']),
-			'U_VIEWPOSTS' => append_sid("../search.$phpEx?search_author=1&amp;uid={$rowset[$i]['user_id']}"),
-			'U_MANAGE' => append_sid("admin_users.$phpEx?mode=edit&".POST_USERS_URL."=".$rowset[$i]['user_id']),
-			'U_PERMISSIONS' => append_sid("admin_ug_auth.$phpEx?mode=user&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_VIEWPROFILE' => append_sid("../profile.php?mode=viewprofile&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_VIEWPOSTS' => append_sid("../search.php?search_author=1&amp;uid={$rowset[$i]['user_id']}"),
+			'U_MANAGE' => append_sid("admin_users.php?mode=edit&".POST_USERS_URL."=".$rowset[$i]['user_id']),
+			'U_PERMISSIONS' => append_sid("admin_ug_auth.php?mode=user&".POST_USERS_URL."=".$rowset[$i]['user_id']),
 		));
 	}
 }

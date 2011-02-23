@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 33
-/svn/!svn/ver/467/trunk/xbtt/misc
+/svn/!svn/ver/592/trunk/xbtt/misc
 END
 xif_key.cpp
 K 25
@@ -169,7 +169,7 @@ bt_strings.h
 K 25
 svn:wc:ra_dav:version-url
 V 46
-/svn/!svn/ver/467/trunk/xbtt/misc/bt_strings.h
+/svn/!svn/ver/592/trunk/xbtt/misc/bt_strings.h
 END
 bt_misc.h
 K 25

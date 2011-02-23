@@ -32,7 +32,7 @@ $db->query("
 	CREATE TEMPORARY TABLE $tmp_attach_tbl (
 		physical_filename VARCHAR(255) NOT NULL default '',
 		KEY physical_filename (physical_filename(20))
-	) ENGINE = MyISAM DEFAULT CHARSET=$dbcharset
+	) ENGINE = MyISAM DEFAULT CHARSET=".DBCHARSET."
 ");
 
 // Get attach_mod config
@@ -242,7 +242,7 @@ $db->query("DROP TEMPORARY TABLE $tmp_attach_tbl");
 unset($fix_errors, $debug_mode);
 
 // Sync
-require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+require_once(INC_DIR .'functions_admin.php');
 sync('topic', 'all');
 sync('forum', 'all');
 sync('user_posts', 'all');

@@ -5,7 +5,7 @@
 if (!defined('BB_ROOT')) die(basename(__FILE__));
 if (defined('PAGE_HEADER_SENT')) return;
 
-global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images, $phpEx;
+global $page_cfg, $db, $bb_cache, $userdata, $user, $ads, $bb_cfg, $template, $lang, $images;
 
 $logged_in = (int) !empty($userdata['session_logged_in']);
 $is_admin  = ($logged_in && IS_ADMIN);
@@ -14,11 +14,11 @@ $is_mod    = ($logged_in && IS_MOD);
 // Generate logged in/logged out status
 if ($logged_in)
 {
-	$u_login_logout = BB_ROOT ."login.$phpEx?logout=1";
+	$u_login_logout = BB_ROOT ."login.php?logout=1";
 }
 else
 {
-	$u_login_logout = BB_ROOT ."login.$phpEx";
+	$u_login_logout = BB_ROOT ."login.php";
 }
 
 // Online userlist
@@ -39,7 +39,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 
 		if (!${$online_list} = $bb_cache->get($online_list))
 		{
-			require(INC_DIR .'online_userlist.'. PHP_EXT);
+			require(INC_DIR .'online_userlist.php');
 		}
 	}
 
@@ -48,7 +48,7 @@ if (defined('SHOW_ONLINE') && SHOW_ONLINE)
 		'LOGGED_IN_USER_LIST' => ${$online_list}['userlist'],
 		'USERS_ONLINE_COUNTS' => ${$online_list}['cnt'],
 		'RECORD_USERS'        => sprintf($lang['RECORD_ONLINE_USERS'], $bb_cfg['record_online_users'], bb_date($bb_cfg['record_online_date'])),
-		'U_VIEWONLINE'        => "viewonline.$phpEx",
+		'U_VIEWONLINE'        => "viewonline.php",
 	));
 }
 
@@ -120,7 +120,7 @@ if ($bb_cfg['reports_enabled'])
 	if (empty($gen_simple_header) && ($userdata['user_level'] == ADMIN || (!$bb_cfg['report_list_admin'] && $userdata['user_level'] == MOD)))
 	{
 		if (!function_exists("report_count_obtain"))
-			include(INC_DIR . "functions_report.". $phpEx);
+			include(INC_DIR . "functions_report.php");
 	
 		$report_count = report_count_obtain();
 		if ($report_count > 0)
@@ -147,7 +147,7 @@ if ($bb_cfg['reports_enabled'])
 	if (empty($gen_simple_header))
 	{
 		if (!function_exists("report_count_obtain"))
-			include(INC_DIR . "functions_report.$phpEx");
+			include(INC_DIR . "functions_report.php");
 
 		$report_general = report_modules('name', 'report_general');
 	
@@ -156,7 +156,7 @@ if ($bb_cfg['reports_enabled'])
 			$template->assign_block_vars('switch_report_general', array());
 			
 			$template->assign_vars(array(
-				'U_WRITE_REPORT' => append_sid("report.$phpEx?mode=" . $report_general->mode),
+				'U_WRITE_REPORT' => append_sid("report.php?mode=" . $report_general->mode),
 				'L_WRITE_REPORT' => $report_general->lang['WRITE_REPORT'])
 			);
 		}
@@ -165,27 +165,8 @@ if ($bb_cfg['reports_enabled'])
 else $report_list = '';
 // Report [END]
 
-/*
-// SAPE.RU
-if (!defined('_SAPE_USER')){
-	define('_SAPE_USER', '49d34f961b40eea4bd02d4106217b5f4'); 
-}
-require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
-
-$o = array();
-if (!empty($_SERVER['REDIRECT_URL'])) $o['host'] = $_SERVER['REDIRECT_URL'];
-if (!empty($_SERVER['REDIRECT_URL'])) $o['request_uri'] = $_SERVER['REDIRECT_URL'];
-$o['fetch_remote_type'] = 'socket';
-$o['force_show_code'] = true;  //$o['verbose'] = true;
-$o['sape_charset'] = 'UTF-8';
-$o['charset'] = 'UTF-8';
-$sape = new SAPE_client($o);
-$template->assign_vars(array(
-	'SAPE'     => $sape->return_links(),
-));
-unset($sape, $o);
-// !SAPE.RU
-*/
+$avatar_img = '';
+$avatar_img = get_avatar($userdata['user_avatar'], $userdata['user_avatar_type'], $userdata['user_allowavatar']);
 
 $template->assign_vars(array(
 	'SIMPLE_HEADER'      => !empty($gen_simple_header),
@@ -199,7 +180,7 @@ $template->assign_vars(array(
 	'USE_TABLESORTER'    => !empty($page_cfg['use_tablesorter']),
 
 	'SITENAME'           => $bb_cfg['sitename'],
-	'U_INDEX'            => BB_ROOT ."index.$phpEx",
+	'U_INDEX'            => BB_ROOT ."index.php",
 	'T_INDEX'            => sprintf($lang['FORUM_INDEX'], $bb_cfg['sitename']),
 
 	'IS_GUEST'           => IS_GUEST,
@@ -217,34 +198,35 @@ $template->assign_vars(array(
 	
 	// Report
 	'REPORT_LIST'        => $report_list,
-	'U_REPORT_LIST'      => append_sid("report.$phpEx"),
+	'U_REPORT_LIST'      => append_sid("report.php"),
 	// Report [END]
 
 	'LOGGED_IN'          => $logged_in,
 	'SESSION_USER_ID'    => $userdata['user_id'],
 	'THIS_USERNAME'      => $userdata['username'],
+	'AVATAR'      	     => $avatar_img,
 	'SHOW_LOGIN_LINK'    => !defined('IN_LOGIN'),
 	'AUTOLOGIN_DISABLED' => !$bb_cfg['allow_autologin'],
-	'S_LOGIN_ACTION'     => BB_ROOT ."login.$phpEx",
+	'S_LOGIN_ACTION'     => BB_ROOT ."login.php",
 
 	'U_CUR_DOWNLOADS'    => PROFILE_URL . $userdata['user_id'] .'#torrent',
 	'U_FAQ'              => $bb_cfg['faq_url'],
-	'U_FORUM'            => "viewforum.$phpEx",
-	'U_GROUP_CP'         => "groupcp.$phpEx",
+	'U_FORUM'            => "viewforum.php",
+	'U_GROUP_CP'         => "groupcp.php",
 	'U_LOGIN_LOGOUT'     => $u_login_logout,
-	'U_MEMBERLIST'       => "memberlist.$phpEx",
-	'U_MODCP'            => "modcp.$phpEx",
-	'U_OPTIONS'          => "profile.$phpEx?mode=editprofile",
-	'U_PRIVATEMSGS'      => "privmsg.$phpEx?folder=inbox",
+	'U_MEMBERLIST'       => "memberlist.php",
+	'U_MODCP'            => "modcp.php",
+	'U_OPTIONS'          => "profile.php?mode=editprofile",
+	'U_PRIVATEMSGS'      => "privmsg.php?folder=inbox",
 	'U_PROFILE'          => PROFILE_URL . $userdata['user_id'],
-	'U_READ_PM'          => "privmsg.$phpEx?folder=inbox". (($userdata['user_newest_pm_id'] && $userdata['user_new_privmsg'] == 1) ? "&mode=read&p={$userdata['user_newest_pm_id']}" : ''),
-	'U_REGISTER'         => "profile.$phpEx?mode=register",
-	'U_SEARCH'           => "search.$phpEx",
-	'U_SEND_PASSWORD'    => "profile.$phpEx?mode=sendpassword",
+	'U_READ_PM'          => "privmsg.php?folder=inbox". (($userdata['user_newest_pm_id'] && $userdata['user_new_privmsg'] == 1) ? "&mode=read&p={$userdata['user_newest_pm_id']}" : ''),
+	'U_REGISTER'         => "profile.php?mode=register",
+	'U_SEARCH'           => "search.php",
+	'U_SEND_PASSWORD'    => "profile.php?mode=sendpassword",
 	'U_TERMS'            => $bb_cfg['terms_and_conditions_url'],
-	'U_TRACKER'          => "tracker.$phpEx",
+	'U_TRACKER'          => "tracker.php",
 
-	'U_GALLERY'          => "gallery.$phpEx",
+	'U_GALLERY'          => "gallery.php",
 	'SHOW_GALLERY'       => (!empty($bb_cfg['gallery_enabled']) && !empty($bb_cfg['gallery_show_link']) ? true : false),
 
 	'SHOW_ADMIN_OPTIONS' => $is_admin,
@@ -262,7 +244,7 @@ $template->assign_vars(array(
 	'TOPIC_URL'          => BB_ROOT . TOPIC_URL,
 
 	'AJAX_HTML_DIR'      => AJAX_HTML_DIR,
-	'AJAX_HANDLER'       => BB_ROOT .'ajax.'. PHP_EXT,
+	'AJAX_HANDLER'       => BB_ROOT .'ajax.php',
 
 	'ONLY_NEW_POSTS'     => ONLY_NEW_POSTS,
 	'ONLY_NEW_TOPICS'    => ONLY_NEW_TOPICS,
@@ -279,12 +261,12 @@ $template->assign_vars(array(
 	'READONLY'           => HTML_READONLY,
 	'SELECTED'           => HTML_SELECTED,
 
-	'U_SEARCH_SELF_BY_LAST' => "search.$phpEx?uid={$userdata['user_id']}&amp;o=5",
+	'U_SEARCH_SELF_BY_LAST' => "search.php?uid={$userdata['user_id']}&amp;o=5",
 ));
 
 if (!empty($page_cfg['dl_links_user_id']))
 {
-	$dl_link = "search.$phpEx?dlu={$page_cfg['dl_links_user_id']}&amp;";
+	$dl_link = "search.php?dlu={$page_cfg['dl_links_user_id']}&amp;";
 
 	$template->assign_vars(array(
 		'SHOW_SEARCH_DL'       => true,

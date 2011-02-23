@@ -59,13 +59,13 @@ function report_reason_counts_obtain()
 //
 function report_modules_inactive($mode = 'all', $module = null)
 {
-	global $phpbb_root_path, $phpEx, $bb_cfg;
+	global $phpbb_root_path, $bb_cfg;
 	static $modules;
 	
 	if (!isset($modules))
 	{
 		if (!class_exists("report_module"))
-			include($phpbb_root_path . "includes/report_module.$phpEx");
+			include($phpbb_root_path . "includes/report_module.php");
 		
 		$installed_modules = report_modules('names');
 		
@@ -77,7 +77,7 @@ function report_modules_inactive($mode = 'all', $module = null)
 		$i = 0;
 		while ($file = @readdir($dir))
 		{
-			if (!preg_match('#(.*)\.' . phpbb_preg_quote($phpEx, '#') . '$#', $file, $matches))
+			if (!preg_match('#(.*)\.' . phpbb_preg_quote('php', '#') . '$#', $file, $matches))
 			{
 				continue;
 			}
@@ -95,7 +95,7 @@ function report_modules_inactive($mode = 'all', $module = null)
 			// Include language file
 			$lang = array();
 			
-			$lang_file = $phpbb_root_path . 'language/lang_' . $bb_cfg['default_lang'] . "/report_hack/lang_$module_name.$phpEx";
+			$lang_file = $phpbb_root_path . 'language/lang_' . $bb_cfg['default_lang'] . "/report_hack/lang_$module_name.php";
 			if (file_exists($lang_file))
 			{
 				include($lang_file);
@@ -576,5 +576,3 @@ function report_reason_delete($reason_id)
 		message_die(GENERAL_ERROR, 'Could not delete report reason', '', __LINE__, __FILE__, $sql);
 	}
 }
-
-?>

@@ -17,11 +17,11 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-require($phpbb_root_path . 'attach_mod/includes/functions_includes.'.$phpEx);
-require($phpbb_root_path . 'attach_mod/includes/functions_attach.'.$phpEx);
-require($phpbb_root_path . 'attach_mod/includes/functions_delete.'.$phpEx);
-require($phpbb_root_path . 'attach_mod/includes/functions_thumbs.'.$phpEx);
-require($phpbb_root_path . 'attach_mod/includes/functions_filetypes.'.$phpEx);
+require($phpbb_root_path . 'attach_mod/includes/functions_includes.php');
+require($phpbb_root_path . 'attach_mod/includes/functions_attach.php');
+require($phpbb_root_path . 'attach_mod/includes/functions_delete.php');
+require($phpbb_root_path . 'attach_mod/includes/functions_thumbs.php');
+require($phpbb_root_path . 'attach_mod/includes/functions_filetypes.php');
 
 if (defined('ATTACH_INSTALL'))
 {
@@ -33,17 +33,17 @@ if (defined('ATTACH_INSTALL'))
 */
 function attach_mod_get_lang($language_file)
 {
-	global $phpbb_root_path, $phpEx, $attach_config, $board_config;
+	global $phpbb_root_path, $attach_config, $board_config;
 
 	$language = $board_config['default_lang'];
 
-	if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+	if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
 	{
 		$language = $attach_config['board_lang'];
 
-		if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.' . $phpEx))
+		if (!file_exists($phpbb_root_path . 'language/lang_' . $language . '/' . $language_file . '.php'))
 		{
-			message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.' . $phpEx);
+			message_die(GENERAL_MESSAGE, 'Attachment Mod language file does not exist: language/lang_' . $language . '/' . $language_file . '.php');
 		}
 		else
 		{
@@ -102,9 +102,9 @@ if (!($attach_config = $bb_cache->get('attach_config')))
 
 // Please do not change the include-order, it is valuable for proper execution.
 // Functions for displaying Attachment Things
-include($phpbb_root_path . 'attach_mod/displaying.'.$phpEx);
+include($phpbb_root_path . 'attach_mod/displaying.php');
 // Posting Attachments Class (HAVE TO BE BEFORE PM)
-include($phpbb_root_path . 'attach_mod/posting_attachments.'.$phpEx);
+include($phpbb_root_path . 'attach_mod/posting_attachments.php');
 
 if (!intval($attach_config['allow_ftp_upload']))
 {
@@ -114,4 +114,3 @@ else
 {
 	$upload_dir = $attach_config['download_path'];
 }
-

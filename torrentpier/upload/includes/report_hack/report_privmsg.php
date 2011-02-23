@@ -170,10 +170,8 @@ class report_privmsg extends report_module
 	//
 	function subject_url($report_subject, $non_html_amp = false)
 	{
-		global $phpEx;
-		
 		$sep = ($non_html_amp) ? '&' : '&amp;';
-		return append_sid("privmsg.$phpEx?mode=read$sep" . POST_POST_URL . '=' . (int) $report_subject, $non_html_amp);
+		return append_sid("privmsg.php?mode=read$sep" . POST_POST_URL . '=' . (int) $report_subject, $non_html_amp);
 	}
 	
 	//
@@ -203,7 +201,7 @@ class report_privmsg extends report_module
 	//
 	function subject_details_obtain($report_subject)
 	{
-		global $db, $phpEx;
+		global $db;
 		
 		$sql = 'SELECT p.privmsgs_subject, p.privmsgs_from_userid, p.privmsgs_enable_bbcode, p.privmsgs_enable_smilies, pt.privmsgs_bbcode_uid, pt.privmsgs_text, u.username
 			FROM ' . PRIVMSGS_TABLE . ' p
@@ -227,7 +225,7 @@ class report_privmsg extends report_module
 
 		$subject_details = array(
 			'Message_id' => '#' . $report_subject,
-			'Message_from' => '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['privmsgs_from_userid']) . '">' . $row['username'] . '</a>',
+			'Message_from' => '<a href="' . append_sid("profile.php?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['privmsgs_from_userid']) . '">' . $row['username'] . '</a>',
 			'Message_title' => $row['privmsgs_subject'],
 			'Message_text' => $row['privmsgs_text']);
 		
@@ -243,8 +241,8 @@ class report_privmsg extends report_module
 	//
 	function _subject_details_prepare(&$message, &$subject, $row)
 	{
-		global $phpbb_root_path, $phpEx, $bb_cfg, $userdata, $datastore;
-		include($phpbb_root_path . "includes/bbcode.$phpEx");
+		global $phpbb_root_path, $bb_cfg, $userdata, $datastore;
+		include($phpbb_root_path . "includes/bbcode.php");
 		
 		//
 		// If the board has HTML off but the post has HTML
@@ -279,5 +277,3 @@ class report_privmsg extends report_module
 		$message = str_replace("\n", '<br />', $message);
 	}
 }
-
-?>

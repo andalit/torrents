@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 27
-/svn/!svn/ver/526/trunk/sql
+/svn/!svn/ver/572/trunk/sql
 END
 ReadMe_MySQL.txt
 K 25
@@ -13,11 +13,5 @@ mysql.sql
 K 25
 svn:wc:ra_dav:version-url
 V 37
-/svn/!svn/ver/526/trunk/sql/mysql.sql
-END
-flags_update.sql
-K 25
-svn:wc:ra_dav:version-url
-V 44
-/svn/!svn/ver/398/trunk/sql/flags_update.sql
+/svn/!svn/ver/572/trunk/sql/mysql.sql
 END

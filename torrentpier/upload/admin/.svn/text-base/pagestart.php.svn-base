@@ -5,15 +5,15 @@ define('IN_PHPBB', true);
 define('IN_ADMIN', true);
 
 require(BB_ROOT .'common.php');
-require(BB_ROOT .'attach_mod/attachment_mod.'. PHP_EXT);
-require(BB_ROOT .'attach_mod/includes/functions_admin.'. PHP_EXT);
-require_once(INC_DIR .'functions_admin.'. PHP_EXT);
+require(BB_ROOT .'attach_mod/attachment_mod.php');
+require(BB_ROOT .'attach_mod/includes/functions_admin.php');
+require_once(INC_DIR .'functions_admin.php');
 
 $user->session_start();
 
 if (IS_GUEST)
 {
-	redirect("login.$phpEx?redirect=admin/index.$phpEx");
+	redirect("login.php?redirect=admin/index.php");
 }
 if (!IS_ADMIN)
 {
@@ -22,5 +22,5 @@ if (!IS_ADMIN)
 if (!$userdata['session_admin'])
 {
   $redirect = url_arg($_SERVER['REQUEST_URI'], 'admin', 1);
-  redirect("login.$phpEx?redirect=$redirect");
+  redirect("login.php?redirect=$redirect");
 }

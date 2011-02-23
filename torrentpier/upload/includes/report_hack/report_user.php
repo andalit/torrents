@@ -19,11 +19,9 @@ class report_user extends report_module
 	// Returns url to a report subject
 	//
 	function subject_url($id, $non_html_amp = false)
-	{
-		global $phpEx;
-		
+	{	
 		$sep = ($non_html_amp) ? '&' : '&amp;';
-		return append_sid("profile.$phpEx?mode=viewprofile$sep" . POST_USERS_URL . '=' . (int) $id, $non_html_amp);
+		return append_sid("profile.php?mode=viewprofile$sep" . POST_USERS_URL . '=' . (int) $id, $non_html_amp);
 	}
 	
 	//
@@ -47,5 +45,3 @@ class report_user extends report_module
 		return ($row) ? $row['username'] : false;
 	}
 }
-
-?>

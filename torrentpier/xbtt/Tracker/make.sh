@@ -1,4 +1,5 @@
-g++ $@ -DNDEBUG -I /usr/local/include -I ../misc -I . -O3 -o xbt_tracker \
+g++44 $@ -DNDEBUG -I /usr/local/include -I ../misc -I . -O3 -o xbt_tracker \
+	-Wl,-R/usr/local/lib/gcc44 \
 	../misc/sql/database.cpp \
 	../misc/sql/sql_query.cpp \
 	../misc/sql/sql_result.cpp \

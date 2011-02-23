@@ -70,7 +70,7 @@ else
 	if ((TR_RATING_LIMITS || $tr_cfg['limit_concurrent_ips']) && !$stopped)
 	{
 		$user_ratio = ($row['u_down_total'] && $row['u_down_total'] > MIN_DL_FOR_RATIO) ? ($row['u_up_total'] + $row['u_up_release'] + $row['u_up_bonus']) / $row['u_down_total'] : 1;
-		require(TR_ROOT .'includes/tr_ratio.'. PHP_EXT);
+		require(TR_ROOT .'includes/tr_ratio.php');
 	}
 }
 

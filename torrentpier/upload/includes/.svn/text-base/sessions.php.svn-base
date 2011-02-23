@@ -693,12 +693,12 @@ class user_common
 			define('LANG_DIR', DEFAULT_LANG_DIR);
 		}
 
-		require(LANG_DIR .'lang_main.'. PHP_EXT);
+		require(LANG_DIR .'lang_main.php');
 
 		if (defined('IN_ADMIN'))
 		{
-			require(LANG_DIR .'lang_admin.'. PHP_EXT);
-			require(LANG_DIR .'lang_admin_attach.'. PHP_EXT);
+			require(LANG_DIR .'lang_admin.php');
+			require(LANG_DIR .'lang_admin_attach.php');
 		}
 
 		$theme = setup_style();
@@ -1006,5 +1006,3 @@ function session_pagestart ($user_ip = USER_IP, $page_id = 0, $req_login = false
 
 	return $user->data;
 }
-
-

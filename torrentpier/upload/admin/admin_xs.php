@@ -11,6 +11,5 @@ require('./pagestart.php');
 
 define('IN_XS', true);
 define('XS_ADMIN_OVERRIDE', true);
-include('xs_include.' . $phpEx);
+include('xs_include.php');
 return;
-

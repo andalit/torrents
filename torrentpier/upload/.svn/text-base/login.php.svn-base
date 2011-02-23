@@ -24,22 +24,13 @@ define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'login');
 define('IN_LOGIN', true);
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
-$redirect_url = "index.$phpEx";
+$redirect_url = "index.php";
 $login_error = $login_err_msg = false;
 
 // Requested redirect
-if (!empty($_POST['redirect']))
-{
-	$redirect_url = str_replace('&amp;', '&', htmlspecialchars($_POST['redirect']));
-}
-else if (!empty($_SERVER['HTTP_REFERER']) && ($parts = @parse_url($_SERVER['HTTP_REFERER'])))
-{
-	$redirect_url = (isset($parts['path']) ? $parts['path'] : "index.$phpEx") . (isset($parts['query']) ? '?'. $parts['query'] : '');
-}
-else if (preg_match('/^redirect=([a-z0-9\.#\/\?&=\+\-_]+)/si', $_SERVER['QUERY_STRING'], $matches))
+if (preg_match('/^redirect=([a-z0-9\.#\/\?&=\+\-_]+)/si', $_SERVER['QUERY_STRING'], $matches))
 {
 	$redirect_url = $matches[1];
 
@@ -48,12 +39,21 @@ else if (preg_match('/^redirect=([a-z0-9\.#\/\?&=\+\-_]+)/si', $_SERVER['QUERY_S
 		$redirect_url[$first_amp] = '?';
 	}
 }
+else if (!empty($_POST['redirect']))
+{
+	$redirect_url = str_replace('&amp;', '&', htmlspecialchars($_POST['redirect']));
+}
+else if (!empty($_SERVER['HTTP_REFERER']) && ($parts = @parse_url($_SERVER['HTTP_REFERER'])))
+{
+	$redirect_url = (isset($parts['path']) ? $parts['path'] : "index.php") . (isset($parts['query']) ? '?'. $parts['query'] : '');
+}
 
 $redirect_url = str_replace('&admin=1', '', $redirect_url);
+$redirect_url = str_replace('?admin=1', '', $redirect_url);
 
 if (!$redirect_url || strstr(urldecode($redirect_url), "\n") || strstr(urldecode($redirect_url), "\r") || strstr(urldecode($redirect_url), ';url'))
 {
-	$redirect_url = "index.$phpEx";
+	$redirect_url = "index.php";
 }
 
 if (!empty($_POST['login']) && !empty($_POST['cookie_test']))
@@ -84,6 +84,7 @@ else    // no such records
 {
 	$login_enable_confirm = 0;
 }
+if ( IS_ADMIN ) $login_enable_confirm = 0;
 // end of
 
 if ($login_error)
@@ -95,7 +96,7 @@ else if (isset($_POST['login']))
 {
 	if (!IS_GUEST && !$mod_admin_login)
 	{
-		redirect("index.$phpEx");
+		redirect("index.php");
 	}
 // dj_maxx: add visual confirmation to login form
  
@@ -113,16 +114,16 @@ else if (isset($_POST['login']))
 
 	if ($login_enable_confirm)
 	{
-		if (empty($HTTP_POST_VARS['confirm_id']))
+		if (empty($_POST['confirm_id']))
 		{
 			$login_error = 'captcha';
 			$login_err_msg = $lang['CONFIRM_CODE_WRONG'];
 		}
 		else
 		{
-			$sid = (isset($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : 0;
-			$confirm_id = htmlspecialchars($HTTP_POST_VARS['confirm_id']);
-			$confirm_code = trim(htmlspecialchars($HTTP_POST_VARS['cfmcd']));
+			$sid = (isset($_POST['sid'])) ? $_POST['sid'] : 0;
+			$confirm_id = htmlspecialchars($_POST['confirm_id']);
+			$confirm_code = trim(htmlspecialchars($_POST['cfmcd']));
 
 			if (!preg_match('/^[A-Za-z0-9]+$/', $confirm_id))
 			{
@@ -170,15 +171,15 @@ else if (isset($_POST['login']))
 		}
 	}
 
-	// if ($user->login($HTTP_POST_VARS, $mod_admin_login))
-	if (!$login_error && $user->login($HTTP_POST_VARS, $mod_admin_login))
+	// if ($user->login($_POST, $mod_admin_login))
+	if (!$login_error && $user->login($_POST, $mod_admin_login))
 	// end of
 
-	//if ($user->login($HTTP_POST_VARS, $mod_admin_login))
+	//if ($user->login($_POST, $mod_admin_login))
 	{
 		if ($bb_cfg['board_disable'] && $user->data['user_level'] != ADMIN)
 		{
-			redirect("index.$phpEx");
+			redirect("index.php");
 		}
 
 		if ($mod_admin_login)
@@ -193,7 +194,6 @@ else if (isset($_POST['login']))
 	}
 
 // dj_maxx: add visual confirmation to login form
-//	$login_err_msg = $lang['ERROR_LOGIN'];
 	if (!$login_err_msg) $login_err_msg = $lang['ERROR_LOGIN'];
 // end of
 }
@@ -204,7 +204,7 @@ else if (!empty($_GET['logout']))
 	{
 		$user->session_end();
 	}
-	redirect("index.$phpEx");
+	redirect("index.php");
 }
 
 // Login page
@@ -251,12 +251,12 @@ if (IS_GUEST || $mod_admin_login)
 		");
 
 		$confirm_image = (extension_loaded('zlib')) ? '
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id") .'" alt="" title="" />
 		' : '
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=1") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=2") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=3") .'" alt="" title="" />
-			<img src="'. append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=4") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=1") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=2") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=3") .'" alt="" title="" />
+			<img src="'. append_sid("profile.php?mode=confirm&amp;id=$confirm_id&amp;c=4") .'" alt="" title="" />
 		';
 		$s_hidden_fields .= '<input type="hidden" name="confirm_id" value="'. $confirm_id .'" />';
 		$s_hidden_fields .= '<input type="hidden" name="sid" value="'. $userdata['session_id'] .'" />';
@@ -273,7 +273,7 @@ if (IS_GUEST || $mod_admin_login)
 		'ERR_MSG'          => $login_err_msg,
 		'T_ENTER_PASSWORD' => ($mod_admin_login) ? $lang['ADMIN_REAUTHENTICATE'] : $lang['ENTER_PASSWORD'],
 
-		'U_SEND_PASSWORD'  => "profile.$phpEx?mode=sendpassword",
+		'U_SEND_PASSWORD'  => "profile.php?mode=sendpassword",
 		'ADMIN_LOGIN'      => $mod_admin_login,
 		'COOKIE_TEST_VAL'  => $cookie_test_val,
 		'COOKIES_ERROR'    => ($login_error == 'cookie'),
@@ -288,5 +288,4 @@ if (IS_GUEST || $mod_admin_login)
 	print_page('login.tpl');
 }
 
-redirect("index.$phpEx");
-
+redirect("index.php");

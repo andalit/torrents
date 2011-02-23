@@ -24,14 +24,13 @@
 define('IN_PHPBB', true);
 define('BB_SCRIPT', 'callseed');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT . "common.$phpEx");
+require(BB_ROOT . "common.php");
 
 // Init userdata
 $user->session_start();
 
-require(INC_DIR .'bbcode.'.$phpEx);
-require(LANG_DIR .'lang_callseed.'.$phpEx);
+require(INC_DIR .'bbcode.php');
+require(LANG_DIR .'lang_callseed.php');
 
 function topic_info($topic_id) 
 {
@@ -152,7 +151,7 @@ function send_pm($topic_id, $t_info, $to_user_id)
 	}
 
 	$msg = '';
-	meta_refresh("viewtopic.$phpEx?t=$topic_id", 8);
+	meta_refresh("viewtopic.php?t=$topic_id", 8);
 	$return_to = sprintf ($lang['CALLSEED_RETURN'], $topic_id);
 
 	switch($msg_error) {
@@ -179,7 +178,5 @@ function send_pm($topic_id, $t_info, $to_user_id)
 			break;
 	}
 
-	$msg .= $return_to;
-	message_die(GENERAL_MESSAGE, $msg);
-
-?>
+$msg .= $return_to;
+message_die(GENERAL_MESSAGE, $msg);

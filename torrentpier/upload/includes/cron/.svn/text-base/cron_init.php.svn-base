@@ -51,7 +51,7 @@ if (cron_get_file_lock())
 
 	cron_track_running('start');
 
-	require(CRON_DIR .'cron_check.'. PHP_EXT);
+	require(CRON_DIR .'cron_check.php');
 
 	cron_track_running('end');
 }

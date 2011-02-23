@@ -13,23 +13,23 @@ register_shutdown_function('update_ranks');
 require('./pagestart.php');
 // ACP Header - END
 
-$HTTP_POST_VARS['special_rank'] = 1;
-$HTTP_POST_VARS['min_posts'] = -1;
+$_POST['special_rank'] = 1;
+$_POST['min_posts'] = -1;
 
-if( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
+if( isset($_GET['mode']) || isset($_POST['mode']) )
 {
-	$mode = isset($HTTP_GET_VARS['mode']) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
+	$mode = isset($_GET['mode']) ? $_GET['mode'] : $_POST['mode'];
 }
 else
 {
 	//
 	// These could be entered via a form button
 	//
-	if( isset($HTTP_POST_VARS['add']) )
+	if( isset($_POST['add']) )
 	{
 		$mode = "add";
 	}
-	else if( isset($HTTP_POST_VARS['save']) )
+	else if( isset($_POST['save']) )
 	{
 		$mode = "save";
 	}
@@ -47,7 +47,7 @@ if( $mode != "" )
 		//
 		// They want to add a new rank, show the form.
 		//
-		$rank_id = ( isset($HTTP_GET_VARS['id']) ) ? intval($HTTP_GET_VARS['id']) : 0;
+		$rank_id = ( isset($_GET['id']) ) ? intval($_GET['id']) : 0;
 
 		$s_hidden_fields = "";
 
@@ -91,7 +91,7 @@ if( $mode != "" )
 
 			"L_RANKS_TEXT" => $lang['RANKS_EXPLAIN'],
 
-			"S_RANK_ACTION" => append_sid("admin_ranks.$phpEx"),
+			"S_RANK_ACTION" => append_sid("admin_ranks.php"),
 			"S_HIDDEN_FIELDS" => $s_hidden_fields)
 		);
 
@@ -102,11 +102,11 @@ if( $mode != "" )
 		// Ok, they sent us our info, let's update it.
 		//
 
-		$rank_id = ( isset($HTTP_POST_VARS['id']) ) ? intval($HTTP_POST_VARS['id']) : 0;
-		$rank_title = ( isset($HTTP_POST_VARS['title']) ) ? trim($HTTP_POST_VARS['title']) : "";
-		$special_rank = ( $HTTP_POST_VARS['special_rank'] == 1 ) ? TRUE : 0;
-		$min_posts = ( isset($HTTP_POST_VARS['min_posts']) ) ? intval($HTTP_POST_VARS['min_posts']) : -1;
-		$rank_image = ( (isset($HTTP_POST_VARS['rank_image'])) ) ? trim($HTTP_POST_VARS['rank_image']) : "";
+		$rank_id = ( isset($_POST['id']) ) ? intval($_POST['id']) : 0;
+		$rank_title = ( isset($_POST['title']) ) ? trim($_POST['title']) : "";
+		$special_rank = ( $_POST['special_rank'] == 1 ) ? TRUE : 0;
+		$min_posts = ( isset($_POST['min_posts']) ) ? intval($_POST['min_posts']) : -1;
+		$rank_image = ( (isset($_POST['rank_image'])) ) ? trim($_POST['rank_image']) : "";
 
 		if( $rank_title == "" )
 		{
@@ -162,7 +162,7 @@ if( $mode != "" )
 			message_die(GENERAL_ERROR, "Couldn't update/insert into ranks table", "", __LINE__, __FILE__, $sql);
 		}
 
-		$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_RANKADMIN'], "<a href=\"" . append_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+		$message .= "<br /><br />" . sprintf($lang['CLICK_RETURN_RANKADMIN'], "<a href=\"" . append_sid("admin_ranks.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 		message_die(GENERAL_MESSAGE, $message);
 
@@ -173,9 +173,9 @@ if( $mode != "" )
 		// Ok, they want to delete their rank
 		//
 
-		if( isset($HTTP_POST_VARS['id']) || isset($HTTP_GET_VARS['id']) )
+		if( isset($_POST['id']) || isset($_GET['id']) )
 		{
-			$rank_id = ( isset($HTTP_POST_VARS['id']) ) ? intval($HTTP_POST_VARS['id']) : intval($HTTP_GET_VARS['id']);
+			$rank_id = ( isset($_POST['id']) ) ? intval($_POST['id']) : intval($_GET['id']);
 		}
 		else
 		{
@@ -201,7 +201,7 @@ if( $mode != "" )
 				message_die(GENERAL_ERROR, $lang['NO_UPDATE_RANKS'], "", __LINE__, __FILE__, $sql);
 			}
 
-			$message = $lang['RANK_REMOVED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_RANKADMIN'], "<a href=\"" . append_sid("admin_ranks.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
+			$message = $lang['RANK_REMOVED'] . "<br /><br />" . sprintf($lang['CLICK_RETURN_RANKADMIN'], "<a href=\"" . append_sid("admin_ranks.php") . "\">", "</a>") . "<br /><br />" . sprintf($lang['CLICK_RETURN_ADMIN_INDEX'], "<a href=\"" . append_sid("index.php?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
 
@@ -238,7 +238,7 @@ else
 		"L_RANK" => $lang['RANK_TITLE'],
 		"L_ADD_RANK" => $lang['ADD_NEW_RANK'],
 
-		"S_RANKS_ACTION" => append_sid("admin_ranks.$phpEx"))
+		"S_RANKS_ACTION" => append_sid("admin_ranks.php"))
 	);
 
 	for($i = 0; $i < $rank_count; $i++)
@@ -264,8 +264,8 @@ else
 			"SPECIAL_RANK" => $rank_is_special,
 			"RANK_MIN" => $rank_min,
 
-			"U_RANK_EDIT" => append_sid("admin_ranks.$phpEx?mode=edit&amp;id=$rank_id"),
-			"U_RANK_DELETE" => append_sid("admin_ranks.$phpEx?mode=delete&amp;id=$rank_id"))
+			"U_RANK_EDIT" => append_sid("admin_ranks.php?mode=edit&amp;id=$rank_id"),
+			"U_RANK_DELETE" => append_sid("admin_ranks.php?mode=delete&amp;id=$rank_id"))
 		);
 	}
 }

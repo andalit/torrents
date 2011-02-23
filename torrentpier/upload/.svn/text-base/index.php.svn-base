@@ -23,8 +23,7 @@
 define('IN_PHPBB',   true);
 define('BB_SCRIPT', 'index');
 define('BB_ROOT', './');
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-require(BB_ROOT ."common.$phpEx");
+require(BB_ROOT ."common.php");
 
 $page_cfg['load_tpl_vars'] = array(
 	'post_icons',
@@ -85,7 +84,7 @@ $only_new = $user->opt_js['only_new'];
 // Validate requested category id
 if ($viewcat AND !$viewcat =& $forums['c'][$viewcat]['cat_id'])
 {
-	redirect("index.$phpEx");
+	redirect("index.php");
 }
 // Forums
 $forums_join_sql = 'f.cat_id = c.cat_id';
@@ -210,7 +209,7 @@ $datastore->rm('moderators');
 
 if (!$forums_count = count($cat_forums) AND $viewcat)
 {
-	redirect("index.$phpEx");
+	redirect("index.php");
 }
 
 $template->assign_vars(array(
@@ -236,10 +235,10 @@ $template->assign_vars(array(
 	'ONLY_NEW_POSTS_ON'     => ($only_new == ONLY_NEW_POSTS),
 	'ONLY_NEW_TOPICS_ON'    => ($only_new == ONLY_NEW_TOPICS),
 
-	'U_SEARCH_NEW'          => "search.$phpEx?new=1",
-	'U_SEARCH_SELF_BY_MY'   => "search.$phpEx?uid={$userdata['user_id']}&amp;o=1",
-	'U_SEARCH_LATEST'       => "search.$phpEx?search_id=latest",
-	'U_SEARCH_UNANSWERED'   => "search.$phpEx?search_id=unanswered",
+	'U_SEARCH_NEW'          => "search.php?new=1",
+	'U_SEARCH_SELF_BY_MY'   => "search.php?uid={$userdata['user_id']}&amp;o=1",
+	'U_SEARCH_LATEST'       => "search.php?search_id=latest",
+	'U_SEARCH_UNANSWERED'   => "search.php?search_id=unanswered",
 
 	'SHOW_LAST_TOPIC'       => $show_last_topic,
 ));
@@ -250,7 +249,7 @@ foreach ($cat_forums as $cid => $c)
 	$template->assign_block_vars('c', array(
 		'CAT_ID'    => $cid,
 		'CAT_TITLE' => $cat_title_html[$cid],
-		'U_VIEWCAT' => "index.$phpEx?c=$cid",
+		'U_VIEWCAT' => "index.php?c=$cid",
 	));
 
 	foreach ($c['f'] as $fid => $f)

@@ -16,7 +16,7 @@ $db->query("
 	CREATE TEMPORARY TABLE $tmp_tbl (
 		user_avatar VARCHAR(255) NOT NULL default '',
 		KEY user_avatar (user_avatar(20))
-	) ENGINE = MyISAM DEFAULT CHARSET=$dbcharset
+	) ENGINE = MyISAM DEFAULT CHARSET=".DBCHARSET."
 ");
 
 $db->query("ALTER TABLE ". USERS_TABLE ." ADD INDEX user_avatar(user_avatar(10))");
@@ -115,5 +115,3 @@ $db->query("DROP TEMPORARY TABLE $tmp_tbl");
 $db->query("ALTER TABLE ". USERS_TABLE ." DROP INDEX user_avatar");
 
 unset($fix_errors, $debug_mode);
-
-

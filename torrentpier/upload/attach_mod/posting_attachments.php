@@ -50,8 +50,6 @@ class attach_parent
 	*/
 	function attach_parent()
 	{
-		global $HTTP_POST_VARS, $HTTP_POST_FILES;
-
 		$this->add_attachment_body = get_var('add_attachment_body', 0);
 		$this->posted_attachments_body = get_var('posted_attachments_body', 0);
 
@@ -64,7 +62,7 @@ class attach_parent
 		$this->attachment_extension_list	= get_var('extension_list', array(''));
 		$this->attachment_mimetype_list		= get_var('mimetype_list', array(''));
 
-		$this->filename = (isset($HTTP_POST_FILES['fileupload']) && isset($HTTP_POST_FILES['fileupload']['name']) && $HTTP_POST_FILES['fileupload']['name'] != 'none') ? trim(stripslashes($HTTP_POST_FILES['fileupload']['name'])) : '';
+		$this->filename = (isset($_FILES['fileupload']) && isset($_FILES['fileupload']['name']) && $_FILES['fileupload']['name'] != 'none') ? trim(stripslashes($_FILES['fileupload']['name'])) : '';
 
 		$this->attachment_list = get_var('attachment_list', array(''));
 		$this->attachment_thumbnail_list = get_var('attach_thumbnail_list', array(0));
@@ -240,7 +238,7 @@ class attach_parent
 	*/
 	function handle_attachments($mode)
 	{
-		global $is_auth, $attach_config, $refresh, $HTTP_POST_VARS, $post_id, $submit, $preview, $error, $error_msg, $lang, $template, $userdata, $db;
+		global $is_auth, $attach_config, $refresh, $post_id, $submit, $preview, $error, $error_msg, $lang, $template, $userdata, $db;
 
 		//
 		// ok, what shall we do ;)
@@ -268,14 +266,14 @@ class attach_parent
 
 		if (!$refresh)
 		{
-			$add = (isset($HTTP_POST_VARS['add_attachment'])) ? TRUE : FALSE;
-			$delete = (isset($HTTP_POST_VARS['del_attachment'])) ? TRUE : FALSE;
-			$edit = ( isset($HTTP_POST_VARS['edit_comment']) ) ? TRUE : FALSE;
-			$update_attachment = ( isset($HTTP_POST_VARS['update_attachment']) ) ? TRUE : FALSE;
-			$del_thumbnail = ( isset($HTTP_POST_VARS['del_thumbnail']) ) ? TRUE : FALSE;
+			$add = (isset($_POST['add_attachment'])) ? TRUE : FALSE;
+			$delete = (isset($_POST['del_attachment'])) ? TRUE : FALSE;
+			$edit = ( isset($_POST['edit_comment']) ) ? TRUE : FALSE;
+			$update_attachment = ( isset($_POST['update_attachment']) ) ? TRUE : FALSE;
+			$del_thumbnail = ( isset($_POST['del_thumbnail']) ) ? TRUE : FALSE;
 
-			$add_attachment_box = (!empty($HTTP_POST_VARS['add_attachment_box'])) ? TRUE : FALSE;
-			$posted_attachments_box = (!empty($HTTP_POST_VARS['posted_attachments_box'])) ? TRUE : FALSE;
+			$add_attachment_box = (!empty($_POST['add_attachment_box'])) ? TRUE : FALSE;
+			$posted_attachments_box = (!empty($_POST['posted_attachments_box'])) ? TRUE : FALSE;
 
 			$refresh = $add || $delete || $edit || $del_thumbnail || $update_attachment || $add_attachment_box || $posted_attachments_box;
 		}
@@ -287,7 +285,7 @@ class attach_parent
 
 		if (!$submit && $mode == 'editpost' && $auth)
 		{
-			if (!$refresh && !$preview && !$error && !isset($HTTP_POST_VARS['del_poll_option']))
+			if (!$refresh && !$preview && !$error && !isset($_POST['del_poll_option']))
 			{
 				for ($i = 0; $i < sizeof($attachments); $i++)
 				{
@@ -356,12 +354,12 @@ class attach_parent
 
 		if ($preview || $refresh || $error)
 		{
-			$delete_attachment = ( isset($HTTP_POST_VARS['del_attachment']) ) ? TRUE : FALSE;
-			$delete_thumbnail = (isset($HTTP_POST_VARS['del_thumbnail'])) ? TRUE : FALSE;
+			$delete_attachment = ( isset($_POST['del_attachment']) ) ? TRUE : FALSE;
+			$delete_thumbnail = (isset($_POST['del_thumbnail'])) ? TRUE : FALSE;
 
-			$add_attachment = (isset($HTTP_POST_VARS['add_attachment'])) ? TRUE : FALSE;
-			$edit_attachment = (isset($HTTP_POST_VARS['edit_comment'])) ? TRUE : FALSE;
-			$update_attachment = (isset($HTTP_POST_VARS['update_attachment']) ) ? TRUE : FALSE;
+			$add_attachment = (isset($_POST['add_attachment'])) ? TRUE : FALSE;
+			$edit_attachment = (isset($_POST['edit_comment'])) ? TRUE : FALSE;
+			$update_attachment = (isset($_POST['update_attachment']) ) ? TRUE : FALSE;
 
 			// Perform actions on temporary attachments
 			if ($delete_attachment || $delete_thumbnail)
@@ -390,7 +388,7 @@ class attach_parent
 				$this->attachment_thumbnail_list = array();
 
 				// restore values :)
-				if (isset($HTTP_POST_VARS['attachment_list']))
+				if (isset($_POST['attachment_list']))
 				{
 					for ($i = 0; $i < sizeof($actual_list); $i++)
 					{
@@ -399,7 +397,7 @@ class attach_parent
 
 						if ($delete_thumbnail)
 						{
-							if ( !isset($HTTP_POST_VARS['del_thumbnail'][$actual_list[$i]]) )
+							if ( !isset($_POST['del_thumbnail'][$actual_list[$i]]) )
 							{
 								$restore = TRUE;
 							}
@@ -410,7 +408,7 @@ class attach_parent
 						}
 						if ( $delete_attachment )
 						{
-							if ( !isset($HTTP_POST_VARS['del_attachment'][$actual_list[$i]]) )
+							if ( !isset($_POST['del_attachment'][$actual_list[$i]]) )
 							{
 								$restore = TRUE;
 							}
@@ -515,7 +513,7 @@ class attach_parent
 
 						for ($i = 0; $i < sizeof($actual_id_list); $i++)
 						{
-							if (isset($HTTP_POST_VARS['update_attachment'][$actual_id_list[$i]]))
+							if (isset($_POST['update_attachment'][$actual_id_list[$i]]))
 							{
 								$attachment_id = intval($actual_id_list[$i]);
 								$actual_element = $i;
@@ -578,8 +576,8 @@ class attach_parent
 						//bt
 						if ($this->attachment_extension_list[$actual_element] === TORRENT_EXT && $attachments[$actual_element]['tracker_status'])
 						{
-							global $phpbb_root_path, $phpEx;
-							include($phpbb_root_path .'includes/functions_torrent.'. $phpEx);
+							global $phpbb_root_path;
+							include($phpbb_root_path .'includes/functions_torrent.php');
 							tracker_unregister($attachment_id);
 						}
 						//bt end
@@ -729,7 +727,7 @@ class attach_parent
 
 		if ($mode == 'last_attachment')
 		{
-			if ($this->post_attach && !isset($HTTP_POST_VARS['update_attachment']))
+			if ($this->post_attach && !isset($_POST['update_attachment']))
 			{
 				// insert attachment into db, here the user submited it directly
 				$sql_ary = array(
@@ -775,7 +773,7 @@ class attach_parent
 	*/
 	function display_attachment_bodies()
 	{
-		global $attach_config, $db, $is_auth, $lang, $mode, $phpEx, $template, $upload_dir, $userdata, $HTTP_POST_VARS, $forum_id;
+		global $attach_config, $db, $is_auth, $lang, $mode, $template, $upload_dir, $userdata, $forum_id;
 		global $phpbb_root_path;
 
 		// Choose what to display
@@ -794,7 +792,7 @@ class attach_parent
 			'L_POSTED_ATTACHMENTS' => $lang['POSTED_ATTACHMENTS'],
 			'L_FILE_NAME' => $lang['FILE_NAME'],
 			'L_FILE_COMMENT' => $lang['FILE_COMMENT'],
-			'RULES' => '<a href="'."misc.$phpEx?do=attach_rules&f=$u_rules_id".'" target="_blank">'. $lang['ALLOWED_EXTENSIONS_AND_SIZES'] .'</a>',
+			'RULES' => '<a href="'."misc.php?do=attach_rules&f=$u_rules_id".'" target="_blank">'. $lang['ALLOWED_EXTENSIONS_AND_SIZES'] .'</a>',
 
 			'ADD_ATTACH_HIDDEN_FIELDS' => $s_hidden,
 		));
@@ -858,7 +856,7 @@ class attach_parent
 				}
 				else
 				{
-					$download_link = append_sid($phpbb_root_path . 'download.' . $phpEx . '?id=' . $this->attachment_id_list[$i]);
+					$download_link = append_sid($phpbb_root_path . 'download.php?id=' . $this->attachment_id_list[$i]);
 				}
 
 				$template->assign_block_vars('attach_row', array(
@@ -891,7 +889,7 @@ class attach_parent
 	*/
 	function upload_attachment()
 	{
-		global $HTTP_POST_FILES, $db, $HTTP_POST_VARS, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $forum_id;
+		global $db, $error, $error_msg, $lang, $attach_config, $userdata, $upload_dir, $forum_id;
 
 		$this->post_attach = ($this->filename != '') ? TRUE : FALSE;
 
@@ -899,10 +897,10 @@ class attach_parent
 		{
 //		$r_file = trim(basename(htmlspecialchars($this->filename)));
 			$r_file = trim(basename($this->filename));
-			$file = $HTTP_POST_FILES['fileupload']['tmp_name'];
-			$this->type = $HTTP_POST_FILES['fileupload']['type'];
+			$file = $_FILES['fileupload']['tmp_name'];
+			$this->type = $_FILES['fileupload']['type'];
 
-			if (isset($HTTP_POST_FILES['fileupload']['size']) && $HTTP_POST_FILES['fileupload']['size'] == 0)
+			if (isset($_FILES['fileupload']['size']) && $_FILES['fileupload']['size'] == 0)
 			{
 				message_die(GENERAL_ERROR, 'Tried to upload empty file');
 			}
@@ -1048,7 +1046,7 @@ class attach_parent
 
 				for ($i=0, $max_try=5; $i <= $max_try; $i++)
 				{
-					$fn_prefix = (FILENAME_PREFIX) ? make_rand_str(FILENAME_PREFIX_LENGTH) .'_' : '';
+					$fn_prefix = make_rand_str(FILENAME_PREFIX_LENGTH) .'_';
 					$new_physical_filename = clean_filename($fn_prefix . $this->attach_filename);
 
 					if (!physical_filename_already_stored($new_physical_filename))
@@ -1381,7 +1379,7 @@ class attach_posting extends attach_parent
 			$this->do_insert_attachment('attach_list', 'post', $post_id);
 			$this->do_insert_attachment('last_attachment', 'post', $post_id);
 
-			if ((sizeof($this->attachment_list) > 0 || $this->post_attach) && !isset($HTTP_POST_VARS['update_attachment']))
+			if ((sizeof($this->attachment_list) > 0 || $this->post_attach) && !isset($_POST['update_attachment']))
 			{
 				$sql = 'UPDATE ' . POSTS_TABLE . '
 					SET post_attachment = 1
@@ -1421,12 +1419,12 @@ class attach_posting extends attach_parent
 	*/
 	function posting_attachment_mod()
 	{
-		global $mode, $confirm, $is_auth, $post_id, $delete, $refresh, $HTTP_POST_VARS;
+		global $mode, $confirm, $is_auth, $post_id, $delete, $refresh;
 
 		if (!$refresh)
 		{
-			$add_attachment_box = (!empty($HTTP_POST_VARS['add_attachment_box'])) ? TRUE : FALSE;
-			$posted_attachments_box = (!empty($HTTP_POST_VARS['posted_attachments_box'])) ? TRUE : FALSE;
+			$add_attachment_box = (!empty($_POST['add_attachment_box'])) ? TRUE : FALSE;
+			$posted_attachments_box = (!empty($_POST['posted_attachments_box'])) ? TRUE : FALSE;
 
 			$refresh = $add_attachment_box || $posted_attachments_box;
 		}
@@ -1462,4 +1460,3 @@ function execute_posting_attachment_handling()
 	$attachment_mod['posting'] = new attach_posting();
 	$attachment_mod['posting']->posting_attachment_mod();
 }
-

@@ -241,4 +241,3 @@ function delete_orphan_usergroups ()
 		WHERE g.group_id IS NULL
 	");
 }
-

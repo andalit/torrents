@@ -17,10 +17,10 @@ $subject = '';
 //
 // Do the job ...
 //
-if ( isset($HTTP_POST_VARS['submit']) )
+if ( isset($_POST['submit']) )
 {
-	$subject = stripslashes(trim($HTTP_POST_VARS['subject']));
-	$message = stripslashes(trim($HTTP_POST_VARS['message']));
+	$subject = stripslashes(trim($_POST['subject']));
+	$message = stripslashes(trim($_POST['message']));
 
 	$error = FALSE;
 	$error_msg = '';
@@ -37,7 +37,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 		$error_msg .= ( !empty($error_msg) ) ? '<br />' . $lang['Empty_message'] : $lang['Empty_message'];
 	}
 
-	$group_id = intval($HTTP_POST_VARS[POST_GROUPS_URL]);
+	$group_id = intval($_POST[POST_GROUPS_URL]);
 
 	if ( !$error )
 	{
@@ -51,7 +51,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
 			message_die(GENERAL_ERROR, 'Could not insert message text', '', __LINE__, __FILE__, $sql);
 		}
 
-		message_die(GENERAL_MESSAGE, $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_admin_index'],  '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
+		message_die(GENERAL_MESSAGE, $lang['Email_sent'] . '<br /><br />' . sprintf($lang['Click_return_admin_index'],  '<a href="' . append_sid("index.php?pane=right") . '">', '</a>'));
 	}
 
 }
@@ -98,7 +98,7 @@ $template->assign_vars(array(
 	
 	'L_NOTICE' => @$notice,
 
-	'S_USER_ACTION' => append_sid('admin_mass_email.'.$phpEx),
+	'S_USER_ACTION' => append_sid('admin_mass_email.php'),
 	'S_GROUP_SELECT' => $select_list)
 );
 
@@ -112,7 +112,7 @@ while ( $row = $db->sql_fetchrow($result) )
 	$template->assign_block_vars('mailrow', array(
 		'ID' => $row['bulk_id'],
 		'SUBJECT' => $row['mail_subject'],
-		'STATUS' => $row['bulk_complete'] ? 'Çàâåðøåíà' : $row['last_user_id'],
+		'STATUS' => $row['bulk_complete'] ? 'Ð—Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð°' : $row['last_user_id'],
 	));
 }
 

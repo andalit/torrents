@@ -264,4 +264,3 @@ function default_quota_limit_select($select_name, $default_quota = 0)
 
 	return $quota_select;
 }
-
